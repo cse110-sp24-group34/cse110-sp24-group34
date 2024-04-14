@@ -16,5 +16,6 @@
 - Ryan Livengoo
 - Neo Torres
 - Austin Yeung
+  - Hey yall! I'm a fourth-year CE major in Sixth. I'm originally from the bay area and am loving being in San Diego. Looking forward to what this course will demonstrate.
 
 (add breif overview w/ link to personal github)
