@@ -68,4 +68,4 @@
 
 To confirm agreement to the terms and commitment to the team working agreement, all team members will sign below:
 
-- **[Team Member Signature]**
+**x__________________________**
