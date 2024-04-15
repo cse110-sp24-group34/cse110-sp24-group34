@@ -1,10 +1,13 @@
 # Team Touch Grass
-(add brand, values important
+[Our Team Logo](./branding/[GS] Chrome Icon.png)
+
+Some important values of our team is going outside to get fresh air every now and then. Your mental health is the essential to your success!
 
 
 **Members:**
 - Can Yavuz
-- Derrick Lin
+- Derrick Lin ([Github](https://github.com/derryl0925))
+  - Hey everyone, I'm a second year Computer Engineering and Cognitive Science (ML) double major! I am from the Bay Area and enjoy playing video games, basketball, and hanging with friends.
 - Alex Atienza
   - What's up! I am a second-year CS major with a minor in design! I am from San Diego! I currently live on campus at Warren College! I am looking forward for what is to come this quarter in CSE 110! https://4hlecks.github.io/user-page/
 - Mauricio Serrano
