@@ -15,7 +15,10 @@
 - Abhinav Sanisetty
 - Justin (Jiaqi) Liu
 - Sumukh Murthy
-- Ryan Livengoo
+  - Hi, I'm Sumukh Murthy, a Second year CS major in Muir. I'm from the Bay Area, and I enjoy reading about history, road biking, badminton, and game design. I'm excited to learn about SE in this class.
+  - My github: https://github.com/Augustus31
+  - My website: https://honorius.us
+- Ryan Livengood
 - Neo Torres
 - Austin Yeung
   - Hey yall! I'm a fourth-year CE major in Sixth. I'm originally from the bay area and am loving being in San Diego. Looking forward to what this course will demonstrate.
