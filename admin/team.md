@@ -1,5 +1,5 @@
 # Team Touch Grass
-[Our Team Logo](./admin/branding/[GS]ChromeIcon.png)
+[Our Team Logo](./branding/[GS]ChromeIcon.png)
 
 Some important values of our team is going outside to get fresh air every now and then. Your mental health is the essential to your success!
 
