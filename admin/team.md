@@ -24,4 +24,4 @@ Some important values of our team is going outside to get fresh air every now an
   - Hello, I’m a 3rd year CS Major in Marshall. I’m originally from the Bay Area and outside of programming I also enjoy climbing, playing music, and exercising. I’m new to web dev and SE so I'm excitied to learn a lot this quarter. github: https://github.com/Waterblokey
 - Neo Torres
 - Austin Yeung
-  - Hey yall! I'm a fourth-year CE major in Sixth. I'm originally from the bay area and am loving being in San Diego. Looking forward to what this course will demonstrate.
+  - Hey yall! I'm a fourth-year CE major in Sixth. I'm originally from the bay area and am loving being in San Diego. Looking forward to what this course will demonstrate. (https://github.com/wishful-0405)
