@@ -16,6 +16,8 @@ Some important values of our team is going outside to get fresh air every now an
 - Jeffery Tung
   - Hello, I am a third-year CS major who transferred from New York. I am a Sixer (yes, that's the real name for Sixth College) and I am excited to be learning in CSE 110. [Check my website out!](https://jtung0705.github.io/CSE110/)
 - Abhinav Sanisetty
+  - Hey guys, I am a second-year CS major in ERC. I live in the Bay Area and like to watch soccer and hang out with friends.
+  - ([Github Page](https://github.com/abhinavsanisetty))
 - Sumukh Murthy
   - Hi, I'm Sumukh Murthy, a Second year CS major in Muir. I'm from the Bay Area, and I enjoy reading about history, road biking, badminton, and game design. I'm excited to learn about SE in this class.
   - My github: https://github.com/Augustus31
