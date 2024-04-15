@@ -66,6 +66,6 @@
 
 ## 8) Team Signatures (PLEASE MAKE COPY AND ATTACH SIGNED VERSION)
 
-To confirm agreement to the terms and commitment to the team working agreement, all team members will sign below:
+To confirm agreement to the terms and commitment to the team working agreement, all team members will make a copy of this and sign below:
 
 **x__________________________**
