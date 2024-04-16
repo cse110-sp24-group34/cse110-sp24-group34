@@ -6,7 +6,7 @@ Some important values of our team is going outside to get fresh air every now an
 
 **Members:**
 - Can Yavuz ([GitHub] https://cyavuzucsd.github.io/110Lab/)
-- Hey everyone, I am currently a second year Computer Science major. I am from Istanbul, Turkey! I love hanging out with my friends and playing video games with my little brother. 
+  - Hey everyone, I am currently a second year Computer Science major. I am from Istanbul, Turkey! I love hanging out with my friends and playing video games with my little brother. 
 - Derrick Lin ([Github](https://github.com/derryl0925))
   - Hey everyone, I'm a second year Computer Engineering and Cognitive Science (ML) double major! I am from the Bay Area and enjoy playing video games, basketball, and hanging with friends.
 - Alex Atienza
