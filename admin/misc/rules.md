@@ -62,7 +62,7 @@
 
 ## 7) Expectations of Professor and TA’s
 
-- In the event of a team member not adhering to this agreement, the issue may be reported to the instructor, but the team is still responsible for the completion of assignments. Faculty and GTA's will be available for conflict resolution meetings if needed.
+- In the event of a team member not adhering to this agreement, the issue may be reported to the instructor, but the team is still responsible for the completion of assignments. Faculty and TA's will be available for conflict resolution meetings if needed.
 
 ## 8) Team Signatures (PLEASE MAKE COPY AND ATTACH SIGNED VERSION)
 
