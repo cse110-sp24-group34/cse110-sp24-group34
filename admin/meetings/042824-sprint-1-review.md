@@ -29,6 +29,6 @@ We are going over what has been accomplished within our group
 - Alex: Worked on css and created video demo
 
 ## Calendar Team
-- Jeffery: Improved styling with css, implemented ability to add notes
+- Jeffery: Improved styling with css, implemented ability to add notes, wrote SWOT analysis
 - Mauricio: Worked on html, css, and javascript code
 - Ryan: Merged branches, fixed bugs, and created video demo
