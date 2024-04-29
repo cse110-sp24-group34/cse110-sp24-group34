@@ -17,8 +17,8 @@ We are going over what has been accomplished within our group
 - Alex
 
 **Attendance (9pm):**
-- Name
-- Name
+- Can
+- Derrick
 
 # Accomplishments
 ## Sentiment Team
