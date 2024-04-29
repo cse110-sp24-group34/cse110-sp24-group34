@@ -19,18 +19,9 @@ We are going over our work this past week and reflecting
 - Alex
 
 **Attendance (9pm):**
-- Name
-- Name
+- Can
+- Derrick
 
-# Feedback
-- Jeffery: Next time work on one feature at a time on different branches so there's no merge conflicts
-- Mauricio: Messy code, next time comment code. More frequent meetings next time to discuss what to do on the project
-- Ryan: Commenting code, working on individual parts would be preferred. More time on design phase, work more on starter code so it's easier to build off
-- Neo: Create issues on Github repo for features and someone can take the task
-- Austin: More group documentation, need to define current goal
-- Derrick: Comment code, work on individual parts, and issues with class bc they expect us to know how to do all this after learning for less than two weeks (unless people have previous experience or googled how to do it)
-- Abhinav: Unsure of what was done and what was being done. Implementing issues on Github is a good idea
-- Alex: Implement issues on Github
 ## Issues
 - Jeffery: Lots of Merge conflicts
 - Mauricio: Messy code More frequent meetings next time to discuss what to do on the project
