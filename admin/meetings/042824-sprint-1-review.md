@@ -19,6 +19,7 @@ We are going over what has been accomplished within our group
 **Attendance (9pm):**
 - Can
 - Derrick
+- Sumukh
 
 # Accomplishments
 ## Sentiment Team
@@ -32,3 +33,4 @@ We are going over what has been accomplished within our group
 - Jeffery: Improved styling with css, implemented ability to add notes, wrote SWOT analysis
 - Mauricio: Worked on html, css, and javascript code
 - Ryan: Merged branches, fixed bugs, and created video demo
+- Can: Checked up with team, reviewed code
