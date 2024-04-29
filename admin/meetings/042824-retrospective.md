@@ -21,6 +21,7 @@ We are going over our work this past week and reflecting
 **Attendance (9pm):**
 - Can
 - Derrick
+- Sumukh
 
 ## Issues
 - Jeffery: Lots of Merge conflicts
@@ -31,6 +32,7 @@ We are going over our work this past week and reflecting
 - Derrick: messy code, everyone just worked on whatever part, and issues with class bc they expect us to know how to do all this after learning for less than two weeks (unless people have previous experience or googled how to do it)
 - Abhinav: Unsure of what was done and what was being done
 - Alex: Need to define what tasks have been done and are being worked on
+- Can: Lack of documentation, more communication
 ## Improvements for Next Time 
 - Jeffery: Next time work on one feature at a time on different branches
 - Mauricio: More frequent meetings next time to discuss what to do on the project
@@ -40,3 +42,4 @@ We are going over our work this past week and reflecting
 - Derrick: Comment code, work on individual parts, and get prof to teach us more first???
 - Abhinav: Implementing issues on Github is a good idea
 - Alex: Implement issues on Github
+- Can: More comments on code
