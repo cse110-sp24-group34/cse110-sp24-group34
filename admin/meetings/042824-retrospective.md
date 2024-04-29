@@ -33,6 +33,7 @@ We are going over our work this past week and reflecting
 - Abhinav: Unsure of what was done and what was being done
 - Alex: Need to define what tasks have been done and are being worked on
 - Can: Lack of documentation, more communication
+- Sumukh: Actual set meetings, more communication with changes
 ## Improvements for Next Time 
 - Jeffery: Next time work on one feature at a time on different branches
 - Mauricio: More frequent meetings next time to discuss what to do on the project
@@ -43,3 +44,4 @@ We are going over our work this past week and reflecting
 - Abhinav: Implementing issues on Github is a good idea
 - Alex: Implement issues on Github
 - Can: More comments on code
+- Sumukh: Meet earlier, schedule more meetings. 
