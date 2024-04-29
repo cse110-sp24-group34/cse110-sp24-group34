@@ -34,3 +34,4 @@ We are going over what has been accomplished within our group
 - Mauricio: Worked on html, css, and javascript code
 - Ryan: Merged branches, fixed bugs, and created video demo
 - Can: Checked up with team, reviewed code
+- Sumukh: Helped with design and programming. Debugged javascript code
