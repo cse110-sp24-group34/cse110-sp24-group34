@@ -19,4 +19,5 @@ Project is "developer journal", crud app using standard web tech to keep track o
 ## Summary
 - Dev Journal (blog for dev, just for them though)
 - Want a way to create accounts (mongodb possibly?)
+- Completed diagram
 - mostly on Miro board
