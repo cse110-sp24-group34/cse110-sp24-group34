@@ -25,13 +25,19 @@ He did say that we can use certain imports such as:
 
 Now about the databases, Dev was kind enough to explain the differences between the two we thought of and how we could use them:
 
+## MongoDB
+
 **mongodb:** no relation database (don't know how to structure data, don't know how long it will be, don't know what type of data)
 
 We can use MongoDB in ways such that we allow user to input anything into the posts, including text without a limit, images, etc
 
-
+## SQLite
 **SQLite:** relational database (databases structured in tables of data, multiple tables linked together, each table has primary and foreign key)
 
 Ex/. Primary key is PID for example in UCSD database [unique to them], in relational db every column well defined, we know the kind of data that's going to be in there (In this scenario we know all our PIDs start with A and it's a certian length).
 
 We can use SQLite in ways such that we set a limit of characters allowed (500 characters per post) and it's strictly like that, so nothing else like images. We would assign those in columns.
+
+
+# Final Decision
+Everyone came to a consensus that SQLite would fit our needs as we don't want to make this too complext, we want to start off with set constraints.
