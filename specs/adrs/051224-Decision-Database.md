@@ -24,9 +24,11 @@ He did say that we can use certain imports such as:
 - other things I forgot already (something like rendering markdown from scratch but idk if anyone else in the meeting rememebers)
 
 Now about the databases, Dev was kind enough to explain the differences between the two we thought of and how we could use them:
+
 **mongodb:** no relation database (don't know how to structure data, don't know how long it will be, don't know what type of data)
 
 We can use MongoDB in ways such that we allow user to input anything into the posts, including text without a limit, images, etc
+
 
 **SQLite:** relational database (databases structured in tables of data, multiple tables linked together, each table has primary and foreign key)
 
