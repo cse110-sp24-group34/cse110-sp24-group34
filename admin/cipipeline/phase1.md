@@ -8,7 +8,7 @@ Status of pipeline:
 - no magic numbers (declare constants)
 - indentations done via tabs
 
-[Diagram](!admin/cipipeline/phase1.png)
+[Diagram](phase1.png)
 
 ## What is functional
 
