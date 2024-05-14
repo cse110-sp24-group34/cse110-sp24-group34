@@ -8,6 +8,8 @@ Status of pipeline:
 - no magic numbers (declare constants)
 - indentations done via tabs
 
+[Diagram](!admin/cipipeline/phase1.png)
+
 ## What is functional
 
 We have gone ahead and completed a small outline of our web page so that we know where things should be placed. Now that this is complete, we can start branching off and working on one small feature at a time. An example of this is the create post button, I've written it such that a placeholder block is created where the post should be, the next steps are to implement features such as editing the post, deleting the post, and adding a date to the post. After the features regarding posts are completed, we need to implement that inside of SQLite where the posts are managed through local databases so only the user can see their posts or entries.
