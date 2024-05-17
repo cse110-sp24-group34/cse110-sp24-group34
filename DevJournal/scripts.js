@@ -58,6 +58,7 @@ function rightButtonClicked(event){
         //restores previous value of header and content, stored in temp
         content.innerText = temp.get(event.currentTarget.parentNode.parentNode.id)[1]
         header.innerText = temp.get(event.currentTarget.parentNode.parentNode.id)[0]
+        time.innerText = temp.get(event.currentTarget.parentNode.parentNode.id)[2]
 
         //garbage removal
         temp.delete(event.currentTarget.parentNode.parentNode.id.toString());
@@ -92,7 +93,7 @@ function leftButtonClicked(event){
         content.style.background = SELECTED_TEXTBOX_COLOR;
 
         //adds original value of content and header to temp, so it can be accessed later if user does not save
-        temp.set(event.currentTarget.parentNode.parentNode.id.toString(), [header.innerText, content.innerText]);
+        temp.set(event.currentTarget.parentNode.parentNode.id.toString(), [header.innerText, content.innerText, time.innerText]);
 
     }
     //Accept button pressed while in edit mode
@@ -139,6 +140,9 @@ function createPost() {
             </button>
         </div>
     `;
+    let date = new Date();
+    dateString = date.getMonth() + " " + date.getDate() + ", " + date.getFullYear();
+    postDiv.querySelector(".time").innerText = dateString;
     main.appendChild(postDiv);
 
     //Adds event handlers to post buttons
