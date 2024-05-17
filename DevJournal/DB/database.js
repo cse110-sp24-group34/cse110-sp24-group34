@@ -71,6 +71,7 @@ async function updatePost(id, title, date, entry) {
 
 //get post id based on title, date, entry
 //returns id of the post that corresponds to this entry
+//must be wrapped in try catch
 function getPostId(title, date, entry) {
     
     let sql = "SELECT id FROM entries WHERE title = ? AND date = ? AND entry = ?";
@@ -87,6 +88,26 @@ function getPostId(title, date, entry) {
             }
 
             resolve(row ? row.id : null);
+
+        });
+    });
+}
+
+//get data, must be wrapped in try catch
+function getData(id) {
+    
+    let sql = "SELECT title, date, entry FROM entries WHERE id = ?" 
+
+    return new Promise((resolve,reject) => {
+
+        db.get(sql,[id], (err,row) => {
+            if (err) { 
+                console.error(err.message);
+                reject(err);
+                return;
+            }
+
+            resolve(row ? { title: row.title, date: row.date, entry: row.entry } : null);
 
         });
     });
