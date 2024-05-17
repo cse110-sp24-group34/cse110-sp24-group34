@@ -27,8 +27,9 @@ document.addEventListener('DOMContentLoaded', function() {
 function rightButtonClicked(event){
     let value = event.currentTarget.getAttribute("value");
     let post =  event.currentTarget.parentNode.parentNode;
-    let header = post.querySelector('.header')
-    let content = post.querySelector('.content')
+    let header = post.querySelector('.header');
+    let content = post.querySelector('.content');
+    let time = post.querySelector('.time');
 
     //Delete button pressed
     if(value == 0){ 
@@ -70,8 +71,9 @@ function rightButtonClicked(event){
 function leftButtonClicked(event){
     let value = event.currentTarget.getAttribute("value");
     let post =  event.currentTarget.parentNode.parentNode;
-    let header = post.querySelector('.header')
-    let content = post.querySelector('.content')
+    let header = post.querySelector('.header');
+    let content = post.querySelector('.content');
+    let time = post.querySelector('.time');
 
     //Edit button pressed, enters edit mode
     if(value == 0){
