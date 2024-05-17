@@ -14,41 +14,36 @@ let db = new sqlite3.Database('./test.db', sqlite3.OPEN_READWRITE, (err) => {
 
 //possible additions include: tags
 //create table BLANK
-sql = "CREATE TABLE IF NOT EXISTS entries(id INTEGER PRIMARY KEY, title, date, entry)"
+sql = "CREATE TABLE IF NOT EXISTS entries(id INTEGER PRIMARY KEY, title, date, entry, msid)"
 
 db.run(sql);
 
 //Insert data into table
-async function createPost(title, date, entry) {
+async function createPost(title, date, entry, msid) {
 
-    try {
+    let postId = await getPostId(title, date, entry, msid);
 
-        let postId = await getPostId(title, date, entry);
+    //if post already exists
+    if (postId != null) {
 
-        //if post already exists
-        if (postId != null) {
+        return console.error("duplicate");
 
-            return console.error("duplicate");
-
-        }
-
-        sql = `INSERT INTO entries(title, date, entry) VALUES (?,?,?)`;
-        
-        db.run(sql, [title, date, entry], (err) => {
-            if (err) return console.error(err.message);
-        });
-
-        return (await getPostId(title, date, entry));
-
-    } catch (error) {
-
-        console.error('Error fetching post ID:', error);
     }
+
+    sql = `INSERT INTO entries(title, date, entry, msid) VALUES (?,?,?,?)`;
+    
+    db.run(sql, [title, date, entry, msid], (err) => {
+        if (err) return null;
+    });
+
+    return (await getPostId(title, date, entry, msid));
 }
 
+//get data from id
+//param: id
 function getData(id) {
 
-    let sql = "SELECT title, date, entry FROM entries WHERE id = ?" 
+    let sql = "SELECT title, date, entry, msid FROM entries WHERE id = ?" 
 
     return new Promise((resolve,reject) => {
 
@@ -59,19 +54,22 @@ function getData(id) {
                 return;
             }
 
-            resolve(row ? { title: row.title, date: row.date, entry: row.entry } : null);
+            resolve(row ? { title: row.title, date: row.date, entry: row.entry, msid: row.msid } : null);
 
         });
     });
 }
 
+
+//returns rows in array format
+//param: none
 function getRows() {
 
     let sql = "SELECT * FROM entries";
 
-    let toReturn = [];
-
     return new Promise((resolve,reject) => {
+
+        let toReturn = [];
 
         db.all(sql, [], (err, rows) => {
             
@@ -81,13 +79,15 @@ function getRows() {
                 reject(err);
                 return;
             }
+            
+            rows.forEach(row => toReturn.push(row));
 
-            resolve(rows.forEach((row) => {toReturn.push(row)}));            
-                
+            return resolve(toReturn);
         });
 
     });
 }
+
 
 //delete data from table
 function deletePost(id) {
@@ -96,32 +96,33 @@ function deletePost(id) {
 
     db.run(sql,[id],(err) => {
 
-        if (err) return console.error(err.message); }
+        if (err) return 1;
+        else return 0; }
     );
 }
 
 //update data in existing table
 //NOTE: need to add a way for other param to remain unchanged if only 1 or 2 of 3 param is affected
-async function updatePost(id, title, date, entry) {
+async function updatePost(id, title, date, entry, msid) {
 
-    sql = "UPDATE entries SET title = ?, date = ?, entry = ? WHERE id = ?";
+    sql = "UPDATE entries SET title = ?, date = ?, entry = ?, msid = ? WHERE id = ?";
 
-    db.run(sql,[title,date,entry,id], (err) => {
+    db.run(sql,[title, date, entry, msid, id], (err) => {
         
-        if (err) return console.error(err.message);
-
+        if (err) return 1;
+        else return 0;
     });
 }
 
 //get post id based on title, date, entry
 //returns id of the post that corresponds to this entry
-function getPostId(title, date, entry) {
+function getPostId(title, date, entry, msid) {
     
-    let sql = "SELECT id FROM entries WHERE title = ? AND date = ? AND entry = ?";
+    let sql = "SELECT id FROM entries WHERE title = ? AND date = ? AND entry = ? AND msid = ?";
 
     return new Promise((resolve, reject) => {
        
-        db.get(sql, [title, date, entry], (err, row) => {
+        db.get(sql, [title, date, entry, msid], (err, row) => {
            
             if (err) {
                 
@@ -137,6 +138,7 @@ function getPostId(title, date, entry) {
 }
 
 
+//Developer usage ONLY
 //print out the table
 //param: none
 function databaseContent() {
@@ -159,5 +161,14 @@ function databaseContent() {
 
 //createPost("Title1","date1","entry1");
 //createPost("Title2","date1","entry1");
+//createPost("Title3","date1","entry1");
 //databaseContent();
-//setTimeout(function(){console.log(getData())},1000);
+
+id = createPost("Title4","date1","entry1");
+
+id.then((value) => {
+    console.log(value);
+    // Expected output: "Success!"
+  });
+
+

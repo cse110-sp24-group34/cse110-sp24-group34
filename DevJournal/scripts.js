@@ -1,6 +1,5 @@
 const main = document.querySelector('main');
 let temp = new Map();
-let idGen = 0;
 
 const DEFAULT_POST_COLOR = "white";
 const DEFAULT_TEXTBOX_COLOR = "white";
@@ -16,7 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event listener for the create post button
     createButton.addEventListener('click', createPost);
 
-    //TODO: Use SQL to restore old posts
+    posts = databaseContent();
+    //TODO: fill all posts
 
 });
 
@@ -30,9 +30,11 @@ function rightButtonClicked(event){
     let header = post.querySelector('.header');
     let content = post.querySelector('.content');
     let time = post.querySelector('.time');
+    let sqlid = post.querySelector('.sqlid');
 
     //Delete button pressed
     if(value == 0){ 
+        repeaterED(deletePost(sqlid.getAttribute("value")))
         post.remove();
         
         //TODO: update SQL with deletion
@@ -59,6 +61,7 @@ function rightButtonClicked(event){
         content.innerText = temp.get(event.currentTarget.parentNode.parentNode.id)[1]
         header.innerText = temp.get(event.currentTarget.parentNode.parentNode.id)[0]
         time.innerText = temp.get(event.currentTarget.parentNode.parentNode.id)[2]
+        sqlid.setAttribute("value", temp.get(event.currentTarget.parentNode.parentNode.id)[3]); 
 
         //garbage removal
         temp.delete(event.currentTarget.parentNode.parentNode.id.toString());
@@ -75,6 +78,7 @@ function leftButtonClicked(event){
     let header = post.querySelector('.header');
     let content = post.querySelector('.content');
     let time = post.querySelector('.time');
+    let sqlid = post.querySelector('.sqlid');
 
     //Edit button pressed, enters edit mode
     if(value == 0){
@@ -93,7 +97,7 @@ function leftButtonClicked(event){
         content.style.background = SELECTED_TEXTBOX_COLOR;
 
         //adds original value of content and header to temp, so it can be accessed later if user does not save
-        temp.set(event.currentTarget.parentNode.parentNode.id.toString(), [header.innerText, content.innerText, time.innerText]);
+        temp.set(event.currentTarget.parentNode.parentNode.id.toString(), [header.innerText, content.innerText, time.innerText, sqlid.getAttribute("value")]);
 
     }
     //Accept button pressed while in edit mode
@@ -116,21 +120,30 @@ function leftButtonClicked(event){
         temp.delete(event.currentTarget.parentNode.parentNode.id.toString());
 
         //TODO: save post to SQL
-
+        repeaterED(updatePost(header.innerText, time.innerText, content.innerText, sqlid.getAttribute("value")))
     }
 }
 
 /**
- * Creates a new post
+ * Creates a new post, on button click
  */
 function createPost() {
+
+    //5 millisecond cooldown for button
+    const createButton = document.getElementById('create-post');
+    createButton.disabled = true;
+    setTimeout(function() {
+        createButton.disabled = false;
+    }, 5);
+
     const postDiv = document.createElement('div');
     postDiv.className = 'post';
-    postDiv.id = idGen;
+    postDiv.id = 'placeholder';
     postDiv.innerHTML = `
         <h2 class="header" contenteditable="false">New Post</h2>
         <p class="content" contenteditable="false">Your text here</p>
         <span class="time">Just now</span>
+        <input type="hidden" class="sqlid" value="placeholder">
         <div class="flex">
             <button class="leftButton" value="0">
                 <img class="buttonIcon" src="icons/edit.png" alt="edit" border="0" />
@@ -141,8 +154,10 @@ function createPost() {
         </div>
     `;
     let date = new Date();
-    dateString = date.getMonth() + " " + date.getDate() + ", " + date.getFullYear();
+    let monthArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    dateString = monthArray[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
     postDiv.querySelector(".time").innerText = dateString;
+    postDiv.id = Date.now();
     main.appendChild(postDiv);
 
     //Adds event handlers to post buttons
@@ -151,23 +166,45 @@ function createPost() {
     const rightbutton = postDiv.querySelector('.rightButton');
     rightbutton.addEventListener('click', rightButtonClicked);
 
-    //Increments idGen to provide a unique ID to each new post. Refactors IDs if they go above 1 million.
-    if(idGen > 1000000){
-        posts = document.querySelectorAll('.post');
-        if(posts.length < idGen){
-            for(let i = 0; i < posts.length; i++){
-                temp.set(i.toString(), temp.get(posts[i].id))
-                posts[i].id = i;    
-            }
-            idGen = posts.length;
+    postDiv.querySelector(".sqlid").setAttribute("value", createPost(postDiv.querySelector('.header'), postDiv.querySelector('.time'), postDiv.querySelector('.content'), postDiv.id));
+}
 
-            //TODO: update IDs in SQL
-        }
-        else{
-            idGen++;
-        }
-    }
-    else{
-        idGen++;
-    }
+/**
+ * 
+ * @param {*} sqlid sql id
+ * @param {*} header header
+ * @param {*} content content
+ * @param {*} time date created
+ * @param {*} msid ms id
+ */
+function createPost(sqlid, header, content, time, msid) {
+
+    const postDiv = document.createElement('div');
+    postDiv.className = 'post';
+    postDiv.id = msid;
+    postDiv.innerHTML = `
+        <h2 class="header" contenteditable="false">New Post</h2>
+        <p class="content" contenteditable="false">Your text here</p>
+        <span class="time">Just now</span>
+        <input type="hidden" class="sqlid" value="placeholder">
+        <div class="flex">
+            <button class="leftButton" value="0">
+                <img class="buttonIcon" src="icons/edit.png" alt="edit" border="0" />
+            </button>
+            <button class="rightButton" value="0">
+                <img class="buttonIcon" src="icons/delete.png" alt="edit" border="0" />
+            </button>
+        </div>
+    `;
+    postDiv.querySelector(".time").innerText = time;
+    postDiv.querySelector(".header").innerText = header;
+    postDiv.querySelector(".content").innerText = content;
+    postDiv.querySelector(".sqlid").setAttribute("value", sqlid);
+    main.appendChild(postDiv);
+
+    //Adds event handlers to post buttons
+    const leftbutton = postDiv.querySelector('.leftButton');
+    leftbutton.addEventListener('click', leftButtonClicked);
+    const rightbutton = postDiv.querySelector('.rightButton');
+    rightbutton.addEventListener('click', rightButtonClicked);
 }
