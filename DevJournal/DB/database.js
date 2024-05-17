@@ -79,9 +79,7 @@ function getPostId(title, date, entry) {
     return new Promise((resolve, reject) => {
        
         db.get(sql, [title, date, entry], (err, row) => {
-           
             if (err) {
-                
                 console.error(err.message);
                 reject(err);
                 return;
@@ -118,7 +116,9 @@ function getData(id) {
 //param: none
 function databaseContent() {
     sql = `SELECT * FROM entries`;
+
     db.all(sql, [], (err, rows) => {
+       
         if (err) return console.error(err.message);
             rows.forEach((row) => {
             console.log(row);
