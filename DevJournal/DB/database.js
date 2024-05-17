@@ -28,7 +28,8 @@ async function createPost(title, date, entry) {
         //if post already exists
         if (postId != null) {
 
-            return "Post already exists";
+            return console.error("duplicate");
+
         }
 
         sql = `INSERT INTO entries(title, date, entry) VALUES (?,?,?)`;
@@ -61,6 +62,30 @@ function getData(id) {
             resolve(row ? { title: row.title, date: row.date, entry: row.entry } : null);
 
         });
+    });
+}
+
+function getRows() {
+
+    let sql = "SELECT * FROM entries";
+
+    let toReturn = [];
+
+    return new Promise((resolve,reject) => {
+
+        db.all(sql, [], (err, rows) => {
+            
+            if (err) { 
+            
+                console.error(err.message);
+                reject(err);
+                return;
+            }
+
+            resolve(rows.forEach((row) => {toReturn.push(row)}));            
+                
+        });
+
     });
 }
 
