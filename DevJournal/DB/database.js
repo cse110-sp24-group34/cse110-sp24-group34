@@ -45,6 +45,25 @@ async function createPost(title, date, entry) {
     }
 }
 
+function getData(id) {
+
+    let sql = "SELECT title, date, entry FROM entries WHERE id = ?" 
+
+    return new Promise((resolve,reject) => {
+
+        db.get(sql,[id], (err,row) => {
+            if (err) { 
+                console.error(err.message);
+                reject(err);
+                return;
+            }
+
+            resolve(row ? { title: row.title, date: row.date, entry: row.entry } : null);
+
+        });
+    });
+}
+
 //delete data from table
 function deletePost(id) {
 
@@ -107,11 +126,13 @@ function databaseContent() {
 
 
 //Drop table - deletes table, i.e. database that stores data. ideally dont uncomment and run it unless you want to quick reset
-// db.run("DROP TABLE entries");
+//db.run("DROP TABLE entries");
 
 // --------------------------------------------------
                 // Test Functions
 // --------------------------------------------------
 
-// createPost("Title3","date1","entry1");
-// tableContents();
+//createPost("Title1","date1","entry1");
+//createPost("Title2","date1","entry1");
+//databaseContent();
+//setTimeout(function(){console.log(getData())},1000);
