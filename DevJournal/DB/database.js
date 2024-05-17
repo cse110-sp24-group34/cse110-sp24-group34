@@ -25,12 +25,10 @@ async function createPost(title, date, entry) {
 
         let postId = await getPostId(title, date, entry);
 
-        console.log(postId);
-
         //if post already exists
         if (postId != null) {
 
-            return console.log("Post already exists");
+            return "Post already exists";
         }
 
         sql = `INSERT INTO entries(title, date, entry) VALUES (?,?,?)`;
@@ -38,6 +36,8 @@ async function createPost(title, date, entry) {
         db.run(sql, [title, date, entry], (err) => {
             if (err) return console.error(err.message);
         });
+
+        return (await getPostId(title, date, entry));
 
     } catch (error) {
 
