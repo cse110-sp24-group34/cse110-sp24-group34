@@ -2,9 +2,12 @@
 //1. does it get saved locally when refreshed
 //...
 
+import sqlite3Module from "sqlite3"
+const sqlite3 = sqlite3Module.verbose();
+// const sqlite3 = require('sqlite3').verbose();
 
-const sqlite3 = require('sqlite3').verbose();
 let sql;
+
 
 //connect to DB
 let db = new sqlite3.Database('./test.db', sqlite3.OPEN_READWRITE, (err) => {

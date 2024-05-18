@@ -1,5 +1,14 @@
 {
-  "dependencies": {
+  "name": "Web application Database SQLite3",
+  "main": "database.js",
+  
+  "scripts": {
+    "start": "node -r esm database.js"
+  },
+  
+"dependencies": {
+    
+    "esm": "^3.2.25",
     "sqlite3": "^5.1.7"
   }
 }
