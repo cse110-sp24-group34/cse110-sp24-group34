@@ -7,18 +7,19 @@
     <title>Dev Journal</title>
     <!-- We should 100% add favicon-->
     <link rel="stylesheet" href="styles.css">
+    <script src="TagElement.js" defer></script>
+    <script src="TagDropdown.js" defer></script>
     <script src="scripts.js" defer></script>
 </head>
 <body>
     <header>
         <!-- Navigation menu -->
         <nav>
-            <ul>
+            <ul id="tag-list">
                 <li><a href="#AllPosts">All Posts</a></li>
-                <li><a href="#Tag1">Tag 1</a></li>
-                <li><a href="#Tag2">Tag 2</a></li>
-                <li><a href="#Tag3">Tag 3</a></li>
-                <li><a href="#Tag4">Tag 4</a></li>
+                <!-- Add Tag Button -->
+                <button id="add-tag">Add Tag</button>
+                <button id="clear-tags">Clear Tags</button>
             </ul>
         </nav>
         <!-- Button to trigger post creation -->
