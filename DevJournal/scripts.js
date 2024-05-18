@@ -6,6 +6,25 @@ const DEFAULT_TEXTBOX_COLOR = "white";
 const SELECTED_POST_COLOR = "#e8e8e8";
 const SELECTED_TEXTBOX_COLOR = "#f5f5f5"
 
+//----------------------------------------
+const sqlite3 = require('sqlite3').verbose()
+let sql;
+
+//connect to DB
+let db = new sqlite3.Database('./test.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) return console.error(err.message);
+    console.log('Connected to the devjournal database.');
+});
+
+//possible additions include: tags
+//create table BLANK
+sql = "CREATE TABLE IF NOT EXISTS entries(id INTEGER PRIMARY KEY, title, date, entry, msid)"
+
+db.run(sql);
+//----------------------------------------
+
+import {dbCreatePost, getPostId, getRows, deletePost, updatePost} from './DB/database.js';
+
 /**
  * Function to determine what to do on page load. Attaches event listener to the "create post" button, and restores user's posts from the SQL database.
  */
@@ -15,8 +34,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event listener for the create post button
     createButton.addEventListener('click', createPost);
 
-    posts = databaseContent();
-    //TODO: fill all posts
+    posts = getRows();
+
+    posts.then((value) => {
+        for(let i = 0; i < value.length; i++){
+            createPostFilled(value[i].id, value[i].title, value[i].entry, value[i].date, value[i].msid);
+        }
+    });
 
 });
 
@@ -34,10 +58,11 @@ function rightButtonClicked(event){
 
     //Delete button pressed
     if(value == 0){ 
-        repeaterED(deletePost(sqlid.getAttribute("value")))
+        let sqlidval = sqlid.getAttribute("value");
+        Promise.resolve(sqlidval).then((value) => {
+            deletePost(value);
+        });
         post.remove();
-        
-        //TODO: update SQL with deletion
     }
     //Reject button pressed, while in edit mode (edit button pressed beforehand)
     else if(value == 1){
@@ -119,8 +144,10 @@ function leftButtonClicked(event){
         //garbage cleaning
         temp.delete(event.currentTarget.parentNode.parentNode.id.toString());
 
-        //TODO: save post to SQL
-        repeaterED(updatePost(header.innerText, time.innerText, content.innerText, sqlid.getAttribute("value")))
+        let sqlidval = sqlid.getAttribute("value");
+        Promise.resolve(sqlidval).then((value) => {
+            updatePost(header.innerText, time.innerText, content.innerText, post.id, sqlid.getAttribute("value"));
+        });       
     }
 }
 
@@ -157,7 +184,7 @@ function createPost() {
     let monthArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     dateString = monthArray[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
     postDiv.querySelector(".time").innerText = dateString;
-    postDiv.id = Date.now();
+    postDiv.id = Date.now().toString();
     main.appendChild(postDiv);
 
     //Adds event handlers to post buttons
@@ -166,7 +193,7 @@ function createPost() {
     const rightbutton = postDiv.querySelector('.rightButton');
     rightbutton.addEventListener('click', rightButtonClicked);
 
-    postDiv.querySelector(".sqlid").setAttribute("value", createPost(postDiv.querySelector('.header'), postDiv.querySelector('.time'), postDiv.querySelector('.content'), postDiv.id));
+    postDiv.querySelector(".sqlid").setAttribute("value", dbCreatePost(postDiv.querySelector('.header'), postDiv.querySelector('.time'), postDiv.querySelector('.content'), postDiv.id));
 }
 
 /**
@@ -177,7 +204,7 @@ function createPost() {
  * @param {*} time date created
  * @param {*} msid ms id
  */
-function createPost(sqlid, header, content, time, msid) {
+function createPostFilled(sqlid, header, content, time, msid) {
 
     const postDiv = document.createElement('div');
     postDiv.className = 'post';

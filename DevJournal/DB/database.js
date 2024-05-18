@@ -2,24 +2,8 @@
 //1. does it get saved locally when refreshed
 //...
 
-
-const sqlite3 = require('sqlite3').verbose();
-let sql;
-
-//connect to DB
-let db = new sqlite3.Database('./test.db', sqlite3.OPEN_READWRITE, (err) => {
-    if (err) return console.error(err.message);
-    console.log('Connected to the devjournal database.');
-});
-
-//possible additions include: tags
-//create table BLANK
-sql = "CREATE TABLE IF NOT EXISTS entries(id INTEGER PRIMARY KEY, title, date, entry, msid)"
-
-db.run(sql);
-
 //Insert data into table
-async function createPost(title, date, entry, msid) {
+async function dbCreatePost(title, date, entry, msid) {
 
     let postId = await getPostId(title, date, entry, msid);
 
@@ -33,7 +17,7 @@ async function createPost(title, date, entry, msid) {
     sql = `INSERT INTO entries(title, date, entry, msid) VALUES (?,?,?,?)`;
     
     db.run(sql, [title, date, entry, msid], (err) => {
-        if (err) return null;
+        if (err) return console.error("error");
     });
 
     return (await getPostId(title, date, entry, msid));
@@ -103,7 +87,7 @@ function deletePost(id) {
 
 //update data in existing table
 //NOTE: need to add a way for other param to remain unchanged if only 1 or 2 of 3 param is affected
-async function updatePost(id, title, date, entry, msid) {
+async function updatePost(title, date, entry, msid, id) {
 
     sql = "UPDATE entries SET title = ?, date = ?, entry = ?, msid = ? WHERE id = ?";
 
@@ -152,6 +136,8 @@ function databaseContent() {
 }
 
 
+export {dbCreatePost, getPostId, getRows, deletePost, updatePost};
+
 //Drop table - deletes table, i.e. database that stores data. ideally dont uncomment and run it unless you want to quick reset
 //db.run("DROP TABLE entries");
 
@@ -159,16 +145,15 @@ function databaseContent() {
                 // Test Functions
 // --------------------------------------------------
 
-//createPost("Title1","date1","entry1");
-//createPost("Title2","date1","entry1");
-//createPost("Title3","date1","entry1");
-//databaseContent();
+//createPost("Title1","date1","entry1","10");
+//createPost("Title2","date1","entry1","20");
+//createPost("Title3","date1","entry1","30");
 
-id = createPost("Title4","date1","entry1");
+// rows = getRows();
 
-id.then((value) => {
-    console.log(value);
-    // Expected output: "Success!"
-  });
+// rows.then((value) => {
+//     console.log(value);
+//     // Expected output: "Success!"
+//   });
 
 
