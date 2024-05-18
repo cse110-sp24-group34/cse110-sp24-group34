@@ -4,18 +4,14 @@
 
 //Insert data into table
 async function dbCreatePost(title, date, entry, msid) {
-
     let postId = await getPostId(title, date, entry, msid);
 
     //if post already exists
     if (postId != null) {
-
         return console.error("duplicate");
-
     }
 
     sql = `INSERT INTO entries(title, date, entry, msid) VALUES (?,?,?,?)`;
-    
     db.run(sql, [title, date, entry, msid], (err) => {
         if (err) return console.error("error");
     });
@@ -26,20 +22,15 @@ async function dbCreatePost(title, date, entry, msid) {
 //get data from id
 //param: id
 function getData(id) {
-
     let sql = "SELECT title, date, entry, msid FROM entries WHERE id = ?" 
-
     return new Promise((resolve,reject) => {
-
         db.get(sql,[id], (err,row) => {
             if (err) { 
                 console.error(err.message);
                 reject(err);
                 return;
             }
-
             resolve(row ? { title: row.title, date: row.date, entry: row.entry, msid: row.msid } : null);
-
         });
     });
 }
@@ -48,38 +39,26 @@ function getData(id) {
 //returns rows in array format
 //param: none
 function getRows() {
-
     let sql = "SELECT * FROM entries";
-
     return new Promise((resolve,reject) => {
-
         let toReturn = [];
-
         db.all(sql, [], (err, rows) => {
-            
             if (err) { 
-            
                 console.error(err.message);
                 reject(err);
                 return;
             }
-            
             rows.forEach(row => toReturn.push(row));
-
             return resolve(toReturn);
         });
-
     });
 }
 
 
 //delete data from table
 function deletePost(id) {
-
     sql = `DELETE FROM entries WHERE id = ?`;
-
     db.run(sql,[id],(err) => {
-
         if (err) return 1;
         else return 0; }
     );
@@ -88,11 +67,8 @@ function deletePost(id) {
 //update data in existing table
 //NOTE: need to add a way for other param to remain unchanged if only 1 or 2 of 3 param is affected
 async function updatePost(title, date, entry, msid, id) {
-
     sql = "UPDATE entries SET title = ?, date = ?, entry = ?, msid = ? WHERE id = ?";
-
     db.run(sql,[title, date, entry, msid, id], (err) => {
-        
         if (err) return 1;
         else return 0;
     });
@@ -101,22 +77,15 @@ async function updatePost(title, date, entry, msid, id) {
 //get post id based on title, date, entry
 //returns id of the post that corresponds to this entry
 function getPostId(title, date, entry, msid) {
-    
     let sql = "SELECT id FROM entries WHERE title = ? AND date = ? AND entry = ? AND msid = ?";
-
     return new Promise((resolve, reject) => {
-       
         db.get(sql, [title, date, entry, msid], (err, row) => {
-           
             if (err) {
-                
                 console.error(err.message);
                 reject(err);
                 return;
             }
-
             resolve(row ? row.id : null);
-
         });
     });
 }

@@ -7,7 +7,7 @@ const SELECTED_POST_COLOR = "#e8e8e8";
 const SELECTED_TEXTBOX_COLOR = "#f5f5f5"
 
 //----------------------------------------
-const sqlite3 = require('sqlite3').verbose()
+const sqlite3 = require('sqlite3');
 let sql;
 
 //connect to DB
@@ -22,8 +22,8 @@ sql = "CREATE TABLE IF NOT EXISTS entries(id INTEGER PRIMARY KEY, title, date, e
 
 db.run(sql);
 //----------------------------------------
-
-import {dbCreatePost, getPostId, getRows, deletePost, updatePost} from './DB/database.js';
+ 
+import {dbCreatePost, getPostId, getRows, deletePost, updatePost} from './DB.database.js';
 
 /**
  * Function to determine what to do on page load. Attaches event listener to the "create post" button, and restores user's posts from the SQL database.
