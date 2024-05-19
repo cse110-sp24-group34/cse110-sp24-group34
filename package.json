@@ -1,14 +1,15 @@
 {
   "name": "Web application Database SQLite3",
   "main": "database.js",
-  
+  "type":"module",
   "scripts": {
     "start": "node -r esm database.js"
   },
-  
-"dependencies": {
-    
+  "dependencies": {
     "esm": "^3.2.25",
-    "sqlite3": "^5.1.7"
+    "express": "^4.19.2",
+    "sql.js": "^1.10.3",
+    "sqlite3": "^5.1.7",
+    "sqlite3Module": "../node_modules/sqlite3"
   }
 }
