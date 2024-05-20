@@ -12,9 +12,10 @@ let db = new sqlite3.Database('./test.db', sqlite3.OPEN_READWRITE, (err) => {
 
 //possible additions include: tags
 //create table BLANK
-sql = "CREATE TABLE IF NOT EXISTS entries(id INTEGER PRIMARY KEY, title, date, entry, msid)"
-
-db.run(sql);
+db.serialize(() =>{
+    sql = "CREATE TABLE IF NOT EXISTS entries(id INTEGER PRIMARY KEY, title, date, entry, msid)"
+    db.run(sql);
+});
 
 
 

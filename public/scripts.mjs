@@ -13,7 +13,7 @@ const SELECTED_TEXTBOX_COLOR = "#f5f5f5"
 //----------------------------------------
  
 
-import {dbCreatePost, getData, getPostId, getRows, deletePost, updatePost, databaseContent} from './database.mjs';
+//import {dbCreatePost, getData, getPostId, getRows, deletePost, updatePost, databaseContent} from './database.mjs';
 
 
 /**
@@ -24,14 +24,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Event listener for the create post button
     createButton.addEventListener('click', createPost);
+    console.log("hello");
 
-    posts = getRows();
+    fetch("/all", {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json"
+          },
+        body: JSON.stringify({
+            "start":"true"
+        })
+        })
+        .then((response) => response.json())
+        .then((json) => function(){
+            for(let i = 0; i < json.length; i++){
+                createPostFilled(json[i].id, json[i].title, json[i].date, json[i].entry, json[i].msid);
+            }
+        });
 
-    posts.then((value) => {
-        for(let i = 0; i < value.length; i++){
-            createPostFilled(value[i].id, value[i].title, value[i].entry, value[i].date, value[i].msid);
-        }
-    });
+    // posts = getRows();
+
+    // posts.then((value) => {
+    //     for(let i = 0; i < value.length; i++){
+    //         createPostFilled(value[i].id, value[i].title, value[i].entry, value[i].date, value[i].msid);
+    //     }
+    // });
 
 });
 
@@ -50,10 +67,23 @@ function rightButtonClicked(event){
     //Delete button pressed
     if(value == 0){ 
         let sqlidval = sqlid.getAttribute("value");
+
         Promise.resolve(sqlidval).then((value) => {
-            deletePost(value);
+            fetch("/delete", {
+                method: "POST",
+                body: JSON.stringify({
+                    id: value
+                }),
+                headers: {
+                    "Content-type": "application/json"
+                }
+            })
+            .then((response) => response.json())
+            .then((json) => function(){
+                post.remove();
+            });
         });
-        post.remove();
+        //post.remove();
     }
     //Reject button pressed, while in edit mode (edit button pressed beforehand)
     else if(value == 1){
@@ -137,7 +167,23 @@ function leftButtonClicked(event){
 
         let sqlidval = sqlid.getAttribute("value");
         Promise.resolve(sqlidval).then((value) => {
-            updatePost(header.innerText, time.innerText, content.innerText, post.id, sqlid.getAttribute("value"));
+            fetch("/update", {
+                method: "POST",
+                body: JSON.stringify({
+                    header: header.innerText,
+                    time: time.innerText,
+                    content: content.innerText,
+                    msid: post.id,
+                    sqlid: value
+                }),
+                headers: {
+                    "Content-type": "application/json"
+                }
+            })
+            .then((response) => response.json())
+            .then((json) => function(){
+                //do nothing
+            });
         });       
     }
 }
@@ -184,7 +230,25 @@ function createPost() {
     const rightbutton = postDiv.querySelector('.rightButton');
     rightbutton.addEventListener('click', rightButtonClicked);
 
-    postDiv.querySelector(".sqlid").setAttribute("value", dbCreatePost(postDiv.querySelector('.header'), postDiv.querySelector('.time'), postDiv.querySelector('.content'), postDiv.id));
+    let header = postDiv.querySelector('.header');
+    let content = postDiv.querySelector('.content');
+    let time = postDiv.querySelector('.time');
+    postDiv.querySelector(".sqlid").setAttribute("value", fetch("/create", {
+        method: "POST",
+        body: JSON.stringify({
+            header: header.innerText,
+            time: time.innerText,
+            content: content.innerText,
+            msid: postDiv.id,
+        }),
+        headers: {
+          "Content-type": "application/json"
+        }
+      })
+        .then((response) => response.json())
+        .then((json) => json.sqlid));
+        
+        //dbCreatePost(postDiv.querySelector('.header'), postDiv.querySelector('.time'), postDiv.querySelector('.content'), postDiv.id));
 }
 
 /**
