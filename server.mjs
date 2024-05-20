@@ -8,10 +8,10 @@ const PORT = process.env.PORT || 3000;
 
 
 // Serve the index.html file
-// app.use(express.static(__dirname + 'public'));
+app.use(express.static(__dirname + '/public'));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join("C:/Users/maury/Desktop/Project/cse110-sp24-group34/views", "index.html"));
+    res.sendFile('./views/index.html', { root: __dirname });
 });
 
 // app.get('/', (req, res) => {
