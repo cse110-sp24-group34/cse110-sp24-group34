@@ -34,13 +34,14 @@ document.addEventListener('DOMContentLoaded', function() {
         body: JSON.stringify({
             "start":"true"
         })
-        })
-        .then((response) => response.json())
-        .then((json) => function(){
-            for(let i = 0; i < json.length; i++){
-                createPostFilled(json[i].id, json[i].title, json[i].date, json[i].entry, json[i].msid);
-            }
-        });
+    })
+    .then((response) => response.json())
+    .then((json) => {
+        console.log(json);
+        for(let i = 0; i < json.length; i++){
+            createPostFilled(json[i].id, json[i].title, json[i].entry, json[i].date, json[i].msid);
+        }
+    });
 
     // posts = getRows();
 
@@ -79,7 +80,7 @@ function rightButtonClicked(event){
                 }
             })
             .then((response) => response.json())
-            .then((json) => function(){
+            .then((json) => {
                 post.remove();
             });
         });
@@ -181,7 +182,7 @@ function leftButtonClicked(event){
                 }
             })
             .then((response) => response.json())
-            .then((json) => function(){
+            .then((json) => {
                 //do nothing
             });
         });       
@@ -233,7 +234,7 @@ function createPost() {
     let header = postDiv.querySelector('.header');
     let content = postDiv.querySelector('.content');
     let time = postDiv.querySelector('.time');
-    postDiv.querySelector(".sqlid").setAttribute("value", fetch("/create", {
+    fetch("/create", {
         method: "POST",
         body: JSON.stringify({
             header: header.innerText,
@@ -246,7 +247,9 @@ function createPost() {
         }
       })
         .then((response) => response.json())
-        .then((json) => json.sqlid));
+        .then((json) => {
+            postDiv.querySelector(".sqlid").setAttribute("value", json.sqlid);
+        })
         
         //dbCreatePost(postDiv.querySelector('.header'), postDiv.querySelector('.time'), postDiv.querySelector('.content'), postDiv.id));
 }

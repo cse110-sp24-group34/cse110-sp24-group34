@@ -1,6 +1,6 @@
 {
   "name": "Web application Database SQLite3",
-  "main": "database.js",
+  "main": "server.mjs",
   "type":"commonjs",
   "scripts": {
     "start": "node -r esm database.js"

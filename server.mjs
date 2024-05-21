@@ -1,6 +1,5 @@
 import express from "express";
 import path from "path";
-import bodyParser from "body-parser";
 
 const __dirname = path.resolve();
 
@@ -28,14 +27,13 @@ db.serialize(() =>{
 
 
 // Serve the index.html file
-app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 
 
 
 app.get('/', (req, res) => {
-    res.sendFile('./views/index.html', { root: __dirname });
+    res.sendFile('./public/index.html', { root: __dirname });
 });
 
 // app.get('/', (req, res) => {
@@ -49,8 +47,9 @@ app.post("/all", async(req, res) => {
 
 app.post('/delete', (req,res) =>{
     const id = req.body.id;
+    console.log(req.body);
     deletePost(id);
-    res.end();
+    res.json({"complete":"yes"});
 })
 
 app.post('/update', (req,res) =>{
@@ -59,8 +58,9 @@ app.post('/update', (req,res) =>{
     const content = req.body.content;
     const msid = req.body.msid;
     const sqlid = req.body.sqlid;
+    console.log(req.body);
     updatePost(header, time, content, msid, sqlid);
-    res.end();
+    res.json({"complete":"yes"});
 })
 
 app.post('/create', async (req,res) =>{
@@ -68,7 +68,9 @@ app.post('/create', async (req,res) =>{
     const time = req.body.time;
     const content = req.body.content;
     const msid = req.body.msid;
+    console.log(req.body);
     let sqlid = await dbCreatePost(header, time, content, msid);
+    console.log(sqlid);
     res.json({sqlid:sqlid});
 })
 
@@ -121,16 +123,14 @@ function getData(id) {
 //param: none
 function getRows() {
     let sql = "SELECT * FROM entries";
+    console.log("entered getRows");
     return new Promise((resolve,reject) => {
-        let toReturn = [];
         db.all(sql, [], (err, rows) => {
             if (err) { 
                 console.error(err.message);
                 reject(err);
-                return;
             }
-            rows.forEach(row => toReturn.push(row));
-            return resolve(toReturn);
+            resolve(rows)
         });
     });
 }
@@ -153,7 +153,7 @@ function deletePost(id) {
 
 //update data in existing table
 //NOTE: need to add a way for other param to remain unchanged if only 1 or 2 of 3 param is affected
-async function updatePost(title, date, entry, msid, id) {
+function updatePost(title, date, entry, msid, id) {
     sql = "UPDATE entries SET title = ?, date = ?, entry = ?, msid = ? WHERE id = ?";
     db.run(sql,[title, date, entry, msid, id], (err) => {
         if (err) return 1;
