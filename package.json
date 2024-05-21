@@ -1,7 +1,7 @@
 {
   "name": "Web application Database SQLite3",
   "main": "server.mjs",
-  "type":"commonjs",
+  "type": "commonjs",
   "scripts": {
     "start": "node -r esm database.js"
   },
@@ -11,5 +11,13 @@
     "sql.js": "^1.10.3",
     "sqlite3": "^5.1.7",
     "sqlite3Module": "../node_modules/sqlite3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.5",
+    "@babel/preset-env": "^7.24.5",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "jest-puppeteer": "^10.0.1",
+    "puppeteer": "^22.9.0"
   }
 }
