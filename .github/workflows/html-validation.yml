@@ -1,0 +1,29 @@
+name: HTML Validation
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - Post-Functionality
+      - SQLite
+      - SQLiteV2
+      - calendarDate
+      - fix_SQLitexPost
+      - jeff
+
+jobs:
+  validate-html:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Validate HTML files
+      uses: cyb3r-jak3/html-validator-action@v1
+      with:
+        path: 'DevJournal/index.html'
+
+
