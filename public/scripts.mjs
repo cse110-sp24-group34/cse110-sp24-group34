@@ -6,15 +6,6 @@ const DEFAULT_TEXTBOX_COLOR = "white";
 const SELECTED_POST_COLOR = "#e8e8e8";
 const SELECTED_TEXTBOX_COLOR = "#f5f5f5"
 
-//----------------------------------------
-
-// import database from "./database.mjs"
-
-//----------------------------------------
- 
-
-//import {dbCreatePost, getData, getPostId, getRows, deletePost, updatePost, databaseContent} from './database.mjs';
-
 
 /**
  * Function to determine what to do on page load. Attaches event listener to the "create post" button, and restores user's posts from the SQL database.
@@ -22,10 +13,11 @@ const SELECTED_TEXTBOX_COLOR = "#f5f5f5"
 document.addEventListener('DOMContentLoaded', function() {    
     const createButton = document.getElementById('create-post');
 
-    // Event listener for the create post button
+    //Event listener for the create post button
     createButton.addEventListener('click', createPost);
     console.log("hello");
 
+    //Restores posts from SQL database using post request to server
     fetch("/all", {
         method: "POST",
         headers: {
@@ -42,14 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
             createPostFilled(json[i].id, json[i].title, json[i].entry, json[i].date, json[i].msid);
         }
     });
-
-    // posts = getRows();
-
-    // posts.then((value) => {
-    //     for(let i = 0; i < value.length; i++){
-    //         createPostFilled(value[i].id, value[i].title, value[i].entry, value[i].date, value[i].msid);
-    //     }
-    // });
 
 });
 
@@ -69,6 +53,7 @@ function rightButtonClicked(event){
     if(value == 0){ 
         let sqlidval = sqlid.getAttribute("value");
 
+        //Deletes post from sql database with post request to server
         Promise.resolve(sqlidval).then((value) => {
             fetch("/delete", {
                 method: "POST",
@@ -84,33 +69,32 @@ function rightButtonClicked(event){
                 post.remove();
             });
         });
-        //post.remove();
     }
     //Reject button pressed, while in edit mode (edit button pressed beforehand)
     else if(value == 1){
 
-        //switches icons to reflect leaving edit mode
+        //Switches icons to reflect leaving edit mode
         event.currentTarget.setAttribute('value', 0);
         event.currentTarget.querySelector('img').setAttribute('src', "icons/delete.png");
         event.currentTarget.parentNode.querySelector('.leftButton').setAttribute('value', 0);
         event.currentTarget.parentNode.querySelector('.leftButton').querySelector('img').setAttribute('src', "icons/edit.png");
 
-        //post no longer editable
+        //Post no longer editable
         post.style.background = DEFAULT_POST_COLOR;
         header.setAttribute('contenteditable', 'false');
         content.setAttribute('contenteditable', 'false');
 
-        //post styling back to normal
+        //Post styling back to normal
         header.style.background = DEFAULT_TEXTBOX_COLOR;
         content.style.background = DEFAULT_TEXTBOX_COLOR;
 
-        //restores previous value of header and content, stored in temp
+        //Restores previous value of header and content, stored in temp
         content.innerText = temp.get(event.currentTarget.parentNode.parentNode.id)[1]
         header.innerText = temp.get(event.currentTarget.parentNode.parentNode.id)[0]
         time.innerText = temp.get(event.currentTarget.parentNode.parentNode.id)[2]
         sqlid.setAttribute("value", temp.get(event.currentTarget.parentNode.parentNode.id)[3]); 
 
-        //garbage removal
+        //Garbage removal
         temp.delete(event.currentTarget.parentNode.parentNode.id.toString());
     }
 }
@@ -136,36 +120,37 @@ function leftButtonClicked(event){
         event.currentTarget.parentNode.querySelector('.rightButton').setAttribute('value', 1);
         event.currentTarget.parentNode.querySelector('.rightButton').querySelector('img').setAttribute('src', "icons/reject.png");
 
-        //changes post styling and allows editing
+        //Changes post styling and allows editing
         post.style.background = SELECTED_POST_COLOR;
         header.setAttribute('contenteditable', 'true');
         content.setAttribute('contenteditable', 'true');
         header.style.background = SELECTED_TEXTBOX_COLOR;
         content.style.background = SELECTED_TEXTBOX_COLOR;
 
-        //adds original value of content and header to temp, so it can be accessed later if user does not save
+        //Adds original value of content and header to temp, so it can be accessed later if user does not save
         temp.set(event.currentTarget.parentNode.parentNode.id.toString(), [header.innerText, content.innerText, time.innerText, sqlid.getAttribute("value")]);
 
     }
     //Accept button pressed while in edit mode
     else if(value == 1){
 
-        //changes icons to reflect switch out of edit mode
+        //Changes icons to reflect switch out of edit mode
         event.currentTarget.setAttribute('value', 0);
         event.currentTarget.querySelector('img').setAttribute('src', "icons/edit.png");
         event.currentTarget.parentNode.querySelector('.rightButton').setAttribute('value', 0);
         event.currentTarget.parentNode.querySelector('.rightButton').querySelector('img').setAttribute('src', "icons/delete.png");
 
-        //reverts post styling to normal and disables editing
+        //Reverts post styling to normal and disables editing
         post.style.background = DEFAULT_POST_COLOR;
         header.setAttribute('contenteditable', 'false');
         content.setAttribute('contenteditable', 'false');
         header.style.background = DEFAULT_TEXTBOX_COLOR;
         content.style.background = DEFAULT_TEXTBOX_COLOR;
 
-        //garbage cleaning
+        //Garbage cleaning
         temp.delete(event.currentTarget.parentNode.parentNode.id.toString());
 
+        //Updates post in sql database with post request to server
         let sqlidval = sqlid.getAttribute("value");
         Promise.resolve(sqlidval).then((value) => {
             fetch("/update", {
@@ -201,6 +186,7 @@ function createPost() {
         createButton.disabled = false;
     }, 5);
 
+    //Create post element and add it to DOM
     const postDiv = document.createElement('div');
     postDiv.className = 'post';
     postDiv.id = 'placeholder';
@@ -231,6 +217,7 @@ function createPost() {
     const rightbutton = postDiv.querySelector('.rightButton');
     rightbutton.addEventListener('click', rightButtonClicked);
 
+    //Creates the post in sql database with post request
     let header = postDiv.querySelector('.header');
     let content = postDiv.querySelector('.content');
     let time = postDiv.querySelector('.time');
@@ -250,8 +237,6 @@ function createPost() {
         .then((json) => {
             postDiv.querySelector(".sqlid").setAttribute("value", json.sqlid);
         })
-        
-        //dbCreatePost(postDiv.querySelector('.header'), postDiv.querySelector('.time'), postDiv.querySelector('.content'), postDiv.id));
 }
 
 /**
@@ -261,6 +246,8 @@ function createPost() {
  * @param {*} content content
  * @param {*} time date created
  * @param {*} msid ms id
+ * 
+ * Creates a post with all parameters pre-filled. Useful for populating posts from database on page load.
  */
 function createPostFilled(sqlid, header, content, time, msid) {
 
