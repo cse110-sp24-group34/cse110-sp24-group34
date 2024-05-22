@@ -6,6 +6,7 @@ on:
       - main
   push:
     branches:
+      - E2ETests
       - Post-Functionality
       - SQLite
       - SQLiteV2
