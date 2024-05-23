@@ -3,7 +3,7 @@
   "main": "server.mjs",
   "type": "commonjs",
   "scripts": {
-    "start": "node -r esm server.mjs",
+    "start": "node server.mjs",
     "test": "jest",
     "test:integration": "jest -c jest-test.config.js"
   },
