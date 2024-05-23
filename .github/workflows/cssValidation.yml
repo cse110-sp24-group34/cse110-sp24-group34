@@ -26,4 +26,4 @@ jobs:
       run: npm install -g css-validator
 
     - name: Validate CSS files
-      run: css-validator "DevJournal/styles.css"
+      run: css-validator "public/styles.css"

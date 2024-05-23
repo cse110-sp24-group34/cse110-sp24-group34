@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- name = "viewport" is to control layout on mobile so we can scale, "content="width=device-width" scales to device screen--> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev Journal</title>
+    <!-- We should 100% add favicon-->
+    <link rel="stylesheet" href="styles.css">
+    <script src="TagElement.js" defer></script>
+    <script src="TagDropdown.js" defer></script>
+    <script src="scripts.mjs" defer></script>
+</head>
+<body>
+    
+    <header>
+        <!-- Navigation menu -->
+        <nav>
+            <ul id="tag-list">
+                <li><a href="#AllPosts">All Posts</a></li>
+                <!-- Add Tag Button -->
+                <li><button id="add-tag">Add Tag</button></li>
+                <li><button id="clear-tags">Clear Tags</button></li>
+            </ul>
+        </nav>
+        <!-- Button to trigger post creation -->
+        <button id="create-post">Create a Post</button>
+    </header>
+    <main>
+        <!-- Placeholder for dynamically added posts -->
+    </main>
+</body>
+</html>
