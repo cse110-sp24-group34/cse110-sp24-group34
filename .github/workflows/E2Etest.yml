@@ -1,10 +1,10 @@
-name: Unit Tests # name of the test
+name: E2E Tests
 
 on:
   pull_request:
       branches:
         - main
-    push:
+  push:
       branches:
         - E2ETests
         - Post-Functionality
@@ -19,4 +19,4 @@ jobs: # the things being executed
       - name: Install Dependencies
         run: npm install
       - name: E2E Test
-        run: npm test:integration # the actual testing line
+        run: npm run test:integration # the actual testing line
