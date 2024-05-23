@@ -23,8 +23,8 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Validate HTML files
-      uses: cyb3r-jak3/html-validator-action@v1
+      uses: Cyb3r-Jak3/html5validator-action@v7.2.0
       with:
-        path: 'DevJournal/index.html'
+        root: 'public/'
 
 
