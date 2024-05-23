@@ -9,6 +9,7 @@ on:
         - E2ETests
         - Post-Functionality
         - fix_SQLitexPost
+        - E2E-integration
 
 jobs: # the things being executed
   tests: # the name of your status check, will become important when you do branch protection
@@ -18,4 +19,4 @@ jobs: # the things being executed
       - name: Install Dependencies
         run: npm install
       - name: E2E Test
-        run: npm test ./__tests__/__tests__.js # the actual testing line
+        run: npm test:integration # the actual testing line

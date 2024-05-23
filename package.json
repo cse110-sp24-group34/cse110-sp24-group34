@@ -3,8 +3,9 @@
   "main": "server.mjs",
   "type": "commonjs",
   "scripts": {
-    "start": "node -r esm database.js",
-    "test": "jest"
+    "start": "node -r esm server.mjs",
+    "test": "jest",
+    "test:integration": "jest -c jest-test.config.js"
   },
   "dependencies": {
     "esm": "^3.2.25",
