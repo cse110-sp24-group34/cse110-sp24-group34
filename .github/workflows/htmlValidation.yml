@@ -25,6 +25,6 @@ jobs:
     - name: Validate HTML files
       uses: cyb3r-jak3/html-validator-action@v1
       with:
-        path: 'DevJournal/index.html'
+        path: 'public/index.html'
 
 
