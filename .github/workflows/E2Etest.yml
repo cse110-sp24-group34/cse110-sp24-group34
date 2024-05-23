@@ -19,4 +19,4 @@ jobs: # the things being executed
       - name: Install Dependencies
         run: npm install
       - name: E2E Test
-        run: npm test:integration # the actual testing line
+        run: npm run test:integration # the actual testing line
