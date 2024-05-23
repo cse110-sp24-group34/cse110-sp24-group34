@@ -25,6 +25,6 @@ jobs:
     - name: Validate HTML files
       uses: Cyb3r-Jak3/html5validator-action@v7.2.0
       with:
-        path: 'public/index.html'
+        root: 'public/index.html'
 
 
