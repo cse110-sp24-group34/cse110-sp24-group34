@@ -1,10 +1,10 @@
-name: Unit Tests # name of the test
+name: E2E Tests
 
 on:
   pull_request:
       branches:
         - main
-    push:
+  push:
       branches:
         - E2ETests
         - Post-Functionality
