@@ -7,6 +7,7 @@ describe('Basic dev use', () => {
 
     //First Test, create a post by clicking the create button
     it('Create Post', async () => {
+      await page.reload();
       let postCt = await page.$$eval(".post", (posts) => {
         return posts.length;
       });
