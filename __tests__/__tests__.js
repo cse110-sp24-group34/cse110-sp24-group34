@@ -1,20 +1,25 @@
+//Main Test Suite
 describe('Basic dev use', () => {
+    //Vist Site
     beforeAll(async () => {
       await page.goto('http://127.0.0.1:3000/');
     });
 
-
+    //First Test, create a post by clicking the create button
     it('Create Post', async () => {
       let postCt = await page.$$eval(".post", (posts) => {
         return posts.length;
       });
-      console.log(postCt)
+      console.log(`current # of post is ${postCt}`);
+
+      //create post
       await page.$eval('#create-post', (btn) => {
         btn.click();
       });
       let postCtPost = await page.$$eval(".post", (posts) => {
         return posts.length;
       });
+
       expect(postCt + 1).toBe(postCtPost);
     });
 
@@ -22,6 +27,8 @@ describe('Basic dev use', () => {
       let postCt = await page.$$eval(".post", (posts) => {
         return posts.length;
       });
+
+      //cycle thru all posts and clicks each delete button
       for (i=0; i < postCt; i++) {
         let postDel = await page.$eval(".rightButton", (btnDel) => {
           btnDel.click();
@@ -60,17 +67,21 @@ describe('Basic dev use', () => {
         btn.click();
       });
 
+      //clear existing text
       await page.$eval("h2", (title) => {
         title.innerHTML = ' ';
       });
       await page.$eval("p", (title) => {
         title.innerHTML = ' ';
       });
+
+      //type into boxes
       await page.focus("h2");
       await page.keyboard.type('Additional Text');
       await page.focus("p");
       await page.keyboard.type('Bottom Text');
 
+      //save edits
       await post.$eval('.leftButton', (btn) => {
         btn.click();
       });
@@ -90,6 +101,8 @@ describe('Basic dev use', () => {
 
     it('Attempt to edit Title and Text without clicking edit', async () => {
       let post = await page.$(".post");
+
+      //type without clicking edit
       await page.focus("h2");
       await page.keyboard.type('New and Improved Additional Text');
       await page.focus("p");
