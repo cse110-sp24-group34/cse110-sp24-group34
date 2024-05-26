@@ -22,6 +22,7 @@ jobs: # the things being executed
       - uses: actions/checkout@v4 # using version 4 of Actions
       - name: Install Dependencies
         run: npm install
+      - name: sqlite?
         run: npm install sqlite3
       - name: Start Server?
         run: node server.mjs
