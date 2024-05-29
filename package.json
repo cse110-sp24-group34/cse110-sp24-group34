@@ -3,7 +3,7 @@
   "main": "server.mjs",
   "type": "commonjs",
   "scripts": {
-    "start": "node server.mjs",
+    "start": "node server.mjs --port 3000",
     "test": "jest"
   },
   "dependencies": {
