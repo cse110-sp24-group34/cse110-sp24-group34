@@ -199,6 +199,8 @@ function createPost() {
         <h2 class="header" contenteditable="false">New Post</h2>
         <p class="content" contenteditable="false">Your text here</p>
         <span class="time">Just now</span>
+        <p class="postTag"></p>
+        <select class="dropdownMenu">Select a tag...</select>
         <input type="hidden" class="sqlid" value="placeholder">
         <div class="flex">
             <button class="leftButton" value="0">
@@ -222,6 +224,12 @@ function createPost() {
     const rightbutton = postDiv.querySelector('.rightButton');
     rightbutton.addEventListener('click', rightButtonClicked);
 
+    //Adds event handlers to dropdownMenu
+    dropdownMenu = postDiv.querySelector('.dropdownMenu');
+    dropdownMenu.addEventListener('change', function() {
+        postDiv.querySelector('.postTag').innerText = this.options[this.selectedIndex].value;
+    });
+
     //Creates the post in sql database with post request
     let header = postDiv.querySelector('.header');
     let content = postDiv.querySelector('.content');
@@ -242,7 +250,56 @@ function createPost() {
         .then((json) => {
             postDiv.querySelector(".sqlid").setAttribute("value", json.sqlid);
         })
+    updatePostTags();
 }
+
+function updatePostTags() {
+    // Get the tags from local storage
+    let tags = getTagsFromStorage();
+
+    // Get all select elements
+    const selects = document.querySelectorAll('.dropdownMenu');
+
+    // For each select element
+    selects.forEach(select => {
+        // Clear all existing options
+        while (select.firstChild) {
+            select.removeChild(select.firstChild);
+        }
+
+        // Add an option for each tag
+        for (const tag of tags) {
+            const option = document.createElement('option');
+            option.value = tag;
+            option.text = tag;
+            select.appendChild(option);
+        }
+
+        // Add a default option
+        const defaultOption = document.createElement('option');
+        defaultOption.text = 'Select a tag...'; // Replace with your default text
+        defaultOption.selected = true;
+        select.prepend(defaultOption);
+
+        // Add a change event listener to the select element
+        select.addEventListener('change', function() {
+            // Set the postTag textContext to the selected value
+            // console.log(postDiv.querySelector('.postTag').textContent)
+            // console.log(this.options[this.selectedIndex].value)
+            // console.log(typeof(postDiv.querySelector('.postTag').textContent))
+            postDiv.querySelector('.postTag').textContent = this.options[this.selectedIndex].value;
+            // postDiv.querySelector('.postTag').innerText = this.options[this.selectedIndex].value;
+            // console.log(this.options[this.selectedIndex].value);
+
+            // After a delay, set the selected index back to 0
+            setTimeout(() => {
+                select.selectedIndex = 0;
+            }, 100);
+            
+        });
+    });
+}
+
 
 /**
  * 
@@ -263,6 +320,7 @@ function createPostFilled(sqlid, header, content, time, msid) {
         <h2 class="header" contenteditable="false">New Post</h2>
         <p class="content" contenteditable="false">Your text here</p>
         <span class="time">Just now</span>
+        <p class="postTag">Tag</p>
         <input type="hidden" class="sqlid" value="placeholder">
         <div class="flex">
             <button class="leftButton" value="0">
@@ -276,7 +334,9 @@ function createPostFilled(sqlid, header, content, time, msid) {
     postDiv.querySelector(".time").innerText = time;
     postDiv.querySelector(".header").innerText = header;
     postDiv.querySelector(".content").innerText = content;
+    // postDiv.querySelector(".postTag").innerText = "joemoment";
     postDiv.querySelector(".sqlid").setAttribute("value", sqlid);
+
     main.appendChild(postDiv);
 
     //Adds event handlers to post buttons
@@ -297,6 +357,7 @@ function createPostFilled(sqlid, header, content, time, msid) {
 function getTagsFromStorage() {
     const tags = localStorage.getItem('tags');
     return tags ? JSON.parse(tags) : [];
+    // return tags && tags.length > 0 ? JSON.parse(tags) : [];
 }
 
 /**
@@ -359,6 +420,9 @@ function addTagsToDocument(tags) {
 
     // Add the event listeners to the button elements
 	initButtonHandler();
+
+    // Update the tags in the posts
+    updatePostTags();
 }
 
 /**

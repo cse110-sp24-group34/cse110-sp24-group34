@@ -19,7 +19,7 @@ let db = new sqlite3.Database(__dirname + '/public/test.db', sqlite3.OPEN_READWR
 //possible additions include: tags
 //create table BLANK
 db.serialize(() =>{
-    sql = "CREATE TABLE IF NOT EXISTS entries(id INTEGER PRIMARY KEY, title, date, entry, msid)"
+    sql = "CREATE TABLE IF NOT EXISTS entries(id INTEGER PRIMARY KEY, title, date, entry, msid, tags)"
     db.run(sql);
 });
 
@@ -57,8 +57,9 @@ app.post('/update', (req,res) =>{
     const content = req.body.content;
     const msid = req.body.msid;
     const sqlid = req.body.sqlid;
+    const tags = req.body.tags;
     //console.log(req.body);
-    updatePost(header, time, content, msid, sqlid);
+    updatePost(header, time, content, msid, sqlid, tags);
     res.json({"complete":"yes"});
 })
 
@@ -68,8 +69,9 @@ app.post('/create', async (req,res) =>{
     const time = req.body.time;
     const content = req.body.content;
     const msid = req.body.msid;
+    const tags = req.body.tags;
     //console.log(req.body);
-    let sqlid = await dbCreatePost(header, time, content, msid);
+    let sqlid = await dbCreatePost(header, time, content, msid, tags);
     console.log(sqlid);
     res.json({sqlid:sqlid});
 })
@@ -88,22 +90,23 @@ app.listen(PORT, () => {
  * @param {*} date 
  * @param {*} entry 
  * @param {*} msid 
+ * @param {*} tags 
  * @returns integer primary key id of new entry.
  */
-async function dbCreatePost(title, date, entry, msid) {
-    let postId = await getPostId(title, date, entry, msid);
+async function dbCreatePost(title, date, entry, msid, tags) {
+    let postId = await getPostId(title, date, entry, msid, tags);
 
     //if post already exists
     if (postId != null) {
         return console.error("duplicate");
     }
 
-    sql = `INSERT INTO entries(title, date, entry, msid) VALUES (?,?,?,?)`;
-    db.run(sql, [title, date, entry, msid], (err) => {
+    sql = `INSERT INTO entries(title, date, entry, msid, tags) VALUES (?,?,?,?)`;
+    db.run(sql, [title, date, entry, msid, tags], (err) => {
         if (err) return console.error("error");
     });
 
-    return (await getPostId(title, date, entry, msid));
+    return (await getPostId(title, date, entry, msid, tags, tags));
 }
 
 
@@ -113,7 +116,7 @@ async function dbCreatePost(title, date, entry, msid) {
  * @returns entry
  */
 function getData(id) {
-    let sql = "SELECT title, date, entry, msid FROM entries WHERE id = ?" 
+    let sql = "SELECT title, date, entry, msid, tags FROM entries WHERE id = ?" 
     return new Promise((resolve,reject) => {
         db.get(sql,[id], (err,row) => {
             if (err) { 
@@ -121,7 +124,7 @@ function getData(id) {
                 reject(err);
                 return;
             }
-            resolve(row ? { title: row.title, date: row.date, entry: row.entry, msid: row.msid } : null);
+            resolve(row ? { title: row.title, date: row.date, entry: row.entry, msid: row.msid, tags: row.tags } : null);
         });
     });
 }
@@ -167,9 +170,9 @@ function deletePost(id) {
  * @param {*} msid 
  * @param {*} id 
  */
-function updatePost(title, date, entry, msid, id) {
+function updatePost(title, date, entry, msid, tags, id) {
     sql = "UPDATE entries SET title = ?, date = ?, entry = ?, msid = ? WHERE id = ?";
-    db.run(sql,[title, date, entry, msid, id], (err) => {
+    db.run(sql,[title, date, entry, msid, tags, id], (err) => {
         if (err) return 1;
         else return 0;
     });
@@ -184,10 +187,10 @@ function updatePost(title, date, entry, msid, id) {
  * @param {*} msid 
  * @returns id
  */
-function getPostId(title, date, entry, msid) {
+function getPostId(title, date, entry, msid, tags) {
     let sql = "SELECT id FROM entries WHERE title = ? AND date = ? AND entry = ? AND msid = ?";
     return new Promise((resolve, reject) => {
-        db.get(sql, [title, date, entry, msid], (err, row) => {
+        db.get(sql, [title, date, entry, msid, tags], (err, row) => {
             if (err) {
                 console.error(err.message);
                 reject(err);
