@@ -1,27 +1,15 @@
-// get environment varable
-//const ci = Boolean(process.env.CI || false);
 
-const baseOptions = {
-    server: {
-        command: 'npm run start',
-        port: 3000
-      }
-}
-
-const ciPipelineOptions = {
+module.exports = {
     launch: {
-        executablePath: '/usr/bin/google-chrome-stable',
-        headless: true,
-        args: [
-          '--ignore-certificate-errors',
-          '--no-sandbox',
-          '--disable-setuid-sandbox',
-          '--disable-accelerated-2d-canvas',
-          '--disable-gpu'
-              ]
+      dumpio: true,
+      headless: true//process.env.HEADLESS !== 'false',
     },
-    server: baseOptions.server
-}
-
-//module.exports = ci ? ciPipelineOptions : baseOptions;
-module.exports = baseOptions;
+    browser: 'chromium',
+    browserContext: 'default',
+    server: {
+      command: `npm start`,
+      port: 3000,
+      launchTimeout: 10000,
+      debug: true,
+    },
+  }
