@@ -250,11 +250,11 @@ function createPost() {
             postDiv.querySelector(".sqlid").setAttribute("value", json.sqlid);
         })
     updatePostTags(postDiv); // Add the localstorage tags into the dropdown menu
+    modifyPostTag(postDiv); // Add event listener to the dropdown menu
 }
 
 /**
  * Updates the corresponding tag of the post
- * TODO: Bug - When multiple tags are in edit mode, every tag will change
  * @param {*} postDiv The post where we want to update the tag
  */
 function updatePostTags(postDiv) {
@@ -282,27 +282,23 @@ function updatePostTags(postDiv) {
         const defaultOption = document.createElement('option');
         defaultOption.text = 'Select a tag...';
         defaultOption.selected = true;
-        select.prepend(defaultOption);
-
-        // Add a change event listener to the select element
-        select.addEventListener('change', function() {
-            // Set the postTag textContext to the selected value
-            // console.log(postDiv.querySelector('.postTag').textContent)
-            // console.log(this.options[this.selectedIndex].value)
-            // console.log(typeof(postDiv.querySelector('.postTag').textContent))
-            postDiv.querySelector('.postTag').textContent = this.options[this.selectedIndex].value;
-            // postDiv.querySelector('.postTag').innerText = this.options[this.selectedIndex].value;
-            // console.log(this.options[this.selectedIndex].value);
-
-            // Reset the option back to the first option
-            setTimeout(() => {
-                select.selectedIndex = 0;
-            }, 100);
-            
-        });
+        select.prepend(defaultOption); 
     });
 }
 
+/**
+ * When a user selects an option in the dropdown menu, the postTag section of 
+ * post will be updated
+ * @param {*} postDiv The post where we want to update the tag
+ */
+function modifyPostTag(postDiv) {
+    // Add event listener to the dropdown menu
+    const dropdownMenu = postDiv.querySelector('.dropdownMenu');
+    // Overwrite that option of the dropdown menu into the postTag
+    dropdownMenu.addEventListener('change', function() {
+        postDiv.querySelector('.postTag').innerText = this.options[this.selectedIndex].value;
+    });
+}
 
 /**
  * 
@@ -323,7 +319,7 @@ function createPostFilled(sqlid, header, content, time, msid) {
         <h2 class="header" contenteditable="false">New Post</h2>
         <p class="content" contenteditable="false">Your text here</p>
         <span class="time">Just now</span>
-        <p class="postTag">yup</p>
+        <p class="postTag">Tags</p>
         <input type="hidden" class="sqlid" value="placeholder">
         <select style="display: none;" class="dropdownMenu">Select a tag...</select>
         <div class="flex">
@@ -348,12 +344,8 @@ function createPostFilled(sqlid, header, content, time, msid) {
     const rightbutton = postDiv.querySelector('.rightButton');
     rightbutton.addEventListener('click', rightButtonClicked);
 
-    updatePostTags(postDiv);
-    // //Adds event handlers to dropdownMenu
-    // dropdownMenu = postDiv.querySelector('.dropdownMenu');
-    // dropdownMenu.addEventListener('change', function() {
-    //     postDiv.querySelector('.postTag').innerText = this.options[this.selectedIndex].value;
-    // });
+    updatePostTags(postDiv); // Fill tags dropdown menu
+    modifyPostTag(postDiv); // Add event listener to the dropdown menu
 }
 
 
