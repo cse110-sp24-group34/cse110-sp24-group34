@@ -2,7 +2,7 @@
 describe('Basic dev use', () => {
     //Vist Site
     beforeAll(async () => {
-      await page.goto('http://127.0.0.1:3000/');
+      await page.goto('http://localhost:3000');
     });
 
     //First Test, create a post by clicking the create button

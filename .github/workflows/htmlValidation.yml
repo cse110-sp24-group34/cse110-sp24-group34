@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - E2ETests
+      - GitActionsE2E
       - Post-Functionality
       - SQLite
       - SQLiteV2
