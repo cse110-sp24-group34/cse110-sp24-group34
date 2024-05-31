@@ -115,6 +115,7 @@ function leftButtonClicked(event){
     let content = post.querySelector('.content');
     let time = post.querySelector('.time');
     let sqlid = post.querySelector('.sqlid');
+    let dropdownMenu = post.querySelector('.dropdownMenu');
 
     //Edit button pressed, enters edit mode
     if(value == 0){
@@ -131,6 +132,7 @@ function leftButtonClicked(event){
         content.setAttribute('contenteditable', 'true');
         header.style.background = SELECTED_TEXTBOX_COLOR;
         content.style.background = SELECTED_TEXTBOX_COLOR;
+        dropdownMenu.style.display = "block"; // show the dropdown menu
 
         //Adds original value of content and header to temp, so it can be accessed later if user does not save
         temp.set(event.currentTarget.parentNode.parentNode.id.toString(), [header.innerText, content.innerText, time.innerText, sqlid.getAttribute("value")]);
@@ -151,6 +153,7 @@ function leftButtonClicked(event){
         content.setAttribute('contenteditable', 'false');
         header.style.background = DEFAULT_TEXTBOX_COLOR;
         content.style.background = DEFAULT_TEXTBOX_COLOR;
+        dropdownMenu.style.display = "none";
 
         //Garbage cleaning
         temp.delete(event.currentTarget.parentNode.parentNode.id.toString());
@@ -199,8 +202,8 @@ function createPost() {
         <h2 class="header" contenteditable="false">New Post</h2>
         <p class="content" contenteditable="false">Your text here</p>
         <span class="time">Just now</span>
-        <p class="postTag"></p>
-        <select class="dropdownMenu">Select a tag...</select>
+        <p class="postTag">Tag</p>
+        <select style="display: none;" class="dropdownMenu">Select a tag...</select>
         <input type="hidden" class="sqlid" value="placeholder">
         <div class="flex">
             <button class="leftButton" value="0">
@@ -224,11 +227,7 @@ function createPost() {
     const rightbutton = postDiv.querySelector('.rightButton');
     rightbutton.addEventListener('click', rightButtonClicked);
 
-    //Adds event handlers to dropdownMenu
-    dropdownMenu = postDiv.querySelector('.dropdownMenu');
-    dropdownMenu.addEventListener('change', function() {
-        postDiv.querySelector('.postTag').innerText = this.options[this.selectedIndex].value;
-    });
+    
 
     //Creates the post in sql database with post request
     let header = postDiv.querySelector('.header');
@@ -250,14 +249,18 @@ function createPost() {
         .then((json) => {
             postDiv.querySelector(".sqlid").setAttribute("value", json.sqlid);
         })
-    updatePostTags();
+    updatePostTags(postDiv); // Add the localstorage tags into the dropdown menu
 }
 
-function updatePostTags() {
+/**
+ * Updates the corresponding tag of the post
+ * TODO: Bug - When multiple tags are in edit mode, every tag will change
+ * @param {*} postDiv The post where we want to update the tag
+ */
+function updatePostTags(postDiv) {
+    // console.log("in updatePostTags")
     // Get the tags from local storage
     let tags = getTagsFromStorage();
-
-    // Get all select elements
     const selects = document.querySelectorAll('.dropdownMenu');
 
     // For each select element
@@ -277,7 +280,7 @@ function updatePostTags() {
 
         // Add a default option
         const defaultOption = document.createElement('option');
-        defaultOption.text = 'Select a tag...'; // Replace with your default text
+        defaultOption.text = 'Select a tag...';
         defaultOption.selected = true;
         select.prepend(defaultOption);
 
@@ -291,7 +294,7 @@ function updatePostTags() {
             // postDiv.querySelector('.postTag').innerText = this.options[this.selectedIndex].value;
             // console.log(this.options[this.selectedIndex].value);
 
-            // After a delay, set the selected index back to 0
+            // Reset the option back to the first option
             setTimeout(() => {
                 select.selectedIndex = 0;
             }, 100);
@@ -312,7 +315,7 @@ function updatePostTags() {
  * Creates a post with all parameters pre-filled. Useful for populating posts from database on page load.
  */
 function createPostFilled(sqlid, header, content, time, msid) {
-
+    
     const postDiv = document.createElement('div');
     postDiv.className = 'post';
     postDiv.id = msid;
@@ -320,8 +323,9 @@ function createPostFilled(sqlid, header, content, time, msid) {
         <h2 class="header" contenteditable="false">New Post</h2>
         <p class="content" contenteditable="false">Your text here</p>
         <span class="time">Just now</span>
-        <p class="postTag">Tag</p>
+        <p class="postTag">yup</p>
         <input type="hidden" class="sqlid" value="placeholder">
+        <select style="display: none;" class="dropdownMenu">Select a tag...</select>
         <div class="flex">
             <button class="leftButton" value="0">
                 <img class="buttonIcon" src="icons/edit.png" alt="edit" border="0" />
@@ -334,7 +338,6 @@ function createPostFilled(sqlid, header, content, time, msid) {
     postDiv.querySelector(".time").innerText = time;
     postDiv.querySelector(".header").innerText = header;
     postDiv.querySelector(".content").innerText = content;
-    // postDiv.querySelector(".postTag").innerText = "joemoment";
     postDiv.querySelector(".sqlid").setAttribute("value", sqlid);
 
     main.appendChild(postDiv);
@@ -344,6 +347,13 @@ function createPostFilled(sqlid, header, content, time, msid) {
     leftbutton.addEventListener('click', leftButtonClicked);
     const rightbutton = postDiv.querySelector('.rightButton');
     rightbutton.addEventListener('click', rightButtonClicked);
+
+    updatePostTags(postDiv);
+    // //Adds event handlers to dropdownMenu
+    // dropdownMenu = postDiv.querySelector('.dropdownMenu');
+    // dropdownMenu.addEventListener('change', function() {
+    //     postDiv.querySelector('.postTag').innerText = this.options[this.selectedIndex].value;
+    // });
 }
 
 
@@ -422,7 +432,7 @@ function addTagsToDocument(tags) {
 	initButtonHandler();
 
     // Update the tags in the posts
-    updatePostTags();
+    updatePostTags(postDiv);
 }
 
 /**
