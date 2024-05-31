@@ -4,7 +4,7 @@
   "type": "commonjs",
   "scripts": {
     "start": "node server.mjs --port 3000",
-    "test": "jest"
+    "test": "jest --verbose"
   },
   "dependencies": {
     "esm": "^3.2.25",
