@@ -198,6 +198,7 @@ function createPost() {
     const postDiv = document.createElement('div');
     postDiv.className = 'post';
     postDiv.id = 'placeholder';
+    postDiv.tags = [];
     postDiv.innerHTML = `
         <h2 class="header" contenteditable="false">New Post</h2>
         <p class="content" contenteditable="false">Your text here</p>
@@ -296,7 +297,9 @@ function modifyPostTag(postDiv) {
     const dropdownMenu = postDiv.querySelector('.dropdownMenu');
     // Overwrite that option of the dropdown menu into the postTag
     dropdownMenu.addEventListener('change', function() {
-        postDiv.querySelector('.postTag').innerText = this.options[this.selectedIndex].value;
+        // postDiv.querySelector('.postTag').innerText = this.options[this.selectedIndex].value;
+        postDiv.tags.push(this.options[this.selectedIndex].value);
+        postDiv.querySelector('.postTag').innerText = "Tags: " + postDiv.tags.join(", ");
     });
 }
 
@@ -315,11 +318,12 @@ function createPostFilled(sqlid, header, content, time, msid) {
     const postDiv = document.createElement('div');
     postDiv.className = 'post';
     postDiv.id = msid;
+    postDiv.tags = [];
     postDiv.innerHTML = `
         <h2 class="header" contenteditable="false">New Post</h2>
         <p class="content" contenteditable="false">Your text here</p>
         <span class="time">Just now</span>
-        <p class="postTag">Tags</p>
+        <p class="postTag">Tags:</p>
         <input type="hidden" class="sqlid" value="placeholder">
         <select style="display: none;" class="dropdownMenu">Select a tag...</select>
         <div class="flex">
