@@ -10,12 +10,38 @@ class TagElement extends HTMLElement {
         // Apply styles
         style.textContent = `
             li {
-                padding: 0 20px;
+                
+                padding: 15px;
+                padding-top: 25px;
+                text-align: center;
+                color: white;
+                background-color: darkgreen;
+                
+                padding-bottom: 20px;
+                font-size: 32px;    
+                border-radius: 15px;
+                color: #fff;
+                outline: none;
+                /*T R B L*/
+                position: relative;
+                text-align: center;
+                text-transform: none;
+                width: auto;
+                 margin: 0 25px;
+
+                /* tags in between
+                inbetween more tags
+                */
             }
             li:hover {
-                background-color: #fff;
+                background-color: darkgreen;
+                color: black;
+                text-decoration: underline;
             }
         `;
+        /*
+        TAGS LIST!
+        */
 
         this.shadowRoot.append(style, tag);
     }

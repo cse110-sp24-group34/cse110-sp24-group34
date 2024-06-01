@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+    </style>        
     <meta charset="UTF-8">
     <!-- name = "viewport" is to control layout on mobile so we can scale, "content="width=device-width" scales to device screen--> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,16 +20,25 @@
     <header>
         <!-- Navigation menu -->
         <nav>
-            <ul id="tag-list">
-                <li><a href="#AllPosts">All Posts</a></li>
+            <ul id="AllPosts">
+                <li>
+                    <a href="#AllPosts">All Posts</a>
+                    <button id="create-post">Create Post</button>
+                </li>
                 <!-- Add Tag Button -->
-                <li><button id="add-tag">Add Tag</button></li>
+                <!--
+                     <li><button id="add-tag">Add Tag</button></li>
                 <li><button id="clear-tags">Clear Tags</button></li>
+             -->
             </ul>
         </nav>
-        <!-- Button to trigger post creation -->
-        <button id="create-post">Create a Post</button>
+        <ul id="tag-list">
+        <button id="add-tag">Add Tag</button>
+        <button id="clear-tags">Clear Tags</button>
+        <button id="create-post">Create Post</button>
+    </ul>
     </header>
+    
     <main>
         <!-- Placeholder for dynamically added posts -->
     </main>
