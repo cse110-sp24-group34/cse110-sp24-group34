@@ -204,7 +204,7 @@ function createPost() {
         <p class="content" contenteditable="false">Your text here</p>
         <span class="time">Just now</span>
         <p class="postTag">Tag</p>
-        <select style="display: none;" class="dropdownMenu">Select a tag...</select>
+        <select style="display: none;" class="dropdownMenu">Tag Toggler</select>
         <input type="hidden" class="sqlid" value="placeholder">
         <div class="flex">
             <button class="leftButton" value="0">
@@ -281,7 +281,7 @@ function updatePostTags(postDiv) {
 
         // Add a default option
         const defaultOption = document.createElement('option');
-        defaultOption.text = 'Select a tag...';
+        defaultOption.text = 'Tag Toggler';
         defaultOption.selected = true;
         select.prepend(defaultOption); 
     });
@@ -290,6 +290,8 @@ function updatePostTags(postDiv) {
 /**
  * When a user selects an option in the dropdown menu, the postTag section of 
  * post will be updated
+ * Note: this.options[this.selectedIndex].value feels like a hacky way to get
+ * the value of the select dropdown menu.
  * @param {*} postDiv The post where we want to update the tag
  */
 function modifyPostTag(postDiv) {
@@ -297,9 +299,18 @@ function modifyPostTag(postDiv) {
     const dropdownMenu = postDiv.querySelector('.dropdownMenu');
     // Overwrite that option of the dropdown menu into the postTag
     dropdownMenu.addEventListener('change', function() {
-        // postDiv.querySelector('.postTag').innerText = this.options[this.selectedIndex].value;
-        postDiv.tags.push(this.options[this.selectedIndex].value);
-        postDiv.querySelector('.postTag').innerText = "Tags: " + postDiv.tags.join(", ");
+        // If the value from dropdown menu is not in the tags array, add it
+        if (!postDiv.tags.includes(this.options[this.selectedIndex].value)) {
+            postDiv.tags.push(this.options[this.selectedIndex].value);
+            postDiv.querySelector('.postTag').innerText = "Tags: " + postDiv.tags.join(", ");
+        }
+        // If the value is in tag array, remove it
+        else {
+            postDiv.tags = postDiv.tags.filter(tag => tag !== this.options[this.selectedIndex].value);
+            postDiv.querySelector('.postTag').innerText = "Tags: " + postDiv.tags.join(", ");
+        }
+        // Change the dropdown menu back to default
+        this.selectedIndex = 0;
     });
 }
 
@@ -325,7 +336,7 @@ function createPostFilled(sqlid, header, content, time, msid) {
         <span class="time">Just now</span>
         <p class="postTag">Tags:</p>
         <input type="hidden" class="sqlid" value="placeholder">
-        <select style="display: none;" class="dropdownMenu">Select a tag...</select>
+        <select style="display: none;" class="dropdownMenu">Tag Toggler</select>
         <div class="flex">
             <button class="leftButton" value="0">
                 <img class="buttonIcon" src="icons/edit.png" alt="edit" border="0" />
