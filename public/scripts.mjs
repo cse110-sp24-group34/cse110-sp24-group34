@@ -250,7 +250,7 @@ function createPost() {
         .then((json) => {
             postDiv.querySelector(".sqlid").setAttribute("value", json.sqlid);
         })
-    updatePostTags(postDiv); // Add the localstorage tags into the dropdown menu
+    updatePostTags(); // Add the localstorage tags into the dropdown menu
     modifyPostTag(postDiv); // Add event listener to the dropdown menu
 }
 
@@ -258,7 +258,7 @@ function createPost() {
  * Updates the corresponding tag of the post
  * @param {*} postDiv The post where we want to update the tag
  */
-function updatePostTags(postDiv) {
+function updatePostTags() {
     // console.log("in updatePostTags")
     // Get the tags from local storage
     let tags = getTagsFromStorage();
@@ -359,7 +359,7 @@ function createPostFilled(sqlid, header, content, time, msid) {
     const rightbutton = postDiv.querySelector('.rightButton');
     rightbutton.addEventListener('click', rightButtonClicked);
 
-    updatePostTags(postDiv); // Fill tags dropdown menu
+    updatePostTags(); // Fill tags dropdown menu
     modifyPostTag(postDiv); // Add event listener to the dropdown menu
 }
 
@@ -439,7 +439,7 @@ function addTagsToDocument(tags) {
 	initButtonHandler();
 
     // Update the tags in the posts
-    updatePostTags(postDiv);
+    updatePostTags();
 }
 
 /**
