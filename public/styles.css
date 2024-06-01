@@ -20,8 +20,6 @@ please try to avoid using both red and green unless you HAVE to.
 
 #clear-tags {
   border: none;
-  appearance: button;
-  background-color: FFADAD;
   border-radius: 15px;
   border-width: 0;
   box-sizing: border-box;
@@ -73,7 +71,7 @@ a[href="#AllPosts"]:hover {
  
 #add-tag {
     border: none;
-    appearance: button;
+ 
     background-color: darkolivegreen;
     cursor: pointer;
     font-family: 'Poppins',"Gill Sans", sans-serif;
@@ -133,7 +131,7 @@ nav ul li a {
 
 #tag-dropdown {
     border: none;
-    appearance: button;
+
     background-color: darkolivegreen;
     font-family: 'Poppins',"Gill Sans", sans-serif;
     font-size: 190%;    
