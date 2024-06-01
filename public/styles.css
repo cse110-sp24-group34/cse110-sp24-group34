@@ -1,3 +1,9 @@
+/* 
+NOTES:
+Jeffery (me) is really badly colorblind.
+please try to avoid using both red and green unless you HAVE to.
+*/
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -11,11 +17,6 @@
     gap: 0px; /* Consistent spacing between buttons */
 }
 
-/* 
-NOTES::
-Jeffery (me) is really badly colorblind.
-please try to avoid using both red and green unless you HAVE to.
-*/
 
 #clear-tags {
   border: none;
@@ -44,16 +45,15 @@ please try to avoid using both red and green unless you HAVE to.
 
 a[href="#AllPosts"] {
      /* the all post button lol*/
-     border-radius: 10px;
+    border-radius: 10px;
      border-width: 0;
     border: none;
     color: black;
     text-decoration: none;  
     /*
     This is like a bookmark or post-it.
-    It hangs out the edge like a book.
+    It hangs out the edge like a book. Also stylistic ^_^
     all posts
-
     */ 
     border-radius: 5px; 
     font-family: 'Poppins',"Gill Sans", sans-serif;
@@ -64,19 +64,14 @@ a[href="#AllPosts"] {
     padding: 15px;
     padding-top: 100px;
     padding-bottom: 25px;
-
   }
-  a[href="#AllPosts"]:hover {
+
+a[href="#AllPosts"]:hover {
     text-decoration: underline;
-   color: black; 
+    color: black; 
  }
-/*
-new <tag-element> element
-*/
-  
-
+ 
 #add-tag {
-
     border: none;
     appearance: button;
     background-color: darkolivegreen;
@@ -94,14 +89,12 @@ new <tag-element> element
     outline: none;
     padding: 15px;
     /*T R B L*/
-    
     /* You need this so the buttons dont keep swapping sizes as tags are being created */
   }
   
   #add-tag:hover {
     text-decoration: underline;
     color: black; 
-      /* darker blue */
   }
 
 
@@ -114,8 +107,11 @@ header {
     display: flex;
     justify-content: space-between;
     padding: 20px 20px 20px 20px;
-    /* background */
     background-color: darkolivegreen;
+    height: 140px; /* Set a fixed height bc otherwise it flies off */
+    /*
+    DO NOT PUT OVERFLOW! IT WILL CUT OFF THE DROPDOWN LIST OTEHRWISE!!!
+    */
 }
 
 nav ul {
@@ -126,7 +122,6 @@ nav ul {
 }
 
 nav ul li {
-    
     padding: 0 20px;
     justify-content: space-between;
 }
@@ -137,9 +132,6 @@ nav ul li a {
 }
 
 #tag-dropdown {
-    /*
-    more tags DOPRDOWN
-    */
     border: none;
     appearance: button;
     background-color: darkolivegreen;
@@ -151,8 +143,6 @@ nav ul li a {
     color: #fff;
     outline: none;
     margin: 0 25px;
-    
-    /*T R B L*/
     position: relative;
     text-align: center;
     text-transform: none;
@@ -172,8 +162,6 @@ nav ul li a {
     list-style: none;
     border-radius: 10px;
     text-align: center;
-    
-    
 } 
 
 tag-element {
@@ -184,19 +172,17 @@ tag-element {
     font-family: 'Poppins',"Gill Sans", sans-serif;
     font-size: 70%;    
     text-align: center;
-    
     filter: drop-shadow(7px 7px black);
-    
     border-radius: 5px;
     margin: 0 5px;
     max-width: inherit;
     line-height: 1;
     margin-top: 15px;
-    
 }
 
 #create-post {
     padding: 15px;
+    padding-top: 30px;
     border: 1px;
     cursor: pointer;
     background-color: darkolivegreen;
@@ -280,11 +266,10 @@ main {
     height:2em;
     border-radius: 10px;
     background-color: lightgoldenrodyellow;
-    /* create button */
     /*
+    create button 
     border-radius adds a border to the button, halfway
-
-    no idea how the fuck, but it looks sick so we're keeping it
+    no idea how, but it looks sick so we're keeping it
     */
 }
 .rightButton{

@@ -125,10 +125,7 @@ function leftButtonClicked(event){
         event.currentTarget.querySelector('img').setAttribute('src', "icons/accept.png");
         event.currentTarget.parentNode.querySelector('.rightButton').setAttribute('value', 1);
         event.currentTarget.parentNode.querySelector('.rightButton').querySelector('img').setAttribute('src', "icons/reject.png");
-        
         event.currentTarget.parentNode.querySelector('.leftButton').style.backgroundColor = 'green';
-        // changes color back
-
         //Changes post styling and allows editing
         post.style.background = SELECTED_POST_COLOR;
         header.setAttribute('contenteditable', 'true');
@@ -151,7 +148,7 @@ function leftButtonClicked(event){
         event.currentTarget.parentNode.querySelector('.rightButton').querySelector('img').setAttribute('src', "icons/delete.png");
         
         event.currentTarget.parentNode.querySelector('.leftButton').style.backgroundColor = 'lightgoldenrodyellow';
-        //changes colour back
+        //changes colour
 
         //Reverts post styling to normal and disables editing
         post.style.background = DEFAULT_POST_COLOR;
