@@ -410,3 +410,6 @@ function initButtonHandler() {
         initButtonHandler();
 	});
 }
+
+
+module.exports = { createPost, createPostFilled, rightButtonClicked, leftButtonClicked };
