@@ -101,12 +101,12 @@ async function dbCreatePost(title, date, entry, msid, tags) {
         return console.error("duplicate");
     }
 
-    sql = `INSERT INTO entries(title, date, entry, msid, tags) VALUES (?,?,?,?)`;
+    sql = `INSERT INTO entries(title, date, entry, msid, tags) VALUES (?,?,?,?,?)`;
     db.run(sql, [title, date, entry, msid, tags], (err) => {
         if (err) return console.error("error");
     });
 
-    return (await getPostId(title, date, entry, msid, tags, tags));
+    return (await getPostId(title, date, entry, msid, tags));
 }
 
 
@@ -168,10 +168,11 @@ function deletePost(id) {
  * @param {*} date 
  * @param {*} entry 
  * @param {*} msid 
+ * @param {*} tags
  * @param {*} id 
  */
 function updatePost(title, date, entry, msid, tags, id) {
-    sql = "UPDATE entries SET title = ?, date = ?, entry = ?, msid = ? WHERE id = ?";
+    sql = "UPDATE entries SET title = ?, date = ?, entry = ?, msid = ?, tags = ? WHERE id = ?";
     db.run(sql,[title, date, entry, msid, tags, id], (err) => {
         if (err) return 1;
         else return 0;
@@ -185,10 +186,11 @@ function updatePost(title, date, entry, msid, tags, id) {
  * @param {*} date 
  * @param {*} entry 
  * @param {*} msid 
+ * @param {*} tags
  * @returns id
  */
 function getPostId(title, date, entry, msid, tags) {
-    let sql = "SELECT id FROM entries WHERE title = ? AND date = ? AND entry = ? AND msid = ?";
+    let sql = "SELECT id FROM entries WHERE title = ? AND date = ? AND entry = ? AND msid = ? AND tags = ?";
     return new Promise((resolve, reject) => {
         db.get(sql, [title, date, entry, msid, tags], (err, row) => {
             if (err) {

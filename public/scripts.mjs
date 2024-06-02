@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
     .then((json) => {
         console.log(json);
         for(let i = 0; i < json.length; i++){
-            createPostFilled(json[i].id, json[i].title, json[i].entry, json[i].date, json[i].msid);
+            createPostFilled(json[i].id, json[i].title, json[i].entry, json[i].date, json[i].msid, json[i].tags);
         }
     });
 
@@ -116,6 +116,7 @@ function leftButtonClicked(event){
     let time = post.querySelector('.time');
     let sqlid = post.querySelector('.sqlid');
     let dropdownMenu = post.querySelector('.dropdownMenu');
+    let tags = post.tags;
 
     //Edit button pressed, enters edit mode
     if(value == 0){
@@ -135,7 +136,7 @@ function leftButtonClicked(event){
         dropdownMenu.style.display = "block"; // show the dropdown menu
 
         //Adds original value of content and header to temp, so it can be accessed later if user does not save
-        temp.set(event.currentTarget.parentNode.parentNode.id.toString(), [header.innerText, content.innerText, time.innerText, sqlid.getAttribute("value")]);
+        temp.set(event.currentTarget.parentNode.parentNode.id.toString(), [header.innerText, content.innerText, time.innerText, tags, sqlid.getAttribute("value")]);
 
     }
     //Accept button pressed while in edit mode
@@ -158,6 +159,13 @@ function leftButtonClicked(event){
         //Garbage cleaning
         temp.delete(event.currentTarget.parentNode.parentNode.id.toString());
 
+        console.log("Header:", header.innerText);
+        console.log("Time:", time.innerText);
+        console.log("Content:", content.innerText);
+        console.log("Post ID:", post.id);
+        console.log("Tags:", post.tags);
+        console.log("SQL ID:", value);
+
         //Updates post in sql database with post request to server
         let sqlidval = sqlid.getAttribute("value");
         Promise.resolve(sqlidval).then((value) => {
@@ -168,6 +176,7 @@ function leftButtonClicked(event){
                     time: time.innerText,
                     content: content.innerText,
                     msid: post.id,
+                    tags: post.tags,
                     sqlid: value
                 }),
                 headers: {
@@ -241,6 +250,7 @@ function createPost() {
             time: time.innerText,
             content: content.innerText,
             msid: postDiv.id,
+            tags: postDiv.tags,
         }),
         headers: {
           "Content-type": "application/json"
@@ -324,12 +334,13 @@ function modifyPostTag(postDiv) {
  * 
  * Creates a post with all parameters pre-filled. Useful for populating posts from database on page load.
  */
-function createPostFilled(sqlid, header, content, time, msid) {
+function createPostFilled(sqlid, header, content, time, msid, tags) {
     
     const postDiv = document.createElement('div');
     postDiv.className = 'post';
     postDiv.id = msid;
-    postDiv.tags = [];
+    // if tags == null, tags is empty array
+    postDiv.tags = tags ? JSON.parse(tags) : []; // Tags to array, null = []
     postDiv.innerHTML = `
         <h2 class="header" contenteditable="false">New Post</h2>
         <p class="content" contenteditable="false">Your text here</p>
@@ -350,6 +361,7 @@ function createPostFilled(sqlid, header, content, time, msid) {
     postDiv.querySelector(".header").innerText = header;
     postDiv.querySelector(".content").innerText = content;
     postDiv.querySelector(".sqlid").setAttribute("value", sqlid);
+    postDiv.querySelector('.postTag').innerText = "Tags: " + postDiv.tags.join(", ");
 
     main.appendChild(postDiv);
 
