@@ -9,17 +9,15 @@ const PORT = process.env.PORT || 3000;
 //DATABASE SETUP ---------------------------
  import sqlite3 from 'sqlite3';
 let sql;
-
-//connect to DB
-let db = new sqlite3.Database(__dirname + '/public/test.db', sqlite3.OPEN_READWRITE, (err) => {
+//connect to DB, if it doesn't exist, create it
+let db = new sqlite3.Database(__dirname + '/public/test.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
     if (err) return console.error(err.message);
     console.log('Connected to the devjournal database.');
 });
 
-//possible additions include: tags
-//create table BLANK
-db.serialize(() =>{
-    sql = "CREATE TABLE IF NOT EXISTS entries(id INTEGER PRIMARY KEY, title, date, entry, msid, tags)"
+//create table if it doesn't exist
+db.serialize(() => {
+    sql = "CREATE TABLE IF NOT EXISTS entries(id INTEGER PRIMARY KEY, title, date, entry, msid, tags)";
     db.run(sql);
 });
 
