@@ -116,7 +116,7 @@ function leftButtonClicked(event){
     let time = post.querySelector('.time');
     let sqlid = post.querySelector('.sqlid');
     let dropdownMenu = post.querySelector('.dropdownMenu');
-    let tags = post.tags;
+    let tags = post.querySelector('.postTag');
 
     //Edit button pressed, enters edit mode
     if(value == 0){
@@ -136,7 +136,7 @@ function leftButtonClicked(event){
         dropdownMenu.style.display = "block"; // show the dropdown menu
 
         //Adds original value of content and header to temp, so it can be accessed later if user does not save
-        temp.set(event.currentTarget.parentNode.parentNode.id.toString(), [header.innerText, content.innerText, time.innerText, tags, sqlid.getAttribute("value")]);
+        temp.set(event.currentTarget.parentNode.parentNode.id.toString(), [header.innerText, content.innerText, time.innerText, tags.innerText, sqlid.getAttribute("value")]);
 
     }
     //Accept button pressed while in edit mode
@@ -163,7 +163,7 @@ function leftButtonClicked(event){
         console.log("Time:", time.innerText);
         console.log("Content:", content.innerText);
         console.log("Post ID:", post.id);
-        console.log("Tags:", post.tags);
+        console.log("Tags:", tags.innerText);
         console.log("SQL ID:", value);
 
         //Updates post in sql database with post request to server
@@ -176,7 +176,7 @@ function leftButtonClicked(event){
                     time: time.innerText,
                     content: content.innerText,
                     msid: post.id,
-                    tags: post.tags,
+                    tags: tags.innerText,
                     sqlid: value
                 }),
                 headers: {
@@ -207,12 +207,11 @@ function createPost() {
     const postDiv = document.createElement('div');
     postDiv.className = 'post';
     postDiv.id = 'placeholder';
-    postDiv.tags = '[]';
     postDiv.innerHTML = `
         <h2 class="header" contenteditable="false">New Post</h2>
         <p class="content" contenteditable="false">Your text here</p>
         <span class="time">Just now</span>
-        <p class="postTag">Tag</p>
+        <p class="postTag">wompus</p>
         <select style="display: none;" class="dropdownMenu">Tag Toggler</select>
         <input type="hidden" class="sqlid" value="placeholder">
         <div class="flex">
@@ -243,6 +242,7 @@ function createPost() {
     let header = postDiv.querySelector('.header');
     let content = postDiv.querySelector('.content');
     let time = postDiv.querySelector('.time');
+    let tags = postDiv.querySelector('.postTag');
     fetch("/create", {
         method: "POST",
         body: JSON.stringify({
@@ -250,7 +250,7 @@ function createPost() {
             time: time.innerText,
             content: content.innerText,
             msid: postDiv.id,
-            tags: postDiv.tags,
+            tags: tags.innerText,
         }),
         headers: {
           "Content-type": "application/json"
@@ -312,17 +312,19 @@ function modifyPostTag(postDiv) {
         // If the value from dropdown menu is not in the tags array, add it
         console.log(this.options[this.selectedIndex].value);
         let selection = this.options[this.selectedIndex].value;
-        console.log(postDiv.tags);
-        console.log(JSON.parse(postDiv.tags));
-        if (!JSON.parse(postDiv.tags).includes(this.options[this.selectedIndex].value)) {
-            postDiv.tags = JSON.stringify(JSON.parse(postDiv.tags).push(this.options[this.selectedIndex].value));
-            console.log(selection);
-        }
-        // If the value is in tag array, remove it
-        else {
-            postDiv.tags = JSON.stringify(JSON.parse(postDiv.tags).filter(tag => tag !== this.options[this.selectedIndex].value));
-        }
-        postDiv.querySelector('.postTag').innerText = postDiv.tags;
+        let tempper = postDiv.querySelector('.postTag').innerText;
+        // console.log(postDiv.tags);
+        // console.log(JSON.parse(postDiv.tags));
+        postDiv.querySelector('.postTag').innerText = selection;
+        // if (!JSON.parse(postDiv.tags).includes(this.options[this.selectedIndex].value)) {
+        //     postDiv.tags = JSON.stringify(JSON.parse(postDiv.tags).push(this.options[this.selectedIndex].value));
+        //     console.log(selection);
+        // }
+        // // If the value is in tag array, remove it
+        // else {
+        //     postDiv.tags = JSON.stringify(JSON.parse(postDiv.tags).filter(tag => tag !== this.options[this.selectedIndex].value));
+        // }
+        // postDiv.querySelector('.postTag').innerText = postDiv.tags;
         // Change the dropdown menu back to default
         this.selectedIndex = 0;
     });
@@ -343,12 +345,11 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
     const postDiv = document.createElement('div');
     postDiv.className = 'post';
     postDiv.id = msid;
-    postDiv.tags = tags;
     postDiv.innerHTML = `
         <h2 class="header" contenteditable="false">New Post</h2>
         <p class="content" contenteditable="false">Your text here</p>
         <span class="time">Just now</span>
-        <p class="postTag">Tags:</p>
+        <p class="postTag">dingus</p>
         <input type="hidden" class="sqlid" value="placeholder">
         <select style="display: none;" class="dropdownMenu">Tag Toggler</select>
         <div class="flex">

@@ -57,7 +57,7 @@ app.post('/update', (req,res) =>{
     const sqlid = req.body.sqlid;
     const tags = req.body.tags;
     //console.log(req.body);
-    updatePost(header, time, content, msid, sqlid, tags);
+    updatePost(header, time, content, msid, tags, sqlid); // Make sure this is right order
     res.json({"complete":"yes"});
 })
 
