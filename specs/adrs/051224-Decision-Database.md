@@ -34,7 +34,7 @@ We can use MongoDB in ways such that we allow user to input anything into the po
 ## SQLite
 **SQLite:** relational database (databases structured in tables of data, multiple tables linked together, each table has primary and foreign key)
 
-Ex/. Primary key is PID for example in UCSD database [unique to them], in relational db every column well defined, we know the kind of data that's going to be in there (In this scenario we know all our PIDs start with A and it's a certian length).
+Ex/. Primary key is PID for example in UCSD database [unique to them], in relational db every column well defined, we know the kind of data that's going to be in there (In this scenario we know all our PIDs start with A and it's a certain length).
 
 We can use SQLite in ways such that we set a limit of characters allowed (500 characters per post) and it's strictly like that, so nothing else like images. We would assign those in columns.
 
