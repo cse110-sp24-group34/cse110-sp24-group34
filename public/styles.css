@@ -39,9 +39,6 @@ nav ul li a {
     cursor: pointer;
 }
 
-#create-post:hover {
-}
-
 main {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
