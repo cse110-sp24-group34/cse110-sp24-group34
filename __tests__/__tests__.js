@@ -31,9 +31,8 @@ describe('Basic dev use', () => {
 
       //cycle thru all posts and clicks each delete button
       for (i=0; i < postCt; i++) {
-        setTimeout(function() {console.log("Waiting")},1000);
-        let postDel = await page.$eval(".rightButton", (btnDel) => {
-          btnDel.click();
+        let postDel = await page.$eval(".rightButton", async (btnDel) => {
+          await btnDel.click();
           return btnDel.innerHTML;
         });
         console.log(`Delete ${i}`);
