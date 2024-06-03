@@ -207,7 +207,7 @@ function createPost() {
     const postDiv = document.createElement('div');
     postDiv.className = 'post';
     postDiv.id = 'placeholder';
-    postDiv.tags = [];
+    postDiv.tags = '[]';
     postDiv.innerHTML = `
         <h2 class="header" contenteditable="false">New Post</h2>
         <p class="content" contenteditable="false">Your text here</p>
@@ -271,7 +271,7 @@ function createPost() {
 function updatePostTags() {
     // console.log("in updatePostTags")
     // Get the tags from local storage
-    let tags = getTagsFromStorage();
+    let tagsLocal = getTagsFromStorage();
     const selects = document.querySelectorAll('.dropdownMenu');
 
     // For each select element
@@ -282,7 +282,7 @@ function updatePostTags() {
         }
 
         // Add an option for each tag
-        for (const tag of tags) {
+        for (const tag of tagsLocal) {
             const option = document.createElement('option');
             option.value = tag;
             option.text = tag;
@@ -310,15 +310,19 @@ function modifyPostTag(postDiv) {
     // Overwrite that option of the dropdown menu into the postTag
     dropdownMenu.addEventListener('change', function() {
         // If the value from dropdown menu is not in the tags array, add it
-        if (!postDiv.tags.includes(this.options[this.selectedIndex].value)) {
-            postDiv.tags.push(this.options[this.selectedIndex].value);
-            postDiv.querySelector('.postTag').innerText = "Tags: " + postDiv.tags.join(", ");
+        console.log(this.options[this.selectedIndex].value);
+        let selection = this.options[this.selectedIndex].value;
+        console.log(postDiv.tags);
+        console.log(JSON.parse(postDiv.tags));
+        if (!JSON.parse(postDiv.tags).includes(this.options[this.selectedIndex].value)) {
+            postDiv.tags = JSON.stringify(JSON.parse(postDiv.tags).push(this.options[this.selectedIndex].value));
+            console.log(selection);
         }
         // If the value is in tag array, remove it
         else {
-            postDiv.tags = postDiv.tags.filter(tag => tag !== this.options[this.selectedIndex].value);
-            postDiv.querySelector('.postTag').innerText = "Tags: " + postDiv.tags.join(", ");
+            postDiv.tags = JSON.stringify(JSON.parse(postDiv.tags).filter(tag => tag !== this.options[this.selectedIndex].value));
         }
+        postDiv.querySelector('.postTag').innerText = postDiv.tags;
         // Change the dropdown menu back to default
         this.selectedIndex = 0;
     });
@@ -339,8 +343,7 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
     const postDiv = document.createElement('div');
     postDiv.className = 'post';
     postDiv.id = msid;
-    // if tags == null, tags is empty array
-    postDiv.tags = tags ? JSON.parse(tags) : []; // Tags to array, null = []
+    postDiv.tags = tags;
     postDiv.innerHTML = `
         <h2 class="header" contenteditable="false">New Post</h2>
         <p class="content" contenteditable="false">Your text here</p>
@@ -361,7 +364,7 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
     postDiv.querySelector(".header").innerText = header;
     postDiv.querySelector(".content").innerText = content;
     postDiv.querySelector(".sqlid").setAttribute("value", sqlid);
-    postDiv.querySelector('.postTag').innerText = "Tags: " + postDiv.tags.join(", ");
+    postDiv.querySelector('.postTag').innerText = tags;
 
     main.appendChild(postDiv);
 
