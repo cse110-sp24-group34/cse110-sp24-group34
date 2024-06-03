@@ -25,7 +25,7 @@ describe('Basic dev use', () => {
     });
 
     it('Delete All Posts', async () => {
-      setTimeout(1000);
+      setTimeout(function() {console.log("Waiting")},1000);
       let postCt = await page.$$eval(".post", (posts) => {
         return posts.length;
       });
