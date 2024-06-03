@@ -207,6 +207,7 @@ function createPost() {
     const postDiv = document.createElement('div');
     postDiv.className = 'post';
     postDiv.id = 'placeholder';
+    // Note: .postTag is a stringified array, needs to initialize as '[]'
     postDiv.innerHTML = `
         <h2 class="header" contenteditable="false">New Post</h2>
         <p class="content" contenteditable="false">Your text here</p>
@@ -265,8 +266,7 @@ function createPost() {
 }
 
 /**
- * Updates the corresponding tag of the post
- * @param {*} postDiv The post where we want to update the tag
+ * Updates the dropdown menu in each post with the tags from local storage
  */
 function updatePostTags() {
     // console.log("in updatePostTags")
