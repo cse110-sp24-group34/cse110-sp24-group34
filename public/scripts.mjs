@@ -211,7 +211,7 @@ function createPost() {
         <h2 class="header" contenteditable="false">New Post</h2>
         <p class="content" contenteditable="false">Your text here</p>
         <span class="time">Just now</span>
-        <p class="postTag">wompus</p>
+        <p class="postTag">[]</p>
         <select style="display: none;" class="dropdownMenu">Tag Toggler</select>
         <input type="hidden" class="sqlid" value="placeholder">
         <div class="flex">
@@ -309,24 +309,20 @@ function modifyPostTag(postDiv) {
     const dropdownMenu = postDiv.querySelector('.dropdownMenu');
     // Overwrite that option of the dropdown menu into the postTag
     dropdownMenu.addEventListener('change', function() {
+        // get the value of the selected option
+        let selection = this.options[this.selectedIndex].value; 
+        // get the current tags
+        let tagsList = JSON.parse(postDiv.querySelector('.postTag').innerText); 
         // If the value from dropdown menu is not in the tags array, add it
-        console.log(this.options[this.selectedIndex].value);
-        let selection = this.options[this.selectedIndex].value;
-        let tempper = postDiv.querySelector('.postTag').innerText;
-        // console.log(postDiv.tags);
-        // console.log(JSON.parse(postDiv.tags));
-        postDiv.querySelector('.postTag').innerText = selection;
-        // if (!JSON.parse(postDiv.tags).includes(this.options[this.selectedIndex].value)) {
-        //     postDiv.tags = JSON.stringify(JSON.parse(postDiv.tags).push(this.options[this.selectedIndex].value));
-        //     console.log(selection);
-        // }
-        // // If the value is in tag array, remove it
-        // else {
-        //     postDiv.tags = JSON.stringify(JSON.parse(postDiv.tags).filter(tag => tag !== this.options[this.selectedIndex].value));
-        // }
-        // postDiv.querySelector('.postTag').innerText = postDiv.tags;
-        // Change the dropdown menu back to default
-        this.selectedIndex = 0;
+        if (!tagsList.includes(selection)) {
+            tagsList.push(selection);
+        }
+        else {
+            tagsList = tagsList.filter(tag => tag !== selection);
+        }
+        // update the postTag section
+        postDiv.querySelector('.postTag').innerText = JSON.stringify(tagsList);
+        this.selectedIndex = 0; // reset dropdown menu
     });
 }
 
@@ -349,7 +345,7 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
         <h2 class="header" contenteditable="false">New Post</h2>
         <p class="content" contenteditable="false">Your text here</p>
         <span class="time">Just now</span>
-        <p class="postTag">dingus</p>
+        <p class="postTag">[]</p>
         <input type="hidden" class="sqlid" value="placeholder">
         <select style="display: none;" class="dropdownMenu">Tag Toggler</select>
         <div class="flex">
