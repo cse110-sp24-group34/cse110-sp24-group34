@@ -266,67 +266,6 @@ function createPost() {
 }
 
 /**
- * Updates the dropdown menu in each post with the tags from local storage
- */
-function updatePostTags() {
-    // console.log("in updatePostTags")
-    // Get the tags from local storage
-    let tagsLocal = getTagsFromStorage();
-    const selects = document.querySelectorAll('.dropdownMenu');
-
-    // For each select element
-    selects.forEach(select => {
-        // Clear all existing options
-        while (select.firstChild) {
-            select.removeChild(select.firstChild);
-        }
-
-        // Add an option for each tag
-        for (const tag of tagsLocal) {
-            const option = document.createElement('option');
-            option.value = tag;
-            option.text = tag;
-            select.appendChild(option);
-        }
-
-        // Add a default option
-        const defaultOption = document.createElement('option');
-        defaultOption.text = 'Tag Toggler';
-        defaultOption.selected = true;
-        select.prepend(defaultOption); 
-    });
-}
-
-/**
- * When a user selects an option in the dropdown menu, the postTag section of 
- * post will be updated
- * Note: this.options[this.selectedIndex].value feels like a hacky way to get
- * the value of the select dropdown menu.
- * @param {*} postDiv The post where we want to update the tag
- */
-function modifyPostTag(postDiv) {
-    // Add event listener to the dropdown menu
-    const dropdownMenu = postDiv.querySelector('.dropdownMenu');
-    // Overwrite that option of the dropdown menu into the postTag
-    dropdownMenu.addEventListener('change', function() {
-        // get the value of the selected option
-        let selection = this.options[this.selectedIndex].value; 
-        // get the current tags
-        let tagsList = JSON.parse(postDiv.querySelector('.postTag').innerText); 
-        // If the value from dropdown menu is not in the tags array, add it
-        if (!tagsList.includes(selection)) {
-            tagsList.push(selection);
-        }
-        else {
-            tagsList = tagsList.filter(tag => tag !== selection);
-        }
-        // update the postTag section
-        postDiv.querySelector('.postTag').innerText = JSON.stringify(tagsList);
-        this.selectedIndex = 0; // reset dropdown menu
-    });
-}
-
-/**
  * 
  * @param {*} sqlid sql id
  * @param {*} header header
@@ -503,3 +442,70 @@ function initButtonHandler() {
         initButtonHandler();
 	});
 }
+
+/**
+ * Updates the dropdown menu in each post with the tags from local storage
+ */
+function updatePostTags() {
+    // console.log("in updatePostTags")
+    // Get the tags from local storage
+    let tagsLocal = getTagsFromStorage();
+    const selects = document.querySelectorAll('.dropdownMenu');
+
+    // For each select element
+    selects.forEach(select => {
+        // Clear all existing options
+        while (select.firstChild) {
+            select.removeChild(select.firstChild);
+        }
+
+        // Add an option for each tag
+        for (const tag of tagsLocal) {
+            const option = document.createElement('option');
+            option.value = tag;
+            option.text = tag;
+            select.appendChild(option);
+        }
+
+        // Add a default option
+        const defaultOption = document.createElement('option');
+        defaultOption.text = 'Tag Toggler';
+        defaultOption.selected = true;
+        select.prepend(defaultOption); 
+    });
+}
+
+/**
+ * When a user selects an option in the dropdown menu, the postTag section of 
+ * post will be updated
+ * Note: this.options[this.selectedIndex].value feels like a hacky way to get
+ * the value of the select dropdown menu.
+ * @param {*} postDiv The post where we want to update the tag
+ */
+function modifyPostTag(postDiv) {
+    // Add event listener to the dropdown menu
+    const dropdownMenu = postDiv.querySelector('.dropdownMenu');
+    // Overwrite that option of the dropdown menu into the postTag
+    dropdownMenu.addEventListener('change', function() {
+        // get the value of the selected option
+        let selection = this.options[this.selectedIndex].value; 
+        // get the current tags
+        let tagsList = JSON.parse(postDiv.querySelector('.postTag').innerText); 
+        // If the value from dropdown menu is not in the tags array, add it
+        if (!tagsList.includes(selection)) {
+            tagsList.push(selection);
+        }
+        else {
+            tagsList = tagsList.filter(tag => tag !== selection);
+        }
+        // update the postTag section
+        postDiv.querySelector('.postTag').innerText = JSON.stringify(tagsList);
+        this.selectedIndex = 0; // reset dropdown menu
+    });
+}
+
+/**
+ * Load the tags from database and use them to update the dropdown menu
+ * 
+ */
+// function getTagsFromData

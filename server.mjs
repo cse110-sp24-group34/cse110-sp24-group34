@@ -19,6 +19,20 @@ let db = new sqlite3.Database(__dirname + '/public/test.db', sqlite3.OPEN_READWR
 db.serialize(() => {
     sql = "CREATE TABLE IF NOT EXISTS entries(id INTEGER PRIMARY KEY, title, date, entry, msid, tags)";
     db.run(sql);
+
+    // Check if the table is empty
+    sql = "SELECT COUNT(*) as count FROM entries";
+    db.get(sql, [], (err, row) => {
+        if (err) return console.error(err.message);
+        if (row.count === 0) {
+            // Insert a row with msid of 1 and tags of []
+            sql = `INSERT INTO entries(title, date, entry, msid, tags) VALUES (?, ?, ?, ?, ?)`;
+            db.run(sql, ['', '', '', 1, '[]'], (err) => {
+                if (err) return console.error(err.message);
+                console.log('Initialized table with a row.');
+            });
+        }
+    });
 });
 
 //------------------------------------------
@@ -133,7 +147,7 @@ function getData(id) {
  * @returns all entries in the database, as an array of JSON objects.
  */
 function getRows() {
-    let sql = "SELECT * FROM entries";
+    let sql = "SELECT * FROM entries WHERE msid != 1";
     //console.log("entered getRows");
     return new Promise((resolve,reject) => {
         db.all(sql, [], (err, rows) => {
