@@ -12,7 +12,7 @@ describe('Unit Tests', () => {
         console.log(`current # of post is ${postCt}`);
 
         await page.evaluate(() => {
-            // Call the createPost function in the browser context
+
             createPost();
         });
 
