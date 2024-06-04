@@ -54,6 +54,13 @@ app.post("/all", async(req, res) => {
     res.json(rows);
 });
 
+//POST request to get tags special row
+app.post("/tags", async(req, res) => {
+    let rows = await getTags();
+    console.log('got tags', rows)
+    res.json(rows);
+});
+
 //POST request to delete element
 app.post('/delete', (req,res) =>{
     const id = req.body.id;
@@ -160,6 +167,23 @@ function getRows() {
     });
 }
 
+/**
+ * Gets tags from special row msid = 1.
+ * @returns the tags row
+ */
+function getTags() {
+    let sql = "SELECT * FROM entries WHERE msid == 1";
+    //console.log("entered getRows");
+    return new Promise((resolve,reject) => {
+        db.all(sql, [], (err, rows) => {
+            if (err) { 
+                console.error(err.message);
+                reject(err);
+            }
+            resolve(rows)
+        });
+    });
+}
 
 /**
  * Deletes entry with provided id.

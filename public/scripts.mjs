@@ -10,7 +10,7 @@ const SELECTED_TEXTBOX_COLOR = "#f5f5f5"
 /**
  * Function to determine what to do on page load. Attaches event listener to the "create post" button, and restores user's posts from the SQL database.
  */
-document.addEventListener('DOMContentLoaded', function() {    
+document.addEventListener('DOMContentLoaded', async function() {    
     const createButton = document.getElementById('create-post');
 
     //Event listener for the create post button
@@ -36,7 +36,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Get the tags from localStorage
-	let tags = getTagsFromStorage();
+	// let tags = getTagsFromStorage();
+    let tags = await getTagsFromDatabase();
 	// Add each recipe to the <main> element
 	addTagsToDocument(tags);
 
@@ -329,6 +330,40 @@ function getTagsFromStorage() {
 }
 
 /**
+ * Reads 'tags' from the row in the database with msid = 1 only 
+ * and returns an array of all tags found
+ * If nothing is found in database for 'tags', an empty array is returned.
+ * @returns {Array<Object>} An array of tags found in database
+ */
+function getTagsFromDatabase() {
+    console.log('getTagsFromDatabase')
+    let based = [];
+    return fetch("/tags", {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify({
+            "start":"true"
+        })
+    })
+    .then((response) => response.json())
+    .then((json) => {
+        console.log('Tags from database: ', json);
+        // find the row with msid = 1
+        for(let i = 0; i < json.length; i++){
+            if (json[i].msid == 1) {
+                console.log(json[i].tags, 'bonese');
+                console.log(JSON.parse(json[i].tags), 'womp')
+                return JSON.parse(json[i].tags);
+            }
+        }
+        return []; // return an empty array if no matching msid is found
+    });
+}
+
+
+/**
  * Takes in an array of tags and for each tag creates a
  * new <tag-element> element, adds the recipe data to that card
  * using element.data = {...}, and then appends that new recipe
@@ -412,23 +447,30 @@ function initButtonHandler() {
 
 	// Add an event listener for the 'click' event, which fires when the
 	// add tag button is clicked
-    addTagButton.addEventListener("click", (event) => {
+    addTagButton.addEventListener("click", async (event) => {
         const tagData = prompt('Enter tag name:');
         const tagEl = document.createElement('tag-element');
         tagEl.data = tagData;
-        let tags = getTagsFromStorage();
+        // addTagsToDatabase(tagData);
+        let tags = await getTagsFromDatabase();
+        // let tags = getTagsFromStorage();
         tags.push(tagData);
-        localStorage.setItem('tags', JSON.stringify(tags));
+        // console.log(tags, tagData);
+        // localStorage.setItem('tags', JSON.stringify(tags));
         addTagsToDocument(tags);
+        addTagsToDatabase(tagData);
+        // Update the tags in the posts
+        updatePostTags();
     })
 
 	// Get a reference to the "Clear Local Storage" button
 	const clearTagsButton = document.getElementById('clear-tags');
 
 	// Add a click event listener to clear local storage button
-	clearTagsButton.addEventListener("click", (event) => {
+	clearTagsButton.addEventListener("click", async (event) => {
 		// Clear the local storage
-		localStorage.setItem('tags', []);
+		// localStorage.setItem('tags', []);
+        resetTagsToDatabase();
 		
 		// Delete the contents of navigation bar except for "All Posts" and buttons
 		const navRef = document.getElementById('tag-list');
@@ -440,16 +482,20 @@ function initButtonHandler() {
         `;
         // Initialize buttons again
         initButtonHandler();
+        // Update the tags in the posts
+        updatePostTags();
 	});
 }
 
 /**
  * Updates the dropdown menu in each post with the tags from local storage
  */
-function updatePostTags() {
+async function updatePostTags() {
     // console.log("in updatePostTags")
     // Get the tags from local storage
-    let tagsLocal = getTagsFromStorage();
+    let tagsLocal = await getTagsFromDatabase();
+    // let tagsLocal = getTagsFromStorage();
+    
     const selects = document.querySelectorAll('.dropdownMenu');
 
     // For each select element
@@ -505,7 +551,76 @@ function modifyPostTag(postDiv) {
 }
 
 /**
- * Load the tags from database and use them to update the dropdown menu
+ * Add tags to database row with msid = 1
+ * @param {*} tag string tag to add
+ */
+async function addTagsToDatabase(tag) {
+    //Updates post in sql database with post request to server
+    let sqlidval = 1;
+    // make tempTags equal getTagsFromDatabase() and append tags at the end
+    let tempTags = await getTagsFromDatabase();
+    tempTags.push(tag);
+    tempTags = JSON.stringify(tempTags);
+    let value = 1;
+    Promise.resolve(sqlidval).then((value) => {
+        fetch("/update", {
+            method: "POST",
+            body: JSON.stringify({
+                header: null,
+                time: null,
+                content: null,
+                msid: 1,
+                tags: tempTags,
+                sqlid: 1
+            }),
+            headers: {
+                "Content-type": "application/json"
+            }
+        })
+        .then((response) => response.json())
+        .then((json) => {
+            //do nothing
+        });
+    });       
+}
+
+/**
+ * Reset all tags from the database row with msid = 1
+ * @param {*} tag string tag to remove
+ */
+function resetTagsToDatabase() {
+    //Updates post in sql database with post request to server
+    let sqlidval = 1;
+    Promise.resolve(sqlidval).then((value) => {
+        fetch("/update", {
+            method: "POST",
+            body: JSON.stringify({
+                header: null,
+                time: null,
+                content: null,
+                msid: 1,
+                tags: '[]',
+                sqlid: 1
+            }),
+            headers: {
+                "Content-type": "application/json"
+            }
+        })
+        .then((response) => response.json())
+        .then((json) => {
+            //do nothing
+        });
+    });       
+}
+// await addTagsToDatabase('chilly');
+/**
+ * Remove a tag from the database row with msid = 1'
  * 
  */
-// function getTagsFromData
+
+
+/**
+ * Clear the tags from the databse row with msid = 1
+ * 
+ */
+
