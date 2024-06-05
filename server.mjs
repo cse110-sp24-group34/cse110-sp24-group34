@@ -57,7 +57,7 @@ app.post("/all", async(req, res) => {
 //POST request to get tags special row
 app.post("/tags", async(req, res) => {
     let rows = await getTags();
-    console.log('got tags', rows)
+    // console.log('got tags', rows)
     res.json(rows);
 });
 

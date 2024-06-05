@@ -336,29 +336,24 @@ function getTagsFromStorage() {
  * @returns {Array<Object>} An array of tags found in database
  */
 function getTagsFromDatabase() {
-    console.log('getTagsFromDatabase')
-    let based = [];
+    // Get the tags from the database using /tags
+    console.log("in database")
     return fetch("/tags", {
         method: "POST",
         headers: {
             "Content-type": "application/json"
-        },
+          },
         body: JSON.stringify({
             "start":"true"
         })
     })
     .then((response) => response.json())
     .then((json) => {
-        console.log('Tags from database: ', json);
-        // find the row with msid = 1
-        for(let i = 0; i < json.length; i++){
-            if (json[i].msid == 1) {
-                console.log(json[i].tags, 'bonese');
-                console.log(JSON.parse(json[i].tags), 'womp')
-                return JSON.parse(json[i].tags);
-            }
-        }
-        return []; // return an empty array if no matching msid is found
+        console.log(json, "json");
+        console.log(json[0], "json1");
+        console.log(json[0].tags, "json2");
+        console.log(JSON.parse(json[0].tags), "json3");
+        return JSON.parse(json[0].tags);
     });
 }
 
