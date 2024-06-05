@@ -25,6 +25,11 @@ describe('Basic dev use', () => {
     });
 
     it('Delete All Posts', async () => {
+      async function waits() {
+        await timer(1000);
+      }
+
+      
       let postCt = await page.$$eval(".post", (posts) => {
         return posts.length;
       });
@@ -33,6 +38,7 @@ describe('Basic dev use', () => {
       for (i=0; i < postCt; i++) {
         let postDel = await page.$eval(".rightButton", async (btnDel) => {
           await btnDel.click();
+          await waits();
           return btnDel.innerHTML;
         });
         console.log(`Delete ${i}`);
