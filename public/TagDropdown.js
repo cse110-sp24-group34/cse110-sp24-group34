@@ -29,32 +29,88 @@ class TagDropdown extends HTMLElement {
             .dropdown-container {
                 position: relative;
                 display: inline-block;
+                border: none;
+                appearance: button;
+                cursor: pointer;
+                border-width: 0;
+                box-sizing: border-box;
+                position: relative;
+                text-align: center;
+                width: auto;
+                color: white;
+                outline: none;
+                font-family: 'Poppins',"Gill Sans", sans-serif;
+                border-radius: 15px;
+                background-color: darkolivegreen;
+                padding: 15px;
             }
             .dropdown-button {
-                background-color: #fff;
-                border: 1px solid #ccc;
+                background-color: darkolivegreen;
                 padding: 10px;
+                padding-left: 15px;
                 cursor: pointer;
+                border-radius: 15px;
+                /*
+                The radius isn't that big
+                because you should be able to tell
+                which one is the dropdown button
+                at a glance
+                */
+                border: none;
+                background-color: darkgreen;
+                filter: drop-shadow(7px 7px black);
+                color: white;
+                font-family: 'Poppins',"Gill Sans", sans-serif;
+                font-size: 200%;
+                /*70 for tags, 200 for buttons*/
+                position: relative;
+                text-align: center;
+                text-transform: none;
+                width: auto;
+                height: auto;
+                padding-top: 15px;
+                text-align: center;
+                
+
+                  
+                border-radius: 5px;
+              
+
+                /*  More Tags  */
             }
+            .dropdown-button:hover {
+                color: black;
+                text-decoration: underline;
+
+            }
+
             .dropdown-list {
+                    width: auto !important;
+                    white-space: nowrap;
+                
                 position: absolute;
                 top: 100%;
                 left: 0;
-                background-color: #fff;
+                border-radius: 10px;
+                background-color: green;
+                color: white;
                 border: 1px solid #ccc;
                 padding: 0;
                 margin: 0;
                 list-style: none;
                 max-height: 200px;
                 overflow-y: auto;
+                overflow-x: auto;
                 z-index: 1;
+                font-size: 125%;
             }
             .dropdown-list li {
                 padding: 10px;
                 cursor: pointer;
+                font-family:sans-serif;
             }
             .dropdown-list li:hover {
-                background-color: #f0f0f0;
+                background-color: darkgreen;
             }
         `;
         this.shadowRoot.append(style);
