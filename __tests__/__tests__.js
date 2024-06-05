@@ -48,6 +48,8 @@ describe('Basic dev use', () => {
 
     it('Reload and ensure empty, add 1 and then ensure there', async () => {
       await page.reload();
+      const delay = ms => new Promise(res => setTimeout(res, ms));
+      await delay(500);
 
       let postCt = await page.$$eval(".post", (posts) => {
         return posts.length;
