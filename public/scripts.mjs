@@ -442,20 +442,23 @@ function initButtonHandler() {
 
 	// Add an event listener for the 'click' event, which fires when the
 	// add tag button is clicked
-    addTagButton.addEventListener("click", async (event) => {
+    addTagButton.addEventListener("click", (event) => {
         const tagData = prompt('Enter tag name:');
         const tagEl = document.createElement('tag-element');
         tagEl.data = tagData;
         // addTagsToDatabase(tagData);
-        let tags = await getTagsFromDatabase();
-        // let tags = getTagsFromStorage();
-        tags.push(tagData);
-        // console.log(tags, tagData);
-        // localStorage.setItem('tags', JSON.stringify(tags));
-        addTagsToDocument(tags);
-        addTagsToDatabase(tagData);
-        // Update the tags in the posts
-        updatePostTags();
+        getTagsFromDatabase().then(tags => {
+            // let tags = await getTagsFromDatabase();
+            console.log(tags, "initbuttonhandler")
+            // let tags = getTagsFromStorage();
+            tags.push(tagData);
+            // console.log(tags, tagData);
+            // localStorage.setItem('tags', JSON.stringify(tags));
+            addTagsToDocument(tags);
+            addTagsToDatabase(tagData);
+            // Update the tags in the posts
+            updatePostTags();
+        });
     })
 
 	// Get a reference to the "Clear Local Storage" button
@@ -485,34 +488,38 @@ function initButtonHandler() {
 /**
  * Updates the dropdown menu in each post with the tags from local storage
  */
-async function updatePostTags() {
+function updatePostTags() {
     // console.log("in updatePostTags")
     // Get the tags from local storage
-    let tagsLocal = await getTagsFromDatabase();
-    // let tagsLocal = getTagsFromStorage();
-    
-    const selects = document.querySelectorAll('.dropdownMenu');
 
-    // For each select element
-    selects.forEach(select => {
-        // Clear all existing options
-        while (select.firstChild) {
-            select.removeChild(select.firstChild);
-        }
+    getTagsFromDatabase().then(tagsLocal => {
+        // let tagsLocal = await getTagsFromDatabase();
+        console.log(tagsLocal, "tagsLocal")
+        // let tagsLocal = getTagsFromStorage();
+        
+        const selects = document.querySelectorAll('.dropdownMenu');
+        
+        // For each select element
+        selects.forEach(select => {
+            // Clear all existing options
+            while (select.firstChild) {
+                select.removeChild(select.firstChild);
+            }
 
-        // Add an option for each tag
-        for (const tag of tagsLocal) {
-            const option = document.createElement('option');
-            option.value = tag;
-            option.text = tag;
-            select.appendChild(option);
-        }
+            // Add an option for each tag
+            for (const tag of tagsLocal) {
+                const option = document.createElement('option');
+                option.value = tag;
+                option.text = tag;
+                select.appendChild(option);
+            }
 
-        // Add a default option
-        const defaultOption = document.createElement('option');
-        defaultOption.text = 'Tag Toggler';
-        defaultOption.selected = true;
-        select.prepend(defaultOption); 
+            // Add a default option
+            const defaultOption = document.createElement('option');
+            defaultOption.text = 'Tag Toggler';
+            defaultOption.selected = true;
+            select.prepend(defaultOption); 
+        });
     });
 }
 
@@ -549,32 +556,34 @@ function modifyPostTag(postDiv) {
  * Add tags to database row with msid = 1
  * @param {*} tag string tag to add
  */
-async function addTagsToDatabase(tag) {
+function addTagsToDatabase(tag) {
     //Updates post in sql database with post request to server
     let sqlidval = 1;
-    // make tempTags equal getTagsFromDatabase() and append tags at the end
-    let tempTags = await getTagsFromDatabase();
-    tempTags.push(tag);
-    tempTags = JSON.stringify(tempTags);
-    let value = 1;
-    Promise.resolve(sqlidval).then((value) => {
-        fetch("/update", {
-            method: "POST",
-            body: JSON.stringify({
-                header: null,
-                time: null,
-                content: null,
-                msid: 1,
-                tags: tempTags,
-                sqlid: 1
-            }),
-            headers: {
-                "Content-type": "application/json"
-            }
-        })
-        .then((response) => response.json())
-        .then((json) => {
-            //do nothing
+    // make tempTags equal getTagsFromDatabase() and append tags at the 
+    getTagsFromDatabase().then(tempTags => {
+        // let tempTags = await getTagsFromDatabase();
+        tempTags.push(tag);
+        tempTags = JSON.stringify(tempTags);
+        let value = 1;
+        Promise.resolve(sqlidval).then((value) => {
+            fetch("/update", {
+                method: "POST",
+                body: JSON.stringify({
+                    header: null,
+                    time: null,
+                    content: null,
+                    msid: 1,
+                    tags: tempTags,
+                    sqlid: 1
+                }),
+                headers: {
+                    "Content-type": "application/json"
+                }
+            })
+            .then((response) => response.json())
+            .then((json) => {
+                //do nothing
+            });
         });
     });       
 }
