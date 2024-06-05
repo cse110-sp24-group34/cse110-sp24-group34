@@ -25,10 +25,7 @@ describe('Basic dev use', () => {
     });
 
     it('Delete All Posts', async () => {
-      async function waits() {
-        await timer(1000);
-      }
-
+      const delay = ms => new Promise(res => setTimeout(res, ms));
       
       let postCt = await page.$$eval(".post", (posts) => {
         return posts.length;
@@ -38,7 +35,7 @@ describe('Basic dev use', () => {
       for (i=0; i < postCt; i++) {
         let postDel = await page.$eval(".rightButton", async (btnDel) => {
           await btnDel.click();
-          await waits();
+          await delay(500);
           return btnDel.innerHTML;
         });
         console.log(`Delete ${i}`);
