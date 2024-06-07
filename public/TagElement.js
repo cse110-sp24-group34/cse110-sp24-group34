@@ -11,10 +11,12 @@ class TagElement extends HTMLElement {
         style.textContent = `
             li {
                 padding: 0 20px;
+                background-color: transparent;
             }
             li:hover {
                 background-color: #fff;
             }
+            
         `;
 
         this.shadowRoot.append(style, tag);
@@ -23,10 +25,28 @@ class TagElement extends HTMLElement {
     set data(tagName) {
         let li = this.shadowRoot.querySelector('li');
         li.textContent = tagName;
+        const style = document.createElement('style');
 
         // Click event
         li.addEventListener('click', () => {
             window.location.hash = `#${tagName}`;
+            if(toggled.has(tagName)){
+                toggled.delete(tagName);
+            }
+            else{
+                toggled.add(tagName);
+                // style.textContent = `
+                //     li {
+                //         padding: 0 20px;
+                //         background-color: rgb(255,1,1);
+                //     }
+                //     li:hover {
+                //         background-color: #fff;
+                //     }
+                    
+                // `;
+            }
+            console.log(toggled);
         });
     }
 
