@@ -1,5 +1,6 @@
 const main = document.querySelector('main');
 let temp = new Map();
+let toggled = new Set();
 
 const DEFAULT_POST_COLOR = "white";
 const DEFAULT_TEXTBOX_COLOR = "white";
@@ -105,6 +106,43 @@ function rightButtonClicked(event){
     }
 }
 
+/** 
+ * Shows posts containing a specified tag
+ * @param {*} tag The tag to filter by
+ */
+function showPostsByTag(tagList) {
+
+    //Restores posts from SQL database using post request to server
+    fetch("/all", {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json"
+          },
+        body: JSON.stringify({
+            "start":"true"
+        })
+    })
+    .then((response) => response.json())
+    .then((json) => {
+        console.log(json);
+        for(let i = 0; i < json.length; i++){
+            let contains = true;
+            for(let j = 0; j < tagList.length; j++){
+                if (!JSON.parse(json[i].tags).includes(tagList[j])) {
+                    contains = false;
+                }
+            }
+            if(contains){
+                console.log("tag found");
+                createPostFilled(json[i].id, json[i].title, json[i].entry, json[i].date, json[i].msid, json[i].tags);
+            }
+        }
+    });
+
+    // let tags = await getTagsFromDatabase();
+	// addTagsToDocument(tags);
+    
+}
 /**
  * Logic for clicking the left button of the two buttons on the bottom right of each post. 
  * @param {*} event Event that triggered this function
@@ -398,6 +436,8 @@ function addTagsToDocument(tags) {
         // Populate tagEl with data
         tagEl.data = tag;
 
+        
+        //
         // Add to navigation bar
         if (index < 4) {
             // Append each element to navigation bar
