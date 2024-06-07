@@ -38,6 +38,7 @@ please try to avoid using both red and green unless you HAVE to.
   text-transform: none;
   width: auto;
   align-items: center; /* keeps it in the header!!!!*/
+
 }
 
 #clear-tags:hover {
@@ -77,7 +78,7 @@ a[href="#AllPosts"]:hover {
  
 #add-tag {
     border: none;
- 
+    align-content: center;
     background-color: darkolivegreen; 
    
     cursor: pointer;
@@ -134,11 +135,13 @@ nav ul {
 nav ul li {
     padding: 0 20px;
     justify-content: space-between;
+    align-content: center;
 }
 nav ul li a {
     text-decoration: none;
     color: black;
     font-family: "Gil Sans", sans-serif;
+    align-content: center;
 }
 
 #tag-dropdown {
@@ -156,7 +159,7 @@ nav ul li a {
     text-align: center;
     text-transform: none;
     width: auto;
-    
+    align-content: center;
 }
 
 
@@ -190,7 +193,7 @@ tag-element {
     max-width: inherit;
     line-height: 1;
     margin-top: 15px;
-
+  
 
 }
 

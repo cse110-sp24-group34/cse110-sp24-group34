@@ -7,12 +7,14 @@ const SELECTED_POST_COLOR = "#e8e8e8";
 const SELECTED_TEXTBOX_COLOR = "#f5f5f5";
 
 
+
+
 /**
  * Function to determine what to do on page load. Attaches event listener to the "create post" button, and restores user's posts from the SQL database.
  */
 document.addEventListener('DOMContentLoaded', async function() {    
     const createButton = document.getElementById('create-post');
-
+    
     //Event listener for the create post button
     createButton.addEventListener('click', createPost);
     console.log("hello");
@@ -40,6 +42,15 @@ document.addEventListener('DOMContentLoaded', async function() {
     let tags = await getTagsFromDatabase();
 	// Add each recipe to the <main> element
 	addTagsToDocument(tags);
+
+    /*
+    Checks if the window has been resized. If so, remake the tags!
+    */
+    window.addEventListener('resize', () => {
+        getTagsFromDatabase().then(tags => {
+            addTagsToDocument(tags);
+        });
+    });    
 
 });
 
@@ -198,6 +209,13 @@ function leftButtonClicked(event){
 }
 
 /**
+ * 
+ * param {*} event When a window is resized
+ * 
+ */
+
+
+/**
  * Creates a new post, on button click
  */
 function createPost() {
@@ -243,7 +261,7 @@ function createPost() {
     const rightbutton = postDiv.querySelector('.rightButton');
     rightbutton.addEventListener('click', rightButtonClicked);
 
-    
+  
 
     //Creates the post in sql database with post request
     let header = postDiv.querySelector('.header');
@@ -389,23 +407,7 @@ function addTagsToDocument(tags) {
 
    /*
    Switch statements do not work for some reason???
-   */
-
-    windowNum = 3;
-       
-    if (window.innerWidth <= 1509){
-        windowNum = 0;
-    }
-    if (window.innerWidth>= 1510 && window.innerWidth<= 1721){
-        windowNum = 1;
-    }
-    if (window.innerWidth > 1721 && window.innerWidth <= 2155){
-        windowNum = 2;
-    }
-    if (window.innerWidth > 2535 && window.innerWidth <= 2915){
-        windowNum = 3;
-    }
-       
+   */    
     windowNum = Math.ceil((window.innerWidth - 1500) / 420) + Math.floor((window.innerWidth/2400));
        
      
@@ -632,6 +634,8 @@ async function addTagsToDatabase(tag) {
     });
     let json = await response.json();
 }
+
+
 
 /**
  * Reset all tags from the database row with msid = 1

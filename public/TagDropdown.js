@@ -3,7 +3,7 @@ class TagDropdown extends HTMLElement {
         super();
 
         // Create elements
-        let shadowEl =this.attachShadow({ mode: 'open' });
+        let shadowEl = this.attachShadow({ mode: 'open' });
 
         // Dropdown container
         const container = document.createElement('div');
@@ -119,6 +119,7 @@ class TagDropdown extends HTMLElement {
         button.addEventListener('click', () => {
             list.style.display = list.style.display === 'none' ? 'block' : 'none';
         });
+        
 
         // Close the dropdown if clicked outside
         document.addEventListener('click', (event) => {
