@@ -3,8 +3,8 @@
   "main": "server.mjs",
   "type": "commonjs",
   "scripts": {
-    "start": "node -r esm database.js",
-    "test": "jest"
+    "start": "node server.mjs --port 3000",
+    "test": "jest --verbose"
   },
   "dependencies": {
     "esm": "^3.2.25",

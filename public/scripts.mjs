@@ -4,7 +4,7 @@ let temp = new Map();
 const DEFAULT_POST_COLOR = "white";
 const DEFAULT_TEXTBOX_COLOR = "white";
 const SELECTED_POST_COLOR = "#e8e8e8";
-const SELECTED_TEXTBOX_COLOR = "#f5f5f5"
+const SELECTED_TEXTBOX_COLOR = "#f5f5f5";
 
 
 /**
@@ -123,11 +123,12 @@ function leftButtonClicked(event){
     if(value == 0){
 
         //Changes icons to relect switch to edit mode
+        
         event.currentTarget.setAttribute('value', 1);
         event.currentTarget.querySelector('img').setAttribute('src', "icons/accept.png");
         event.currentTarget.parentNode.querySelector('.rightButton').setAttribute('value', 1);
         event.currentTarget.parentNode.querySelector('.rightButton').querySelector('img').setAttribute('src', "icons/reject.png");
-
+        event.currentTarget.parentNode.querySelector('.leftButton').style.backgroundColor = 'green';
         //Changes post styling and allows editing
         post.style.background = SELECTED_POST_COLOR;
         header.setAttribute('contenteditable', 'true');
@@ -144,10 +145,14 @@ function leftButtonClicked(event){
     else if(value == 1){
 
         //Changes icons to reflect switch out of edit mode
+
         event.currentTarget.setAttribute('value', 0);
         event.currentTarget.querySelector('img').setAttribute('src', "icons/edit.png");
         event.currentTarget.parentNode.querySelector('.rightButton').setAttribute('value', 0);
         event.currentTarget.parentNode.querySelector('.rightButton').querySelector('img').setAttribute('src', "icons/delete.png");
+        
+        event.currentTarget.parentNode.querySelector('.leftButton').style.backgroundColor = 'lightgoldenrodyellow';
+        //changes colour
 
         //Reverts post styling to normal and disables editing
         post.style.background = DEFAULT_POST_COLOR;
@@ -289,9 +294,10 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
         <input type="hidden" class="sqlid" value="placeholder">
         <select style="display: none;" class="dropdownMenu">Tag Toggler</select>
         <div class="flex">
-            <button class="leftButton" value="0">
-                <img class="buttonIcon" src="icons/edit.png" alt="edit" border="0" />
-            </button>
+            
+        <button class="leftButton" value="0">
+            <img class="buttonIcon" src="icons/edit.png" alt="edit" border="0" />
+        </button>
             <button class="rightButton" value="0">
                 <img class="buttonIcon" src="icons/delete.png" alt="edit" border="0" />
             </button>
@@ -369,11 +375,11 @@ function addTagsToDocument(tags) {
     // Reference to the navigation bar
     const navRef = document.getElementById('tag-list');
     navRef.innerHTML = `
-                <li><a href="#AllPosts">All Posts</a></li>
+             
                 <!-- Add Tag Button -->
                 <button id="add-tag">Add Tag</button>
                 <button id="clear-tags">Clear Tags</button>
-        `;
+                `;
 
     // Tag Dropdown
     let tagDropdown;
@@ -472,13 +478,15 @@ function initButtonHandler() {
 		
 		// Delete the contents of navigation bar except for "All Posts" and buttons
 		const navRef = document.getElementById('tag-list');
-		navRef.innerHTML = `
-                <li><a href="#AllPosts">All Posts</a></li>
+		navRef.innerHTML = 
+        `
+        
                 <!-- Add Tag Button -->
                 <button id="add-tag">Add Tag</button>
                 <button id="clear-tags">Clear Tags</button>
-        `;
-        // Initialize buttons again
+                
+                `;
+                // Initialize buttons again
         initButtonHandler();
         // Update the tags in the posts
         updatePostTags();
