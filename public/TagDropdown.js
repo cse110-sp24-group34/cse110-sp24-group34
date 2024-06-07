@@ -81,6 +81,7 @@ class TagDropdown extends HTMLElement {
             .dropdown-button:hover {
                 color: black;
                 text-decoration: underline;
+                scale: 1.15;
 
             }
 

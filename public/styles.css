@@ -79,7 +79,7 @@ a[href="#AllPosts"]:hover {
 #add-tag {
     border: none;
     align-content: center;
-    background-color: darkolivegreen; 
+    background-color: transparent; 
    
     cursor: pointer;
     font-family: 'Poppins',"Gill Sans", sans-serif;
