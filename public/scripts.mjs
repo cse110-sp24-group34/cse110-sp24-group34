@@ -447,7 +447,7 @@ function initButtonHandler() {
         const tagEl = document.createElement('tag-element');
         tagEl.data = tagData;
         // addTagsToDatabase(tagData);
-        getTagsFromDatabase().then(tags => {
+        getTagsFromDatabase().then(async tags => {
             // let tags = await getTagsFromDatabase();
             console.log(tags, "initbuttonhandler")
             // let tags = getTagsFromStorage();
@@ -455,7 +455,7 @@ function initButtonHandler() {
             // console.log(tags, tagData);
             // localStorage.setItem('tags', JSON.stringify(tags));
             addTagsToDocument(tags);
-            addTagsToDatabase(tagData);
+            await addTagsToDatabase(tagData);
             // Update the tags in the posts
             updatePostTags();
         });
@@ -468,7 +468,7 @@ function initButtonHandler() {
 	clearTagsButton.addEventListener("click", async (event) => {
 		// Clear the local storage
 		// localStorage.setItem('tags', []);
-        resetTagsToDatabase();
+        await resetTagsToDatabase();
 		
 		// Delete the contents of navigation bar except for "All Posts" and buttons
 		const navRef = document.getElementById('tag-list');
@@ -556,65 +556,51 @@ function modifyPostTag(postDiv) {
  * Add tags to database row with msid = 1
  * @param {*} tag string tag to add
  */
-function addTagsToDatabase(tag) {
+async function addTagsToDatabase(tag) {
     //Updates post in sql database with post request to server
     let sqlidval = 1;
     // make tempTags equal getTagsFromDatabase() and append tags at the 
-    getTagsFromDatabase().then(tempTags => {
-        // let tempTags = await getTagsFromDatabase();
-        tempTags.push(tag);
-        tempTags = JSON.stringify(tempTags);
-        let value = 1;
-        Promise.resolve(sqlidval).then((value) => {
-            fetch("/update", {
-                method: "POST",
-                body: JSON.stringify({
-                    header: null,
-                    time: null,
-                    content: null,
-                    msid: 1,
-                    tags: tempTags,
-                    sqlid: 1
-                }),
-                headers: {
-                    "Content-type": "application/json"
-                }
-            })
-            .then((response) => response.json())
-            .then((json) => {
-                //do nothing
-            });
-        });
-    });       
+    let tempTags = await getTagsFromDatabase();
+    tempTags.push(tag);
+    tempTags = JSON.stringify(tempTags);
+    let value = await Promise.resolve(sqlidval);
+    let response = await fetch("/update", {
+        method: "POST",
+        body: JSON.stringify({
+            header: null,
+            time: null,
+            content: null,
+            msid: 1,
+            tags: tempTags,
+            sqlid: 1
+        }),
+        headers: {
+            "Content-type": "application/json"
+        }
+    });
+    let json = await response.json();
 }
 
 /**
  * Reset all tags from the database row with msid = 1
  * @param {*} tag string tag to remove
  */
-function resetTagsToDatabase() {
+async function resetTagsToDatabase() {
     //Updates post in sql database with post request to server
-    let sqlidval = 1;
-    Promise.resolve(sqlidval).then((value) => {
-        fetch("/update", {
-            method: "POST",
-            body: JSON.stringify({
-                header: null,
-                time: null,
-                content: null,
-                msid: 1,
-                tags: '[]',
-                sqlid: 1
-            }),
-            headers: {
-                "Content-type": "application/json"
-            }
-        })
-        .then((response) => response.json())
-        .then((json) => {
-            //do nothing
-        });
-    });       
+    await fetch("/update", {
+        method: "POST",
+        body: JSON.stringify({
+            header: null,
+            time: null,
+            content: null,
+            msid: 1,
+            tags: '[]',
+            sqlid: 1
+        }),
+        headers: {
+            "Content-type": "application/json"
+        }
+    });
 }
 // await addTagsToDatabase('chilly');
 /**
