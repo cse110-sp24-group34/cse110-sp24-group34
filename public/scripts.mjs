@@ -294,7 +294,6 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
         <input type="hidden" class="sqlid" value="placeholder">
         <select style="display: none;" class="dropdownMenu">Tag Toggler</select>
         <div class="flex">
-            
         <button class="leftButton" value="0">
             <img class="buttonIcon" src="icons/edit.png" alt="edit" border="0" />
         </button>
@@ -383,12 +382,39 @@ function addTagsToDocument(tags) {
 
     // Tag Dropdown
     let tagDropdown;
-    if (tags.length > 4) {
-        /*tagDropdown = document.createElement('select');
-        tagDropdown.id = 'tag-dropdown';
-        tagDropdown.innerHTML = '<option>More Tags</option>';*/
-        tagDropdown = document.createElement('tag-dropdown');
+    /*tagDropdown = document.createElement('select');
+    tagDropdown.id = 'tag-dropdown';
+    tagDropdown.innerHTML = '<option>More Tags</option>';*/
+    tagDropdown = document.createElement('tag-dropdown');
+
+   /*
+   Switch statements do not work for some reason???
+   */
+
+    windowNum = 3;
+       
+    if (window.innerWidth <= 1509){
+        windowNum = 0;
     }
+    if (window.innerWidth>= 1510 && window.innerWidth<= 1721){
+        windowNum = 1;
+    }
+    if (window.innerWidth > 1721 && window.innerWidth <= 2155){
+        windowNum = 2;
+    }
+    if (window.innerWidth > 2535 && window.innerWidth <= 2915){
+        windowNum = 3;
+    }
+       
+    windowNum = Math.ceil((window.innerWidth - 1500) / 420) + Math.floor((window.innerWidth/2400));
+       
+     
+    
+   
+    /*
+     let tagDropdown;
+    let windowWidth = window.screen.width; // 726px
+    */
 
     // Loop through each of the tags in the passed in array,
     // create a <tag-element> element for each one, and populate
@@ -405,14 +431,16 @@ function addTagsToDocument(tags) {
         tagEl.data = tag;
 
         // Add to navigation bar
-        if (index < 4) {
+        // if (index < 4) {
+        if (index < windowNum) {
             // Append each element to navigation bar
         navRef.append(tagEl);
             navRef.insertBefore(tagEl, addTagButton);
         }
         else {
             // Add dropdown at index 4
-            if (index == 4) {
+            // if (index == 4) {
+            if (index == windowNum) {
                 navRef.insertBefore(tagDropdown,addTagButton);
             }
             /*const extraTag = document.createElement('option');
@@ -438,6 +466,12 @@ function saveTagsToStorage(tags) {
     localStorage.setItem('tags', JSON.stringify(tags));
 }
 
+
+
+
+
+
+
 /**
  * Adds the necessary event handlers to <button> and the clear storage
  * <button>.
@@ -445,11 +479,21 @@ function saveTagsToStorage(tags) {
 function initButtonHandler() {
 	// Get a reference to the add tag button
     const addTagButton = document.getElementById('add-tag');
-
 	// Add an event listener for the 'click' event, which fires when the
 	// add tag button is clicked
     addTagButton.addEventListener("click", (event) => {
-        const tagData = prompt('Enter tag name:');
+        const tagData = prompt('Enter a tag name (8 character limit):');
+        if (tagData === '') {
+        alert('Please enter a valid tag name!');
+        // no blank charcters
+        return;
+        }
+        if (tagData.length > 8) {
+            tagData = tagData.substring(0, 8);
+        }
+        /* This doesn't actually cut it down, but it just limits it */
+
+        /* too unwieldy tag limits */
         const tagEl = document.createElement('tag-element');
         tagEl.data = tagData;
         // addTagsToDatabase(tagData);

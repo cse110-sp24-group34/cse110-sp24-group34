@@ -37,6 +37,10 @@ class TagElement extends HTMLElement {
                 background-color: darkgreen;
                 color: black;
                 text-decoration: underline;
+                scale: 1.15;
+            }
+            li:active {
+            scale:1.20;
             }
         `;
         /*
