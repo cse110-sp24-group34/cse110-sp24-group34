@@ -86,9 +86,8 @@ class TagDropdown extends HTMLElement {
             }
 
             .dropdown-list {
-                    width: auto !important;
-                    white-space: nowrap;
-                
+                width: auto !important;
+                white-space: nowrap;
                 position: absolute;
                 top: 100%;
                 left: 0;

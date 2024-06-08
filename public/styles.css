@@ -290,8 +290,8 @@ main {
 
 
 .leftButton{
-    width:2em;
-    height:2em;
+    width:4em;
+    height:4em;
     border-radius: 10px;
     background-color: lightgoldenrodyellow;
     /*
@@ -301,8 +301,8 @@ main {
     */
 }
 .rightButton{
-    width: 2em;
-    height:2em;
+    width: 4em;
+    height: 4em;
     border-radius: 10px;
     background-color: red;
     /* trash button */
@@ -341,16 +341,32 @@ main {
     text-align: left;
 }
 
-.post{
+
+.header{
     text-align: right;
-    /*
+     /*
     New Post bold
     */
+}
+.post{
+   
+    text-align: left;
+    font-size: 150%;
+    font-family: 'Poppins',"Gill Sans", sans-serif;
+   
 }
 div{
     /*
     Your Text Here
     */
+    
+    font-weight: bold;
+}
+
+/* 
+<select style="display: none;" class="dropdownMenu"> */
+
+.postTag{
     text-align: right;
     font-weight: bold;
 }

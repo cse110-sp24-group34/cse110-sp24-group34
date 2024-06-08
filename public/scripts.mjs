@@ -237,7 +237,8 @@ function createPost() {
         <p class="content" contenteditable="false">Your text here</p>
         <span class="time">Just now</span>
         <p class="postTag">[]</p>
-        <select style="display: none;" class="dropdownMenu">Tag Toggler</select>
+        
+        
         <input type="hidden" class="sqlid" value="placeholder">
         <div class="flex">
             <button class="leftButton" value="0">
@@ -310,7 +311,39 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
         <span class="time">Just now</span>
         <p class="postTag">[]</p>
         <input type="hidden" class="sqlid" value="placeholder">
-        <select style="display: none;" class="dropdownMenu">Tag Toggler</select>
+        /*s*/
+        <select style =
+        "
+                overflow: clip;
+                font-size: 150%;
+                background-color: darkolivegreen;
+                padding:  15px;
+                padding-right: 15px;
+                cursor: pointer;
+                border-radius: 15px;
+                /*
+                The radius isn't that big
+                because you should be able to tell
+                which one is the dropdown button
+                at a glance
+                */
+                border: none;
+                background-color: darkgreen;
+                color: white;
+                font-family: 'Poppins',"Gill Sans", sans-serif;
+                font-size: 200%;
+                /*70 for tags, 200 for buttons*/
+                position: relative;
+                text-align: center;
+                text-transform: none;
+                width: auto;
+                height: auto;
+                padding-top: 15px;
+                text-align: center;    
+                border-radius: 5px;
+        "
+
+        class="dropdownMenu">Tag Toggler</select>
         <div class="flex">
         <button class="leftButton" value="0">
             <img class="buttonIcon" src="icons/edit.png" alt="edit" border="0" />

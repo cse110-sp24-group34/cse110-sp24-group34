@@ -10,13 +10,11 @@ class TagElement extends HTMLElement {
         // Apply styles
         style.textContent = `
             li {
-                
                 padding: 15px;
                 padding-top: 25px;
                 text-align: center;
                 color: white;
                 background-color: darkgreen;
-                
                 padding-bottom: 20px;
                 font-size: 32px;    
                 border-radius: 15px;
