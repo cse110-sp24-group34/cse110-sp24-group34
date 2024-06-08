@@ -34,7 +34,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     .then((json) => {
         console.log(json);
         for(let i = 0; i < json.length; i++){
-            createPostFilled(json[i].id, json[i].title, json[i].entry, json[i].date, json[i].msid, json[i].tags);
+            createPostFilled(json[i].id, json[i].title, json[i].entry, json[i].date, json[i].msid, 
+                json[i].tags);
         }
     });
 
@@ -103,7 +104,7 @@ function rightButtonClicked(event){
         content.setAttribute('contenteditable', 'false');
 
         //Post styling back to normal
-        header.style.background = DEFAULT_TEXTBOX_COLOR;
+        header.style.background = DEFAULT_POST_COLOR;
         content.style.background = DEFAULT_TEXTBOX_COLOR;
 
         //Restores previous value of header and content, stored in temp
@@ -192,6 +193,7 @@ function leftButtonClicked(event){
         event.currentTarget.querySelector('img').setAttribute('src', "icons/accept.png");
         event.currentTarget.parentNode.querySelector('.rightButton').setAttribute('value', 1);
         event.currentTarget.parentNode.querySelector('.rightButton').querySelector('img').setAttribute('src', "icons/reject.png");
+
         event.currentTarget.parentNode.querySelector('.leftButton').style.backgroundColor = 'green';
         //Changes post styling and allows editing
         post.style.background = SELECTED_POST_COLOR;
@@ -223,8 +225,10 @@ function leftButtonClicked(event){
         header.setAttribute('contenteditable', 'false');
         content.setAttribute('contenteditable', 'false');
         header.style.background = DEFAULT_TEXTBOX_COLOR;
+        
         content.style.background = DEFAULT_TEXTBOX_COLOR;
         dropdownMenu.style.display = "none";
+        // will always need this to be active
 
         //Garbage cleaning
         temp.delete(event.currentTarget.parentNode.parentNode.id.toString());
@@ -279,7 +283,6 @@ function createPost() {
     setTimeout(function() {
         createButton.disabled = false;
     }, 5);
-
     //Create post element and add it to DOM
     const postDiv = document.createElement('div');
     postDiv.className = 'post';
@@ -289,14 +292,45 @@ function createPost() {
         <h2 class="header" contenteditable="false">New Post</h2>
         <p class="content" contenteditable="false">Your text here</p>
         <span class="time">Just now</span>
-        <p class="postTag">[]</p>
-        
-        
+        <p class="postTag"></p>
         <input type="hidden" class="sqlid" value="placeholder">
+        /*s*/
+        <select style =
+        "
+                overflow: clip;
+                filter: drop-shadow(4px 4px black);
+                background-color: darkolivegreen;
+                padding: 15px;
+                padding-right: 15px;
+                cursor: pointer;
+                display: none;
+                /*
+                The radius isn't that big
+                because you should be able to tell
+                which one is the dropdown button
+                at a glance
+                */
+                border: none;
+                background-color: darkgreen;
+                color: white;
+
+                font-family: 'Poppins';
+                font-size: 150%;
+                /*70 for tags, 200 for buttons*/
+                position: relative;
+                text-align: center;
+                text-transform: none;
+                width: auto;
+                height: auto;
+                padding-top: 15px;
+                text-align: center;    
+                border-radius: 25px;
+        "
+        class="dropdownMenu">Tags</select>
         <div class="flex">
-            <button class="leftButton" value="0">
-                <img class="buttonIcon" src="icons/edit.png" alt="edit" border="0" />
-            </button>
+        <button class="leftButton" value="0">
+            <img class="buttonIcon" src="icons/edit.png" alt="edit" border="0" />
+        </button>
             <button class="rightButton" value="0">
                 <img class="buttonIcon" src="icons/delete.png" alt="edit" border="0" />
             </button>
@@ -362,18 +396,18 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
         <h2 class="header" contenteditable="false">New Post</h2>
         <p class="content" contenteditable="false">Your text here</p>
         <span class="time">Just now</span>
-        <p class="postTag">[]</p>
+        <p class="postTag"></p>
         <input type="hidden" class="sqlid" value="placeholder">
         /*s*/
         <select style =
         "
                 overflow: clip;
-                font-size: 150%;
+                filter: drop-shadow(4px 4px black);
                 background-color: darkolivegreen;
-                padding:  15px;
+                padding: 15px;
                 padding-right: 15px;
                 cursor: pointer;
-                border-radius: 15px;
+                display: none;
                 /*
                 The radius isn't that big
                 because you should be able to tell
@@ -383,8 +417,9 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
                 border: none;
                 background-color: darkgreen;
                 color: white;
-                font-family: 'Poppins',"Gill Sans", sans-serif;
-                font-size: 200%;
+
+                font-family: 'Poppins';
+                font-size: 150%;
                 /*70 for tags, 200 for buttons*/
                 position: relative;
                 text-align: center;
@@ -393,9 +428,8 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
                 height: auto;
                 padding-top: 15px;
                 text-align: center;    
-                border-radius: 5px;
+                border-radius: 25px;
         "
-
         class="dropdownMenu">Tags</select>
         <div class="flex">
         <button class="leftButton" value="0">

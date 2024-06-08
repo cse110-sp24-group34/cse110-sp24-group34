@@ -242,6 +242,7 @@ main {
     grid-row-gap: 5px;
     grid-template-columns: 40% 40% 20%;
     background-color: white;
+    border-radius: 15px;
     /*ring around the while post */
 }
 
@@ -294,6 +295,7 @@ main {
     height:4em;
     border-radius: 10px;
     background-color: lightgoldenrodyellow;
+    filter: drop-shadow(7px 7px black);
     /* align-items: right; */
     /*
     create button 
@@ -301,7 +303,13 @@ main {
     no idea how, but it looks sick so we're keeping it
     */
 }
+    .leftButton:active{
+        transform: scale(1.25);
+    }
+
+
 .rightButton{
+    filter: drop-shadow(7px 7px black);
     width: 4em;
     height: 4em;
     border-radius: 10px;
@@ -309,12 +317,21 @@ main {
     /* trash button */
 }
 
+.rightButton:active{
+    transform: scale(1.25);
+}
+
+
 .flex{
     /* justify-content: flex-end; */
     grid-column-start: 3;
     grid-column-end: 4;
     grid-row-start: 3;
     grid-row-end: 3;
+
+    float: right;
+    display: flex;
+  justify-content: right;
 }
 
 .buttonIcon{
@@ -364,6 +381,7 @@ div{
     */
     
     font-weight: bold;
+    font-size: 120%;
 }
 
 /* 
@@ -374,3 +392,14 @@ div{
     font-weight: bold;
 }
 
+.header{
+   border-radius: 15px !important;
+
+   /* background: rgb(232, 232, 232) ; */ 
+
+}
+
+.content{
+    border-radius: 15px !important;
+    /* background: rgb(232, 232, 232) ; */
+}

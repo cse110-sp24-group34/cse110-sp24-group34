@@ -103,6 +103,7 @@ class TagDropdown extends HTMLElement {
                 overflow-x: auto;
                 z-index: 1;
                 font-size: 125%;
+                
             }
             .dropdown-list li {
                 padding: 10px;
@@ -148,11 +149,11 @@ class TagDropdown extends HTMLElement {
             // Toggling shows or hides the posts with matching tag
             if(toggled.has(tagElement.data)){
                 toggled.delete(tagElement.data);
-                listItem.style.backgroundColor = '#fff';
+                 // listItem.style.backgroundColor = 'rgba(128, 128, 128, 0.5)';
             }
             else{
                 toggled.add(tagElement.data);
-                listItem.style.backgroundColor = 'rgba(128, 128, 128, 0.5)';
+                 // listItem.style.backgroundColor = 'rgba(128, 128, 128, 0.5)';
 
             }
             // Destory all posts
