@@ -29,22 +29,17 @@ class TagElement extends HTMLElement {
 
         // Click event
         li.addEventListener('click', () => {
-            window.location.hash = `#${tagName}`;
+            // window.location.hash = `#${tagName}`;
+            // Toggling shows or hides the posts with matching tag
+            console.log("clicked")
             if(toggled.has(tagName)){
                 toggled.delete(tagName);
+                li.style.backgroundColor = 'transparent';
             }
             else{
                 toggled.add(tagName);
-                // style.textContent = `
-                //     li {
-                //         padding: 0 20px;
-                //         background-color: rgb(255,1,1);
-                //     }
-                //     li:hover {
-                //         background-color: #fff;
-                //     }
-                    
-                // `;
+                li.style.backgroundColor = 'rgba(128, 128, 128, 0.5)';
+
             }
             console.log(toggled);
         });
