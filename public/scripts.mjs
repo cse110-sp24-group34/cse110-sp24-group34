@@ -1,5 +1,6 @@
 const main = document.querySelector('main');
 let temp = new Map();
+let toggled = new Set();
 
 const DEFAULT_POST_COLOR = "white";
 const DEFAULT_TEXTBOX_COLOR = "white";
@@ -116,6 +117,58 @@ function rightButtonClicked(event){
     }
 }
 
+/** 
+ * Shows posts containing a specified tag
+ * @param {*} tag The tag to filter by
+ */
+function showPostsByTag(tagList) {
+
+    //Restores posts from SQL database using post request to server
+    fetch("/all", {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json"
+          },
+        body: JSON.stringify({
+            "start":"true"
+        })
+    })
+    .then((response) => response.json())
+    .then((json) => {
+        // console.log(json, "show posts by tag");
+        for(let i = 0; i < json.length; i++){
+            let contains = true;
+            console.log(tagList.size, 'tagList length');
+            // console.log(typeof(tagList.size), 'tagList length');
+
+            for (let tag of tagList) {
+                console.log(JSON.parse(json[i].tags), tag, 'i');
+                if (!JSON.parse(json[i].tags).includes(tag)) {
+                    contains = false;
+                }
+            }
+            if(contains){
+                console.log("tag found");
+                createPostFilled(json[i].id, json[i].title, json[i].entry, json[i].date, json[i].msid, json[i].tags);
+            }
+        }
+    });
+
+    // let tags = await getTagsFromDatabase();
+	// addTagsToDocument(tags);
+    
+}
+
+/**
+ * Removes all the posts from the screen
+ * 
+ */
+function destroyAllPosts() {
+    let posts = document.querySelectorAll('.post');
+    posts.forEach(post => {
+        post.remove();
+    });
+}
 /**
  * Logic for clicking the left button of the two buttons on the bottom right of each post. 
  * @param {*} event Event that triggered this function
@@ -465,6 +518,8 @@ function addTagsToDocument(tags) {
         // Populate tagEl with data
         tagEl.data = tag;
 
+        
+        //
         // Add to navigation bar
         // if (index < 4) {
         if (index < windowNum) {
