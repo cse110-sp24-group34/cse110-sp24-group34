@@ -162,23 +162,6 @@ nav ul li a {
     align-content: center;
 }
 
-#tag-dropdown:hover {
-    border: none;
-    background-color: brown;
-    font-family: 'Poppins',"Gill Sans", sans-serif;
-    font-size: 190%;    
-    border-radius: 15px;
-    border-width: 0;
-    box-sizing: border-box;
-    color: #fff;
-    outline: none;
-    margin: 0 25px;
-    position: relative;
-    text-align: center;
-    text-transform: none;
-    width: auto;
-    align-content: center;
-}
 
 
 #tag-list {
@@ -441,6 +424,7 @@ div{
     grid-row-end: 4;
     word-wrap: break-word;
     /* visibility: hidden; */
+    /* display: none; */
 }
 
 .header{

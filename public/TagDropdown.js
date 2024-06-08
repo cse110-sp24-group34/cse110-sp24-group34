@@ -108,7 +108,7 @@ class TagDropdown extends HTMLElement {
                 font-family:sans-serif;
             }
             .dropdown-list li:hover {
-                background-color: darkgreen;
+                background-color: darkgreen !important;
             }
         `;
         this.shadowRoot.append(style);
