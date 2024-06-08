@@ -153,6 +153,7 @@ class TagDropdown extends HTMLElement {
                 toggled.add(tagElement.data);
                  // listItem.style.backgroundColor = 'rgba(128, 128, 128, 0.5)';
                  listItem.style.backgroundColor = 'brown';
+                 
 
             }
             // Destory all posts
