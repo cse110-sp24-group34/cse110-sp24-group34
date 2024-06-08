@@ -389,6 +389,7 @@ div{
 
 .postTag{
     text-align: right;
+    /*justify*/
     font-weight: bold;
 }
 
