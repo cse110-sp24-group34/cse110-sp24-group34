@@ -67,6 +67,7 @@ function rightButtonClicked(event){
     let content = post.querySelector('.content');
     let time = post.querySelector('.time');
     let sqlid = post.querySelector('.sqlid');
+    let dropdownMenu = post.querySelector('.dropdownMenu');
 
     //Delete button pressed
     if(value == 0){ 
@@ -106,6 +107,8 @@ function rightButtonClicked(event){
         //Post styling back to normal
         header.style.background = DEFAULT_POST_COLOR;
         content.style.background = DEFAULT_TEXTBOX_COLOR;
+        dropdownMenu.style.display = "none";
+        event.currentTarget.parentNode.querySelector('.leftButton').style.backgroundColor = 'lightgoldenrodyellow';
 
         //Restores previous value of header and content, stored in temp
         content.innerText = temp.get(event.currentTarget.parentNode.parentNode.id)[1]
@@ -289,19 +292,19 @@ function createPost() {
     postDiv.id = 'placeholder';
     // Note: .postTag is a stringified array, needs to initialize as '[]'
     postDiv.innerHTML = `
-        <h2 class="header" contenteditable="false">New Post(-It!)</h2>
-        <p class="content" contenteditable="false" style = "word-wrap: break-word;">Your text here</p>
+        <h2 class="header" contenteditable="false">New Post</h2>
+        <p class="content" contenteditable="false">Your text here</p>
+        <span class="time">Just now</span>
         <p class="postTag">[]</p>
         <input type="hidden" class="sqlid" value="placeholder">
-        <span class="time">Just now</span>
-
-       
+        /*s*/
         <select style =
         "
                 overflow: clip;
                 filter: drop-shadow(4px 4px black);
                 background-color: darkolivegreen;
-                padding: 0px 0px 0px 20px;
+                padding: 15px;
+                padding-right: 15px;
                 cursor: pointer;
                 display: none;
                 /*
@@ -313,21 +316,18 @@ function createPost() {
                 border: none;
                 background-color: darkgreen;
                 color: white;
+
                 font-family: 'Poppins';
                 font-size: 150%;
                 /*70 for tags, 200 for buttons*/
                 position: relative;
-                text-align: left;
+                text-align: center;
                 text-transform: none;
                 width: auto;
                 height: auto;
-               
+                padding-top: 15px;
                 text-align: center;    
                 border-radius: 25px;
-                style = "word-wrap: break-word;"
-                position: absolute; /* Changed from relative to absolute */
-    right: 0; /* Align to the right */
-    top: 100%; /* Just below the container */
         "
         class="dropdownMenu">Tags</select>
         <div class="flex">
@@ -337,7 +337,6 @@ function createPost() {
             <button class="rightButton" value="0">
                 <img class="buttonIcon" src="icons/delete.png" alt="edit" border="0" />
             </button>
-            <input type="hidden" class="sqlid" value="placeholder">
         </div>
     `;
     let date = new Date();
@@ -398,7 +397,7 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
     postDiv.id = msid;
     postDiv.innerHTML = `
         <h2 class="header" contenteditable="false">New Post</h2>
-        <p class="content" contenteditable="false" style="word-wrap: break-word;">Your text here</p>
+        <p class="content" contenteditable="false">Your text here</p>
         <span class="time">Just now</span>
         <p class="postTag">[]</p>
         <input type="hidden" class="sqlid" value="placeholder">
@@ -407,7 +406,8 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
                 overflow: clip;
                 filter: drop-shadow(4px 4px black);
                 background-color: darkolivegreen;
-                padding: 0px 0px 0px 20px;
+                padding: 15px;
+                padding-right: 15px;
                 cursor: pointer;
                 display: none;
                 /*
@@ -424,15 +424,13 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
                 font-size: 150%;
                 /*70 for tags, 200 for buttons*/
                 position: relative;
-           
+                text-align: center;
                 text-transform: none;
                 width: auto;
                 height: auto;
-               
-                text-align: left;    
+                padding-top: 15px;
+                text-align: center;    
                 border-radius: 25px;
-                word-wrap: break-word;
-
         "
         class="dropdownMenu">Tags</select>
         <div class="flex">
@@ -442,7 +440,6 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
             <button class="rightButton" value="0">
                 <img class="buttonIcon" src="icons/delete.png" alt="edit" border="0" />
             </button>
-        </div>
         </div>
     `;
     postDiv.querySelector(".time").innerText = time;
@@ -639,7 +636,7 @@ function initButtonHandler() {
             updatePostTags();
         });
     })
-
+;
 	// Get a reference to the "Clear Local Storage" button
 	const clearTagsButton = document.getElementById('clear-tags');
 
