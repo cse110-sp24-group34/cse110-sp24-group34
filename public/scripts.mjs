@@ -396,7 +396,7 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
                 border-radius: 5px;
         "
 
-        class="dropdownMenu">Tag Toggler</select>
+        class="dropdownMenu">Tags</select>
         <div class="flex">
         <button class="leftButton" value="0">
             <img class="buttonIcon" src="icons/edit.png" alt="edit" border="0" />
@@ -658,7 +658,7 @@ function updatePostTags() {
 
             // Add a default option
             const defaultOption = document.createElement('option');
-            defaultOption.text = 'Tag Toggler';
+            defaultOption.text = 'Tag';
             defaultOption.selected = true;
             select.prepend(defaultOption); 
         });
