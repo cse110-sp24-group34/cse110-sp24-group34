@@ -69,10 +69,7 @@ class TagDropdown extends HTMLElement {
                 width: auto;
                 height: auto;
                 padding-top: 15px;
-                text-align: center;
-                
-
-                  
+                text-align: center;      
                 border-radius: 5px;
               
 

@@ -65,7 +65,7 @@ class TagElement extends HTMLElement {
                 else{
                     toggled.add(tagName);
                     // li.style.backgroundColor = 'rgba(128, 128, 128, 0.5)';
-                    li.style.backgroundColor = 'rgba(	85, 107, 97, 1.0)';
+                    li.style.backgroundColor = 'rgba(85, 107, 97, 1.0)';
                     // li.style.backgroundColor = 'darkseagreen';
                     
                     }

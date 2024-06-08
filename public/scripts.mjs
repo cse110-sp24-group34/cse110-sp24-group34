@@ -292,7 +292,7 @@ function createPost() {
         <h2 class="header" contenteditable="false">New Post</h2>
         <p class="content" contenteditable="false">Your text here</p>
         <span class="time">Just now</span>
-        <p class="postTag"></p>
+        <p class="postTag">[]</p>
         <input type="hidden" class="sqlid" value="placeholder">
         /*s*/
         <select style =
@@ -396,7 +396,7 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
         <h2 class="header" contenteditable="false">New Post</h2>
         <p class="content" contenteditable="false">Your text here</p>
         <span class="time">Just now</span>
-        <p class="postTag"></p>
+        <p class="postTag">[]</p>
         <input type="hidden" class="sqlid" value="placeholder">
         /*s*/
         <select style =
