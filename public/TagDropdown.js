@@ -86,6 +86,22 @@ class TagDropdown extends HTMLElement {
         listItem.addEventListener('click', () => {
             this.shadowRoot.querySelector('.dropdown-button').textContent = tagElement.data;
             list.style.display = 'none';
+
+            // window.location.hash = `#${tagName}`;
+            // Toggling shows or hides the posts with matching tag
+            if(toggled.has(tagElement.data)){
+                toggled.delete(tagElement.data);
+                listItem.style.backgroundColor = '#fff';
+            }
+            else{
+                toggled.add(tagElement.data);
+                listItem.style.backgroundColor = 'rgba(128, 128, 128, 0.5)';
+
+            }
+            // Destory all posts
+            destroyAllPosts();
+            // Add posts with matching tags
+            showPostsByTag(toggled);
         });
 
         list.appendChild(listItem);
