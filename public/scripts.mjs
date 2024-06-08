@@ -124,11 +124,15 @@ function showPostsByTag(tagList) {
     })
     .then((response) => response.json())
     .then((json) => {
-        console.log(json);
+        // console.log(json, "show posts by tag");
         for(let i = 0; i < json.length; i++){
             let contains = true;
-            for(let j = 0; j < tagList.length; j++){
-                if (!JSON.parse(json[i].tags).includes(tagList[j])) {
+            console.log(tagList.size, 'tagList length');
+            // console.log(typeof(tagList.size), 'tagList length');
+
+            for (let tag of tagList) {
+                console.log(JSON.parse(json[i].tags), tag, 'i');
+                if (!JSON.parse(json[i].tags).includes(tag)) {
                     contains = false;
                 }
             }
@@ -142,6 +146,17 @@ function showPostsByTag(tagList) {
     // let tags = await getTagsFromDatabase();
 	// addTagsToDocument(tags);
     
+}
+
+/**
+ * Removes all the posts from the screen
+ * 
+ */
+function destroyAllPosts() {
+    let posts = document.querySelectorAll('.post');
+    posts.forEach(post => {
+        post.remove();
+    });
 }
 /**
  * Logic for clicking the left button of the two buttons on the bottom right of each post. 

@@ -31,7 +31,6 @@ class TagElement extends HTMLElement {
         li.addEventListener('click', () => {
             // window.location.hash = `#${tagName}`;
             // Toggling shows or hides the posts with matching tag
-            console.log("clicked")
             if(toggled.has(tagName)){
                 toggled.delete(tagName);
                 li.style.backgroundColor = 'transparent';
@@ -41,7 +40,10 @@ class TagElement extends HTMLElement {
                 li.style.backgroundColor = 'rgba(128, 128, 128, 0.5)';
 
             }
-            console.log(toggled);
+            // Destory all posts
+            destroyAllPosts();
+            // Add posts with matching tags
+            showPostsByTag(toggled);
         });
     }
 
