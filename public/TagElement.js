@@ -61,17 +61,17 @@ class TagElement extends HTMLElement {
             if(toggled.has(tagName)){
                 toggled.delete(tagName);
                 li.style.backgroundColor = 'darkgreen';
+            }
+            else{
+                toggled.add(tagName);
+                // li.style.backgroundColor = 'rgba(128, 128, 128, 0.5)';
+                // li.style.backgroundColor = 'rgba(85, 107, 97, 1.0)';
+                li.style.backgroundColor = 'brown';
+                
+                // li.style.backgroundColor = 'darkseagreen';
+                
                 }
-                else{
-                    toggled.add(tagName);
-                    // li.style.backgroundColor = 'rgba(128, 128, 128, 0.5)';
-                   // li.style.backgroundColor = 'rgba(85, 107, 97, 1.0)';
-                    li.style.backgroundColor = 'brown';
-                   
-                    // li.style.backgroundColor = 'darkseagreen';
-                    
-                    }
-                    // Destory all posts
+                // Destory all posts
             destroyAllPosts();
             // Add posts with matching tags
             showPostsByTag(toggled);

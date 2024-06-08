@@ -164,9 +164,6 @@ nav ul li a {
 
 
 #tag-list {
-    /*
-    THIS SOLVES OUR TAG THINGY
-    */
     gap: 5px; 
     padding: 0;
     margin: 0;
@@ -228,9 +225,10 @@ tag-element {
 
 main {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+    grid-template-columns: repeat(3, 1fr); 
     gap: 20px;
-    padding: 20px;
+    padding: 20px; 
 }
 
 .post {
@@ -263,7 +261,7 @@ main {
     June 8
     */
     grid-column-start: 1;
-    grid-column-end: 3;
+    grid-column-end: 2;
     grid-row-start: 3;
     grid-row-end: 4;
 }
@@ -297,6 +295,7 @@ main {
     width:4em;
     height:4em;
     border-radius: 10px;
+    flex: none;
     background-color: lightgoldenrodyellow;
     /* filter: drop-shadow(7px 7px black); */
     /* align-items: right; */
@@ -316,6 +315,8 @@ main {
     width: 4em;
     height: 4em;
     border-radius: 10px;
+    flex: none;
+
     background-color: red;
     position: sticky;
     flex-shrink: 0;
@@ -336,9 +337,9 @@ main {
     grid-row-end: 3;
 
     float: right;
-     display: flex; 
+    display: flex; 
     flex-shrink: 0;
-  justify-content: right;
+    justify-content: right;
 }
 
 .buttonIcon{
@@ -378,11 +379,9 @@ main {
     text-align: right;
     font-size: 200%;
     font-family: "Neucha",'Poppins',"Gill Sans", sans-serif;
-   /*
      /*
     New Post bold
     */
-   */
 }
 
 .post .content {
@@ -412,6 +411,12 @@ div{
     text-align: left;
     /*justify maysbe*/
     font-weight: bold;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 4;
+    grid-row-end: 4;
+    word-wrap: break-word;
+    /* visibility: hidden; */
 }
 
 .header{

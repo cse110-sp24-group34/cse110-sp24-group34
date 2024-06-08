@@ -139,7 +139,7 @@ class TagDropdown extends HTMLElement {
 
         // Add click event listener to update the button text
         listItem.addEventListener('click', () => {
-            this.shadowRoot.querySelector('.dropdown-button').textContent = tagElement.data;
+            // this.shadowRoot.querySelector('.dropdown-button').textContent = tagElement.data;
             list.style.display = 'none';
 
             // window.location.hash = `#${tagName}`;
@@ -147,10 +147,12 @@ class TagDropdown extends HTMLElement {
             if(toggled.has(tagElement.data)){
                 toggled.delete(tagElement.data);
                  // listItem.style.backgroundColor = 'rgba(128, 128, 128, 0.5)';
+                 listItem.style.backgroundColor = 'green';
             }
             else{
                 toggled.add(tagElement.data);
                  // listItem.style.backgroundColor = 'rgba(128, 128, 128, 0.5)';
+                 listItem.style.backgroundColor = 'brown';
 
             }
             // Destory all posts
