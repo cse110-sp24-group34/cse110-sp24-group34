@@ -46,7 +46,7 @@ please try to avoid using both red and green unless you HAVE to.
     color: black;
 }
 
-a[href="#AllPosts"] {
+a[href=""] {
      /* the all post button lol*/
     border-radius: 10px;
     border: none;
@@ -68,11 +68,11 @@ a[href="#AllPosts"] {
     padding-bottom: 25px;
   }
 
-a[href="#AllPosts"]:hover {
+a[href=""]:hover {
     text-decoration: underline;
     color: black; 
  }
- a[href="#AllPosts"]:active {
+ a[href=""]:active {
     transform: scale(1.25);
  }
  
@@ -294,6 +294,7 @@ main {
     height:4em;
     border-radius: 10px;
     background-color: lightgoldenrodyellow;
+    /* align-items: right; */
     /*
     create button 
     border-radius adds a border to the button, halfway
@@ -309,6 +310,7 @@ main {
 }
 
 .flex{
+    /* justify-content: flex-end; */
     grid-column-start: 3;
     grid-column-end: 4;
     grid-row-start: 3;
@@ -344,6 +346,7 @@ main {
 
 .header{
     text-align: right;
+    text-decoration: underline;
      /*
     New Post bold
     */
