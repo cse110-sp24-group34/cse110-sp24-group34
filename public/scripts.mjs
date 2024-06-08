@@ -2,10 +2,10 @@ const main = document.querySelector('main');
 let temp = new Map();
 let toggled = new Set();
 
-const DEFAULT_POST_COLOR = "white";
-const DEFAULT_TEXTBOX_COLOR = "white";
-const SELECTED_POST_COLOR = "#e8e8e8";
-const SELECTED_TEXTBOX_COLOR = "#f5f5f5";
+const DEFAULT_POST_COLOR = "rgba(254,255,156)";
+const DEFAULT_TEXTBOX_COLOR = "rgba(254,255,156)";
+const SELECTED_POST_COLOR = "rgba(254,255,156)";
+const SELECTED_TEXTBOX_COLOR = "#fbff1a";
 
 
 
@@ -289,19 +289,19 @@ function createPost() {
     postDiv.id = 'placeholder';
     // Note: .postTag is a stringified array, needs to initialize as '[]'
     postDiv.innerHTML = `
-        <h2 class="header" contenteditable="false">New Post</h2>
-        <p class="content" contenteditable="false">Your text here</p>
-        <span class="time">Just now</span>
+        <h2 class="header" contenteditable="false">New Post(-It!)</h2>
+        <p class="content" contenteditable="false" style = "word-wrap: break-word;">Your text here</p>
         <p class="postTag">[]</p>
         <input type="hidden" class="sqlid" value="placeholder">
-        /*s*/
+        <span class="time">Just now</span>
+
+       
         <select style =
         "
                 overflow: clip;
                 filter: drop-shadow(4px 4px black);
                 background-color: darkolivegreen;
-                padding: 15px;
-                padding-right: 15px;
+                padding: 0px 0px 0px 20px;
                 cursor: pointer;
                 display: none;
                 /*
@@ -313,18 +313,21 @@ function createPost() {
                 border: none;
                 background-color: darkgreen;
                 color: white;
-
                 font-family: 'Poppins';
                 font-size: 150%;
                 /*70 for tags, 200 for buttons*/
                 position: relative;
-                text-align: center;
+                text-align: left;
                 text-transform: none;
                 width: auto;
                 height: auto;
-                padding-top: 15px;
+               
                 text-align: center;    
                 border-radius: 25px;
+                style = "word-wrap: break-word;"
+                position: absolute; /* Changed from relative to absolute */
+    right: 0; /* Align to the right */
+    top: 100%; /* Just below the container */
         "
         class="dropdownMenu">Tags</select>
         <div class="flex">
@@ -334,6 +337,7 @@ function createPost() {
             <button class="rightButton" value="0">
                 <img class="buttonIcon" src="icons/delete.png" alt="edit" border="0" />
             </button>
+            <input type="hidden" class="sqlid" value="placeholder">
         </div>
     `;
     let date = new Date();
@@ -394,18 +398,16 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
     postDiv.id = msid;
     postDiv.innerHTML = `
         <h2 class="header" contenteditable="false">New Post</h2>
-        <p class="content" contenteditable="false">Your text here</p>
+        <p class="content" contenteditable="false" style="word-wrap: break-word;">Your text here</p>
         <span class="time">Just now</span>
         <p class="postTag">[]</p>
         <input type="hidden" class="sqlid" value="placeholder">
-        /*s*/
         <select style =
         "
                 overflow: clip;
                 filter: drop-shadow(4px 4px black);
                 background-color: darkolivegreen;
-                padding: 15px;
-                padding-right: 15px;
+                padding: 0px 0px 0px 20px;
                 cursor: pointer;
                 display: none;
                 /*
@@ -422,13 +424,15 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
                 font-size: 150%;
                 /*70 for tags, 200 for buttons*/
                 position: relative;
-                text-align: center;
+           
                 text-transform: none;
                 width: auto;
                 height: auto;
-                padding-top: 15px;
-                text-align: center;    
+               
+                text-align: left;    
                 border-radius: 25px;
+                word-wrap: break-word;
+
         "
         class="dropdownMenu">Tags</select>
         <div class="flex">
@@ -438,6 +442,7 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
             <button class="rightButton" value="0">
                 <img class="buttonIcon" src="icons/delete.png" alt="edit" border="0" />
             </button>
+        </div>
         </div>
     `;
     postDiv.querySelector(".time").innerText = time;

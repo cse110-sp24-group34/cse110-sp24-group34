@@ -11,7 +11,7 @@ class TagElement extends HTMLElement {
         style.textContent = `
             li {
                 padding: 15px;
-                padding-top: 25px;
+              
                 text-align: center;
                 color: white;
                 background-color: darkgreen;
@@ -65,7 +65,9 @@ class TagElement extends HTMLElement {
                 else{
                     toggled.add(tagName);
                     // li.style.backgroundColor = 'rgba(128, 128, 128, 0.5)';
-                    li.style.backgroundColor = 'rgba(85, 107, 97, 1.0)';
+                   // li.style.backgroundColor = 'rgba(85, 107, 97, 1.0)';
+                    li.style.backgroundColor = 'brown';
+                   
                     // li.style.backgroundColor = 'darkseagreen';
                     
                     }

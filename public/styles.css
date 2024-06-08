@@ -234,14 +234,15 @@ main {
 }
 
 .post {
-    border-radius: 2em;
+  
     border: 4px solid black;
+
     padding: 20px;
     display:inline-grid;
     grid-column-gap:0px;
     grid-row-gap: 5px;
     grid-template-columns: 40% 40% 20%;
-    background-color: white;
+    background-color: rgb(254,255,156);
     border-radius: 15px;
     /*ring around the while post */
 }
@@ -254,12 +255,13 @@ main {
     color: #666;
 }
 
-.post span {
-    font-size: 0.8rem;
-    color: #999;
-}
 
 .time{
+    font-size: 130%;
+    font-family: "Neucha";
+    /*
+    June 8
+    */
     grid-column-start: 1;
     grid-column-end: 3;
     grid-row-start: 3;
@@ -274,7 +276,7 @@ main {
     text-wrap: stable;
     word-wrap: break-word;
     word-break: break-all;
-    background-color: white;
+    background-color: ADD8E6;
 }
 
 .header{
@@ -291,11 +293,12 @@ main {
 
 
 .leftButton{
+    flex-shrink: 0;
     width:4em;
     height:4em;
     border-radius: 10px;
     background-color: lightgoldenrodyellow;
-    filter: drop-shadow(7px 7px black);
+    /* filter: drop-shadow(7px 7px black); */
     /* align-items: right; */
     /*
     create button 
@@ -309,15 +312,18 @@ main {
 
 
 .rightButton{
-    filter: drop-shadow(7px 7px black);
+    /* filter: drop-shadow(7px 7px black); */
     width: 4em;
     height: 4em;
     border-radius: 10px;
     background-color: red;
+    position: sticky;
+    flex-shrink: 0;
     /* trash button */
 }
 
 .rightButton:active{
+    position: sticky;
     transform: scale(1.25);
 }
 
@@ -330,7 +336,8 @@ main {
     grid-row-end: 3;
 
     float: right;
-    display: flex;
+     display: flex; 
+    flex-shrink: 0;
   justify-content: right;
 }
 
@@ -363,17 +370,31 @@ main {
 
 .header{
     text-align: right;
-    text-decoration: underline;
+    text-decoration: none;
+   
+}
+.post .header{
+   background-color:  rgba(254,255,156);
+    text-align: right;
+    font-size: 200%;
+    font-family: "Neucha",'Poppins',"Gill Sans", sans-serif;
+   /*
      /*
     New Post bold
     */
+   */
 }
-.post{
-   
+
+.post .content {
     text-align: left;
+    /*
+    Your text here
+    */
+    color: darkslategray;
     font-size: 150%;
-    font-family: 'Poppins',"Gill Sans", sans-serif;
-   
+    font-weight: lighter;
+    font-family: 'Neucha','Poppins',"Gill Sans", sans-serif;
+    word-wrap: break-word;
 }
 div{
     /*
@@ -381,26 +402,28 @@ div{
     */
     
     font-weight: bold;
-    font-size: 120%;
+    font-size: 150%;
 }
 
 /* 
 <select style="display: none;" class="dropdownMenu"> */
 
 .postTag{
-    text-align: right;
+    text-align: left;
     /*justify maysbe*/
     font-weight: bold;
 }
 
 .header{
-   border-radius: 15px !important;
+   border-radius: 9px !important;
+   padding-right: 5px;
 
    /* background: rgb(232, 232, 232) ; */ 
 
 }
 
 .content{
-    border-radius: 15px !important;
+    border-radius: 9px !important;
+    padding-left: 5px;
     /* background: rgb(232, 232, 232) ; */
 }
