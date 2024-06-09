@@ -2,28 +2,30 @@ class TagDropdown extends HTMLElement {
     constructor() {
         super();
 
-        // Create elements
+        //Create elements
         let shadowEl = this.attachShadow({ mode: 'open' });
 
-        // Dropdown container
+        //Dropdown container
         const container = document.createElement('div');
         container.classList.add('dropdown-container');
 
-        // Dropdown button
+        //Dropdown button
         const button = document.createElement('button');
         button.classList.add('dropdown-button');
         button.textContent = 'More Tags';
 
-        // Dropdown list
+        //Dropdown list
         const list = document.createElement('ul');
         list.classList.add('dropdown-list');
-        list.style.display = 'none'; // Hidden by default
 
-        // Append elements
+        //Hidden by default
+        list.style.display = 'none'; 
+
+        //Append elements
         this.shadowRoot.append(container);
         container.append(button, list);
 
-        // Styles
+        //Styles
         const style = document.createElement('style');
         style.textContent = `
             .dropdown-container {
@@ -111,15 +113,15 @@ class TagDropdown extends HTMLElement {
                 color: black;
             }
         `;
+        
         this.shadowRoot.append(style);
 
-        // Toggle list visibility
+        //Toggle list visibility
         button.addEventListener('click', () => {
             list.style.display = list.style.display === 'none' ? 'block' : 'none';
         });
         
-
-        // Close the dropdown if clicked outside
+        //Close the dropdown if clicked outside
         document.addEventListener('click', (event) => {
             if (!this.contains(event.target)) {
                 list.style.display = 'none';
@@ -137,33 +139,28 @@ class TagDropdown extends HTMLElement {
         listItem.textContent = tagElement.data;
         list.appendChild(listItem);
 
-        // Add click event listener to update the button text
+        //Add click event listener to update the button text
         listItem.addEventListener('click', () => {
-            // this.shadowRoot.querySelector('.dropdown-button').textContent = tagElement.data;
             list.style.display = 'none';
 
-            // window.location.hash = `#${tagName}`;
-            // Toggling shows or hides the posts with matching tag
+            //Toggling shows or hides the posts with matching tag
             if(toggled.has(tagElement.data)){
                 toggled.delete(tagElement.data);
-                 // listItem.style.backgroundColor = 'rgba(128, 128, 128, 0.5)';
                  listItem.style.backgroundColor = 'rgb(66, 133, 244)';
             }
             else{
                 toggled.add(tagElement.data);
-                 // listItem.style.backgroundColor = 'rgba(128, 128, 128, 0.5)';
                  listItem.style.backgroundColor = 'green';
-                 
-
             }
-            // Destory all posts
+
+            //Destroy all posts
             destroyAllPosts();
-            // Add posts with matching tags
+            //Add posts with matching tags
             showPostsByTag(toggled);
         });
-
         list.appendChild(listItem);
     }
 }
+
 
 customElements.define('tag-dropdown', TagDropdown);

@@ -1,30 +1,35 @@
 
+/* Default styling */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-
 }
+
 
 .button-container {
     display: flex;
     justify-content: flex-start;
-    gap: 0px; /* Consistent spacing between buttons */
+    gap: 0px;
 }
 
-/* Make "dev journal" text disappear when window narrow */
+/* "Dev journal" text */
 #devJournal {
     display: inline;
     font-family: "impact";
     padding-left: 10px;
 }
-@media (max-width: 13000px) {
+
+/* Screen-size based toggle of "dev journal text" */
+@media (max-width: 1300px) {
     #devJournal {
         display: none;
     }
 }
 
+
+/* Clear tag button */
 #clear-tags {
   border: none;
   border-radius: 15px;
@@ -41,7 +46,7 @@
   text-align: center;
   text-transform: none;
   width: auto;
-  align-items: center; /* keeps it in the header!!!!*/
+  align-items: center;
 
 }
 
@@ -50,45 +55,41 @@
     color: black;
 }
 
+
+/* Yellow post-it note top left */
 a[href=""] {
-     /* the all post button lol*/
     border-radius: 10px;
     border: none;
     color: black;
     text-decoration: none;  
-    /*
-    This is like a bookmark or post-it.
-    It hangs out the edge like a book. Also stylistic ^_^
-    all posts
-    */ 
     border-radius: 5px; 
     font-family: 'Poppins',"Gill Sans", sans-serif;
     font-size: 200%;   
     filter: drop-shadow(7px 7px black);
     background-color: yellow;
-  
     padding: 3vmin;
     padding-top: 20vmin;
     padding-bottom: 2vmin;  
-  }
+}
 
+/* Clickable text styling */
 a[href=""]:hover {
     text-decoration: underline;
     color: black; 
- }
- a[href=""]:active {
+}
+a[href=""]:active {
     transform: scale(1.25);
- }
- 
+}
+
+
+/* Add tag button  */
 #add-tag {
     border: none;
     align-content: center;
     background-color: transparent; 
-   
     cursor: pointer;
     font-family: 'Poppins',"Gill Sans", sans-serif;
     font-size: 3vmin;    
- 
     border-width: 0;
     box-sizing: border-box;
     position: relative;
@@ -99,14 +100,12 @@ a[href=""]:hover {
     outline: none;
     padding-top: 20px;
     padding: 5px;
-    /*T R B L*/
-    /* You need this so the buttons dont keep swapping sizes as tags are being created */
-  }
-  
-  #add-tag:hover {
-    text-decoration: underline;
-    color: black; 
-  }
+}
+
+#add-tag:hover {
+text-decoration: underline;
+color: black; 
+}
 
 
 body, html {
@@ -114,39 +113,38 @@ body, html {
     height: 100%;
 }
 
+
 body {
-    /* min-width: 2000px; */
     display: grid;
     grid-template-rows: auto 1fr auto;
 }
+
 
 header {
     display: flex;
     justify-content: space-between;
     padding: 20px 20px 20px 20px;
     background-color: rgb(152, 152, 152);
-    height: 140px; /* Set a fixed height bc otherwise it flies off */
-    /*
-    DO NOT PUT OVERFLOW! IT WILL CUT OFF THE DROPDOWN LIST OTEHRWISE!!!
-    */
+    height: 140px;
 }
 
+/* Left section of header */
 nav ul {
     list-style: square;
     display: flex;
     align-items: center;
     justify-content: space-between;
     list-style-type: none; 
-    /*
-    gets rid of bullet points here
-    */
 }
 
+/* Elements in left section of header */
 nav ul li {
     padding: 0 20px;
     justify-content: space-between;
     align-content: center;
 }
+
+/* Links in left section of header */
 nav ul li a {
     text-decoration: none;
     color: black;
@@ -154,6 +152,8 @@ nav ul li a {
     align-content: center;
 }
 
+
+/* Tag dropdown on top */
 #tag-dropdown {
     border: none;
     font-family: 'Poppins',"Gill Sans", sans-serif;
@@ -171,6 +171,8 @@ nav ul li a {
     align-content: center;
 }
 
+
+/* Tag list in posts */
 #tag-list {
     gap: 5px; 
     background-color:transparent;
@@ -184,8 +186,8 @@ nav ul li a {
     align-items: center;
 } 
 
+/* Tag elements in top bar */
 tag-element {
-
     display: block;
     padding: 0px;
     height: 100px;
@@ -199,13 +201,11 @@ tag-element {
     max-width: inherit;
     line-height: 1;
     margin-top: 15px;
-
-  
-
 }
 
+/* Create Post button */
 #create-post {
-   background-color: transparent;
+    background-color: transparent;
     padding-top: 25px;
     cursor: pointer;
     color: white;
@@ -221,6 +221,7 @@ tag-element {
     color: black; 
 }
 
+/* Central grid for all posts */
 main {
     display: grid;
     width: 100%;
@@ -231,7 +232,6 @@ main {
 
 .post {
     border: 4px solid black;
-
     padding: 20px;
     display:inline-grid;
     grid-column-gap:0px;
@@ -239,36 +239,31 @@ main {
     grid-template-columns: 40% 40% 20%;
     background-color: rgb(253, 255, 214);
     border-radius: 15px;
-    /*ring around the while post */
-
     font-weight: bold;
     font-size: 150%;
     font-family: 'Neucha','Poppins',"Gill Sans", sans-serif;
     width:100%;
     margin-bottom:20px;
 }
-
 .post h2 {
     margin-bottom: 10px;
 }
-
 .post p {
     color: #000000;
 }
 
-
+/* Date inside post */
 .time{
-    font-size: 130%;
-    font-family: "Neucha";
-    /*
-    June 8
-    */
+    text-align: left;
+    font-family: 'Roboto';
+    font-size: 65%;
     grid-column-start: 1;
     grid-column-end: 2;
     grid-row-start: 3;
     grid-row-end: 4;
 }
 
+/* Content inside post */
 .content{
     grid-row-start: 2;
     grid-row-end: 3;
@@ -278,11 +273,14 @@ main {
     word-wrap: break-word;
     word-break: break-all;
     background-color: ADD8E6;
-
-    text-align: left;
-    
+    text-align: left;  
+    color: darkslategray;
+    font-size: 80%;
+    font-weight: lighter;
+    font-family: 'Roboto';
 }
 
+/* Header inside post */
 .header{
     grid-row-start: 1;
     grid-row-end: 2;
@@ -292,10 +290,14 @@ main {
     word-wrap: break-word;
     word-break: break-all;
     background-color: white;
-    font-family:   "Josefin Sans", sans-serif;
+    background-color:  rgb(253, 255, 214);
+    text-align: left;
+    font-size: 150%;
+    font-family: 'oswald';
 }
 
 
+/* Edit/accept button in post */
 .leftButton{
     flex-shrink: 0;
     width:4vmin;
@@ -305,21 +307,14 @@ main {
     border-radius: 10px;
     flex: none;
     background-color: rgb(244, 244, 18);
-    /* filter: drop-shadow(7px 7px black); */
-    /* align-items: right; */
-    /*
-    create button 
-    border-radius adds a border to the button, halfway
-    no idea how, but it looks sick so we're keeping it
-    */
 }
-    .leftButton:active{
-        transform: scale(1.25);
-    }
+.leftButton:active{
+    transform: scale(1.25);
+}
 
 
+/* Delete/reject button in post */
 .rightButton{
-    /* filter: drop-shadow(7px 7px black); */
     width:4vmin;
     min-width: 30px;
     height:4vmin;
@@ -330,22 +325,18 @@ main {
     background-color: rgb(255, 30, 30);
     position: sticky;
     flex-shrink: 0;
-    /* trash button */
 }
-
 .rightButton:active{
     position: sticky;
     transform: scale(1.25);
 }
 
-
+/* Flexbox containing both edit/delete buttons */
 .flex{
-    /* justify-content: flex-end; */
     grid-column-start: 3;
     grid-column-end: 4;
     grid-row-start: 3;
     grid-row-end: 3;
-
     float: right;
     display: flex; 
     flex-shrink: 0;
@@ -355,112 +346,73 @@ main {
 .buttonIcon{
     width:100%; 
     height:100%;
-    /*
-    boxes are 36 by 36????? 
-    icons are 256 by 256
-    WIDTH HEIGHT ARE 100% SO THAT IT CAN BE CENTERED!!!
-    */
 }
 
-#postList{
-    display: grid;
-    }
-
-/* .content{
-    
-    
-} */
-
-.time{
-    text-align: left;
-    font-family: 'Roboto';
-    font-size: 65%;
-}
-
-
-.header{
-    text-align: right;
-    text-decoration: none;
-   
-}
-.post .header{
-    /* title post color */
-   background-color:  rgb(253, 255, 214);
-    text-align: left;
-    font-size: 150%;
-    font-family: 'oswald';
-     /*
-    New Post bold
-    */
-}
-
-.post .content {
-    text-align: left;
-    /*
-    Your text here
-    */
-    color: darkslategray;
-    font-size: 80%;
-    font-weight: lighter;
-    font-family: 'Roboto';
-    word-wrap: break-word;
-}
-
+/* Styling for <div>s auto-created inside contenteditable elements */
 .content div {
     color: darkslategray;
     font-family: 'Roboto';
     word-wrap: break-word;
 }
 
-
-/* 
-<select style="display: none;" class="dropdownMenu"> */
-.dropdownMenu{
+/* Tag dropdown inside posts */ 
+.postDropdown{
+    overflow: clip;
+    filter: drop-shadow(4px 4px black);
+    padding: 7px;
+    cursor: pointer;
+    display: none;
+    border: none;
+    background-color: darkgreen;
+    color: white;
+    font-family: 'Poppins';
+    font-size: 75%;
+    position: relative;
+    text-align: center;
+    text-transform: none;
+    width: auto;
+    height: auto;
+    text-align: center;    
+    border-radius: 25px;
     grid-column-start: 1;
     grid-column-end: 4;
     grid-row-start: 5;
     grid-row-end: 5;
 }
 
-/* This acts like a variable, not seen in html */
+
+/* Unseen variable, holds the tags in plain text needed for database */
 .postTag{
-    
     display: none;
 }
 
-/* This is the visual representation of tags */
+
+/* Visual representation of tags, after "Tags: " */
 .shownTag{
     font-size: 75%;
     text-align: left;
-    /*justify maysbe*/
     font-weight: bold;
     grid-column-start: 1;
     grid-column-end: 4;
     grid-row-start: 4;
     grid-row-end: 4;
     word-wrap: break-word;
-    /* visibility: hidden; */
 }
 
-.header{
-   border-radius: 9px !important;
-   padding-right: 5px;
-
-   /* background: rgb(232, 232, 232) ; */ 
-
-}
-
+/* Column flexbox for posts */
 .col{
     display:flex;
     flex-direction: column;
     width:100%;
 }
 
+
 footer {
-    min-height: 100px;
+    /* min-height: 80px; */
     background: #C7C7C7;
-    padding: 20px;
+    padding: 10px;
 }
+
 
 span {
     display:inline-block;

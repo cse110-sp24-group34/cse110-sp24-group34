@@ -1,14 +1,20 @@
 const main = document.querySelector('main');
+
+//Temp map for storing uncomfirmed changes to posts
 let temp = new Map();
+
+//Set that stores toggled tags
 let toggled = new Set();
+
+//Counter counts columns to add posts to
 let counter = 0;
 
+
+//Color Constants
 const DEFAULT_POST_COLOR = "rgba(253,255,214)";
 const DEFAULT_TEXTBOX_COLOR = "rgba(253,255,214)";
 const SELECTED_POST_COLOR = "rgba(253,255,214)";
 const SELECTED_TEXTBOX_COLOR = "rgba(241, 242, 228)";
-
-
 
 
 /**
@@ -39,36 +45,25 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     });
 
-    // Get the tags to put in the top tag selector
+    //Get the tags to put in the top tag selector
     let tags = await getTagsFromDatabase();
 	addTagsToDocument(tags);
 
-    /*
-    Checks if the window has been resized. If so, remake the tag selector!
-    addTagsToDocument updates the tag selectors on top
-    */
-   // Make only show logo at top
-//    var devJournal = document.getElementById('devJournal');
-//    if (window.innerWidth <= 1000) {
-//        devJournal.innerText = '';
-//    } else {
-//        devJournal.innerText = 'Dev Journal';
-//    }
+    //Checks if the window has been resized. If so, remake the tag selector! addTagsToDocument updates the tag selectors on top.
 
     window.addEventListener('resize', () => {
         getTagsFromDatabase().then(tags => {
             addTagsToDocument(tags);
         });
-        // Make only show logo at top
-        // var devJournal = document.getElementById('devJournal');
-        // if (window.innerWidth <= 1000) {
-        //     devJournal.innerText = '';
-        // } else {
-        //     devJournal.innerText = 'Dev Journal';
-        // }
     });    
 
 });
+
+
+//-----------------------------------------------------------------------------
+//                             Post Functionality
+//-----------------------------------------------------------------------------
+
 
 /**
  * Logic for clicking the right button of the two buttons on the bottom right of each post. 
@@ -81,7 +76,7 @@ function rightButtonClicked(event) {
     let content = post.querySelector('.content');
     let time = post.querySelector('.time');
     let sqlid = post.querySelector('.sqlid');
-    let dropdownMenu = post.querySelector('.dropdownMenu');
+    let dropdownMenu = post.querySelector('.postDropdown');
 
     //Delete button pressed
     if (value == 0) { 
@@ -135,51 +130,6 @@ function rightButtonClicked(event) {
     }
 }
 
-/** 
- * Shows posts containing a specified tag
- * @param {*} tagList An array of tags of type string
- */
-function showPostsByTag(tagList) {
-    counter = 0;
-
-    //Restores posts from SQL database using post request to server
-    fetch("/all", {
-        method: "POST",
-        headers: {
-            "Content-type": "application/json"
-          },
-        body: JSON.stringify({
-            "start":"true"
-        })
-    })
-    .then((response) => response.json())
-    .then((json) => {
-        // Iterating through all the posts in database
-        for(let i = 0; i < json.length; i++){
-            // Only show posts that contains ALL the tags in tagList
-            let contains = true;
-            for (let tag of tagList) {
-                if (!JSON.parse(json[i].tags).includes(tag)) {
-                    contains = false;
-                }
-            }
-            if (contains) {
-                createPostFilled(json[i].id, json[i].title, json[i].entry, 
-                                 json[i].date, json[i].msid, json[i].tags);
-            }
-        }
-    });
-}
-
-/**
- * Removes all the posts from the screen
- */
-function destroyAllPosts() {
-    let posts = document.querySelectorAll('.post');
-    posts.forEach(post => {
-        post.remove();
-    });
-}
 
 /**
  * Logic for clicking the left button of the two buttons on the bottom right of each post. 
@@ -192,7 +142,7 @@ function leftButtonClicked(event) {
     let content = post.querySelector('.content');
     let time = post.querySelector('.time');
     let sqlid = post.querySelector('.sqlid');
-    let dropdownMenu = post.querySelector('.dropdownMenu');
+    let dropdownMenu = post.querySelector('.postDropdown');
     let tags = post.querySelector('.postTag');
 
     //Edit button pressed, enters edit mode
@@ -226,8 +176,9 @@ function leftButtonClicked(event) {
         event.currentTarget.parentNode.querySelector('.rightButton').setAttribute('value', 0);
         event.currentTarget.parentNode.querySelector('.rightButton').querySelector('img').setAttribute('src', "icons/delete.png");
         
-        event.currentTarget.parentNode.querySelector('.leftButton').style.backgroundColor = 'rgb(244, 244, 18)';
         //changes colour
+        event.currentTarget.parentNode.querySelector('.leftButton').style.backgroundColor = 'rgb(244, 244, 18)';
+       
 
         //Reverts post styling to normal and disables editing
         post.style.background = DEFAULT_POST_COLOR;
@@ -270,6 +221,12 @@ function leftButtonClicked(event) {
     }
 }
 
+
+//-----------------------------------------------------------------------------
+//                                  Create Post
+//-----------------------------------------------------------------------------
+
+
 /**
  * Creates a new post, on button click
  */
@@ -294,40 +251,11 @@ function createPost() {
         <p class="shownTag">Tags:</p> 
         <p class="postTag">[]</p>
         <input type="hidden" class="sqlid" value="placeholder">
-        <select style =
-        "
-                overflow: clip;
-                filter: drop-shadow(4px 4px black);
-                background-color: darkolivegreen;
-                padding: 7px;
-                cursor: pointer;
-                display: none;
-                /*
-                The radius isn't that big
-                because you should be able to tell
-                which one is the dropdown button
-                at a glance
-                */
-                border: none;
-                background-color: darkgreen;
-                color: white;
-
-                font-family: 'Poppins';
-                font-size: 75%;
-                /*70 for tags, 200 for buttons*/
-                position: relative;
-                text-align: center;
-                text-transform: none;
-                width: auto;
-                height: auto;
-                text-align: center;    
-                border-radius: 25px;
-        "
-        class="dropdownMenu">Tags</select>
+        <select class="postDropdown">Tags</select>
         <div class="flex">
-        <button class="leftButton" value="0">
-            <img class="buttonIcon" src="icons/edit.png" alt="edit" border="0" />
-        </button>
+            <button class="leftButton" value="0">
+                <img class="buttonIcon" src="icons/edit.png" alt="edit" border="0" />
+            </button>
             <button class="rightButton" value="0">
                 <img class="buttonIcon" src="icons/delete.png" alt="edit" border="0" />
             </button>
@@ -372,9 +300,13 @@ function createPost() {
         .then((json) => {
             postDiv.querySelector(".sqlid").setAttribute("value", json.sqlid);
         })
-    updatePostTags(); // Fill tags dropdown menu
-    modifyPostTag(postDiv); // Add event listener to the dropdown menu
+        
+    // Fill tags dropdown menu
+    updatePostTags(); 
+    // Add event listener to the dropdown menu
+    modifyPostTag(postDiv); 
 }
+
 
 /**
  * 
@@ -398,40 +330,11 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
         <p class="shownTag">Tags:</p> 
         <p class="postTag">[]</p>
         <input type="hidden" class="sqlid" value="placeholder">
-        <select style =
-        "
-                overflow: clip;
-                filter: drop-shadow(4px 4px black);
-                background-color: darkolivegreen;
-                padding: 7px;
-                cursor: pointer;
-                display: none;
-                /*
-                The radius isn't that big
-                because you should be able to tell
-                which one is the dropdown button
-                at a glance
-                */
-                border: none;
-                background-color: darkgreen;
-                color: white;
-
-                font-family: 'Poppins';
-                font-size: 75%;
-                /*70 for tags, 200 for buttons*/
-                position: relative;
-                text-align: center;
-                text-transform: none;
-                width: auto;
-                height: auto;
-                text-align: center;    
-                border-radius: 25px;
-        "
-        class="dropdownMenu">Tags</select>
+        <select class="postDropdown">Tags</select>
         <div class="flex">
-        <button class="leftButton" value="0">
-            <img class="buttonIcon" src="icons/edit.png" alt="edit" border="0" />
-        </button>
+            <button class="leftButton" value="0">
+                <img class="buttonIcon" src="icons/edit.png" alt="edit" border="0" />
+            </button>
             <button class="rightButton" value="0">
                 <img class="buttonIcon" src="icons/delete.png" alt="edit" border="0" />
             </button>
@@ -456,23 +359,63 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
     const rightbutton = postDiv.querySelector('.rightButton');
     rightbutton.addEventListener('click', rightButtonClicked);
 
-    updatePostTags(); // Fill tags dropdown menu
-    modifyPostTag(postDiv); // Add event listener to the dropdown menu
+    updatePostTags(); //Fill tags dropdown menu
+    modifyPostTag(postDiv); //Add event listener to the dropdown menu
 }
 
 
-// /**
-//  * Reads 'tags' from localStorage and returns an array of
-//  * all of the tags found (parsed, not in string form). If
-//  * nothing is found in localStorage for 'tags', an empty array
-//  * is returned.
-//  * @returns {Array<Object>} An array of tags found in localStorage
-//  */
-// function getTagsFromStorage() {
-//     const tags = localStorage.getItem('tags');
-//     return tags ? JSON.parse(tags) : [];
-//     // return tags && tags.length > 0 ? JSON.parse(tags) : [];
-// }
+/**
+ * Removes all the posts from the screen
+ */
+function destroyAllPosts() {
+    let posts = document.querySelectorAll('.post');
+    posts.forEach(post => {
+        post.remove();
+    });
+}
+
+
+//-----------------------------------------------------------------------------
+//                               Tag Management
+//-----------------------------------------------------------------------------
+
+
+/** 
+ * Shows posts containing a specified tag
+ * @param {*} tagList An array of tags of type string
+ */
+function showPostsByTag(tagList) {
+    counter = 0;
+
+    //Restores posts from SQL database using post request to server
+    fetch("/all", {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json"
+          },
+        body: JSON.stringify({
+            "start":"true"
+        })
+    })
+    .then((response) => response.json())
+    .then((json) => {
+        //Iterating through all the posts in database
+        for(let i = 0; i < json.length; i++){
+            //Only show posts that contains ALL the tags in tagList
+            let contains = true;
+            for (let tag of tagList) {
+                if (!JSON.parse(json[i].tags).includes(tag)) {
+                    contains = false;
+                }
+            }
+            if (contains) {
+                createPostFilled(json[i].id, json[i].title, json[i].entry, 
+                                 json[i].date, json[i].msid, json[i].tags);
+            }
+        }
+    });
+}
+
 
 /**
  * Reads 'tags' from the row in the database with msid = 1 only 
@@ -481,6 +424,7 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
  * @returns {Array<Object>} An array of tags found in database
  */
 function getTagsFromDatabase() {
+
     // Get the tags from the database using /tags
     return fetch("/tags", {
         method: "POST",
@@ -500,97 +444,56 @@ function getTagsFromDatabase() {
 
 /**
  * Takes in an array of tags and for each tag creates a
- * new <tag-element> element, adds the recipe data to that card
- * using element.data = {...}, and then appends that new recipe
+ * new <tag-element> element, adds the tag data to that element
+ * using element.data = {...}, and then appends that new tag element
  * to <main>
  * @param {Array<Object>} tags An array of tags
  */
 function addTagsToDocument(tags) {
-    // Reference to the navigation bar
+    //Reference to the navigation bar
     const navRef = document.getElementById('tag-list');
-    navRef.innerHTML = `
-             
-                <!-- Add Tag Button -->
-                <button id="add-tag">Add Tag</button>
-                <button id="clear-tags">Clear Tags</button>
-                `;
+    navRef.innerHTML = ` 
+        <!-- Add Tag Button -->
+        <button id="add-tag">Add Tag</button>
+        <button id="clear-tags">Clear Tags</button>
+        `;
 
-    // Tag Dropdown
-    let tagDropdown;
-    /*tagDropdown = document.createElement('select');
-    tagDropdown.id = 'tag-dropdown';
-    tagDropdown.innerHTML = '<option>More Tags</option>';*/
-    tagDropdown = document.createElement('tag-dropdown');
+    //Create tag dropdown at top of page
+    let tagDropdown = document.createElement('tag-dropdown');
+ 
+    //Determines # of tags can be shown in the header
+    let windowNum = Math.ceil((window.innerWidth - 1200) / 200) + Math.floor((window.innerWidth/2400));
 
-   /*
-   Switch statements do not work for some reason???
-   */    
-    windowNum = Math.ceil((window.innerWidth - 1100) / 200) + Math.floor((window.innerWidth/2400));
-       
-     
-    
-   
-    /*
-     let tagDropdown;
-    let windowWidth = window.screen.width; // 726px
-    */
-
-    // Loop through each of the tags in the passed in array,
-    // create a <tag-element> element for each one, and populate
-    // each <tag-element> with that tag data using element.data
-    // Append each element to <main>
+    //Loop through each of the tags in the passed in array, create a <tag-element> element for each one, and populate each <tag-element> with that tag data using element.data
     tags.forEach((tag, index) => {
-        // Create <tag-element> element
+        //Create <tag-element> element
         const tagEl = document.createElement('tag-element');
         
-        // Add tag button
+        //Add tag button
         const addTagButton = document.getElementById('add-tag');
 
-        // Populate tagEl with data
+        //Populate tagEl with data
         tagEl.data = tag;
 
-        
-        //
-        // Add to navigation bar
-        // if (index < 4) {
+        //Add to navigation bar
         if (index < windowNum) {
-            // Append each element to navigation bar
-        navRef.append(tagEl);
+            //Append each element to navigation bar
+            navRef.append(tagEl);
             navRef.insertBefore(tagEl, addTagButton);
         }
         else {
-            // Add dropdown at index 4
-            // if (index == 4) {
+            //Add dropdown at index 4
             if (index == windowNum) {
                 navRef.insertBefore(tagDropdown,addTagButton);
             }
-            /*const extraTag = document.createElement('option');
-            extraTag.textContent = tag;
-            tagDropdown.append(extraTag);*/
             tagDropdown.addTag(tagEl);
         }
     })
 
-    // Add the event listeners to the button elements
+    //Add the event listeners to the button elements
 	initButtonHandler();
-
-    // Update the tags in the posts
     updatePostTags();
 }
-
-/**
- * Takes in an array of tags, converts it to a string, and then
- * saves that tag to 'tags' in localStorage
- * @param {Array<Object>} tags An array of recipes
- */
-function saveTagsToStorage(tags) {
-    localStorage.setItem('tags', JSON.stringify(tags));
-}
-
-
-
-
-
 
 
 /**
@@ -598,83 +501,73 @@ function saveTagsToStorage(tags) {
  * <button>.
  */
 function initButtonHandler() {
-	// Get a reference to the add tag button
+
+	//Get a reference to the add tag button
     const addTagButton = document.getElementById('add-tag');
-	// Add an event listener for the 'click' event, which fires when the
-	// add tag button is clicked
+
+	//Add an event listener for the 'click' event, which fires when the 'add tag' button is clicked
     addTagButton.addEventListener("click", (event) => {
         const tagData = prompt('Enter a tag name (8 character limit):');
         if (tagData === '') {
-        alert('Please enter a valid tag name!');
-        // no blank charcters
+            alert('Please enter a valid tag name!');
         return;
         }
         if (tagData.length > 8) {
             alert('Please enter a valid tag name less than 8 characters!');
-
-            return;            // tagData = tagData.substring(0, 8);
+            return;
         }
-        /* This doesn't actually cut it down, but it just limits it */
 
-        /* too unwieldy tag limits */
         const tagEl = document.createElement('tag-element');
         tagEl.data = tagData;
-        // addTagsToDatabase(tagData);
+        
         getTagsFromDatabase().then(async tags => {
-            // let tags = await getTagsFromDatabase();
             console.log(tags, "initbuttonhandler")
-            // let tags = getTagsFromStorage();
             tags.push(tagData);
-            // console.log(tags, tagData);
-            // localStorage.setItem('tags', JSON.stringify(tags));
             addTagsToDocument(tags);
             await addTagsToDatabase(tagData);
-            // Update the tags in the posts
             updatePostTags();
         });
     });
 
-	// Get a reference to the "Clear Local Storage" button
+	//Get a reference to the "Clear Tags" button
 	const clearTagsButton = document.getElementById('clear-tags');
 
-	// Add a click event listener to clear local storage button
+	//Add a click event listener to clear tags button
 	clearTagsButton.addEventListener("click", async (event) => {
-		// Clear the local storage
-		// localStorage.setItem('tags', []);
         await resetTagsToDatabase();
-		
-		// Delete the contents of navigation bar except for "All Posts" and buttons
+
+		//Delete the contents of navigation bar except for "All Posts" and buttons
 		const navRef = document.getElementById('tag-list');
-		navRef.innerHTML = 
-        `
-        
-                <!-- Add Tag Button -->
-                <button id="add-tag">Add Tag</button>
-                <button id="clear-tags">Clear Tags</button>
-                
-                `;
-        // Initialize buttons again
+		navRef.innerHTML = `
+            <!-- Add Tag Button -->
+            <button id="add-tag">Add Tag</button>
+            <button id="clear-tags">Clear Tags</button>
+            `;
+            
+        //Initialize buttons again
         initButtonHandler();
-        // Update the tags in the posts
+        
+        //Update the tags in the posts
         updatePostTags();
 	});
 }
 
+
 /**
- * Updates the dropdown menu in each post with the tags from local storage
+ * Updates the dropdown menu in each post with the tags from database
  */
 function updatePostTags() {
     getTagsFromDatabase().then(tagsLocal => {
-        const selects = document.querySelectorAll('.dropdownMenu');
+        const selects = document.querySelectorAll('.postDropdown');
         
-        // For each select element
+        //For each select element
         selects.forEach(select => {
-            // Clear all existing options
+            //Clear all existing options
             while (select.firstChild) {
                 select.removeChild(select.firstChild);
             }
 
-            // Add an option for each tag (tagsLocal type = set)
+            //Add an option for each tag (tagsLocal type = set)
             for (const tag of tagsLocal) {
                 const option = document.createElement('option');
                 option.value = tag;
@@ -682,7 +575,7 @@ function updatePostTags() {
                 select.appendChild(option);
             }
 
-            // Add a default option
+            //Add a default option
             const defaultOption = document.createElement('option');
             defaultOption.text = 'Select a tag';
             defaultOption.selected = true;
@@ -691,48 +584,54 @@ function updatePostTags() {
     });
 }
 
+
 /**
  * When a user selects an option in the dropdown menu, the postTag section of 
- * post will be updated
- * Note: this.options[this.selectedIndex].value feels like a hacky way to get
- * the value of the select dropdown menu.
+ * post will be updated.
  * @param {*} postDiv The post where we want to update the tag
  */
 function modifyPostTag(postDiv) {
-    const dropdownMenu = postDiv.querySelector('.dropdownMenu');
-    // Overwrite that option of the dropdown menu into the postTag
+    
+    const dropdownMenu = postDiv.querySelector('.postDropdown');
+
+    //Overwrite that option of the dropdown menu into the postTag
     dropdownMenu.addEventListener('change', function() {
-        // Get the value of the selected option
+
+        //Get the value of the selected option from post dropdown
         let selection = this.options[this.selectedIndex].value; 
-        // Get the current tags
+
+        //Get the current tags
         let tagsList = JSON.parse(postDiv.querySelector('.postTag').innerText); 
-        // If the value from dropdown menu is not in the tags array, add it
+
+        //If the value from dropdown menu is not in the tags array, add it
         if (!tagsList.includes(selection)) {
             tagsList.push(selection);
         }
         else {
             tagsList = tagsList.filter(tag => tag !== selection);
         }
-        // update the postTag and shownTag sections
+        
+        //Update the postTag and shownTag sections
         postDiv.querySelector('.postTag').innerText = JSON.stringify(tagsList);
         postDiv.querySelector('.shownTag').innerText = "Tags: " + tagsList.join(", ");
-        this.selectedIndex = 0; // reset dropdown menu
+        
+        //Reset dropdown menu to tag toggle default
+        this.selectedIndex = 0; 
     });
 }
+
 
 /**
  * Add tags to database row with msid = 1
  * @param {*} tag string tag to add
  */
 async function addTagsToDatabase(tag) {
-    //Updates post in sql database with post request to server
-    let sqlidval = 1;
-    // make tempTags equal getTagsFromDatabase() and append tags at the 
+
+    //Get the current tags, append the new tag, and save it back to database
     let tempTags = await getTagsFromDatabase();
     tempTags.push(tag);
     tempTags = JSON.stringify(tempTags);
-    let value = await Promise.resolve(sqlidval);
-    let response = await fetch("/update", {
+    await fetch("/update", {
         method: "POST",
         body: JSON.stringify({
             header: null,
@@ -746,17 +645,13 @@ async function addTagsToDatabase(tag) {
             "Content-type": "application/json"
         }
     });
-    let json = await response.json();
 }
-
 
 
 /**
  * Reset all tags from the database row with msid = 1
- * @param {*} tag string tag to remove
  */
 async function resetTagsToDatabase() {
-    //Updates post in sql database with post request to server
     await fetch("/update", {
         method: "POST",
         body: JSON.stringify({
@@ -772,10 +667,3 @@ async function resetTagsToDatabase() {
         }
     });
 }
-
-/*document.addEventListener('keydown', event => {
-    if (event.key === 'Enter') {
-      document.execCommand('insertLineBreak');
-      event.preventDefault();
-    }
-});*/
