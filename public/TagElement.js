@@ -10,13 +10,12 @@ class TagElement extends HTMLElement {
         // Apply styles
         style.textContent = `
             li {
-                padding: 15px;
+                padding: 10px;
               
                 text-align: center;
                 color: white;
-                background-color: darkgreen;
-                padding-bottom: 20px;
-                font-size: 32px;    
+                background-color: rgb(66, 133, 244);
+                font-size: 20px;    
                 border-radius: 15px;
                 color: #fff;
                 outline: none;
@@ -25,14 +24,15 @@ class TagElement extends HTMLElement {
                 text-align: center;
                 text-transform: none;
                 width: auto;
-                 margin: 0 25px;
+                margin-top: 20px;
+                margin-right: 10px;
 
                 /* tags in between
                 inbetween more tags
                 */
             }
             li:hover {
-                background-color: darkgreen;
+                background-color: rgb(66, 133, 244);
                 color: black;
                 text-decoration: underline;
                 scale: 1.15;
@@ -59,14 +59,17 @@ class TagElement extends HTMLElement {
             // window.location.hash = `#${tagName}`;
             // Toggling shows or hides the posts with matching tag
             if(toggled.has(tagName)){
+                // Tag not active
                 toggled.delete(tagName);
-                li.style.backgroundColor = 'darkgreen';
+                li.style.backgroundColor = 'rgb(66, 133, 244)';
             }
             else{
+                // Tag active
                 toggled.add(tagName);
+
                 // li.style.backgroundColor = 'rgba(128, 128, 128, 0.5)';
                 // li.style.backgroundColor = 'rgba(85, 107, 97, 1.0)';
-                li.style.backgroundColor = 'brown';
+                li.style.backgroundColor = 'green';
                 
                 // li.style.backgroundColor = 'darkseagreen';
                 

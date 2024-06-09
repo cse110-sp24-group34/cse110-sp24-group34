@@ -3,10 +3,10 @@ let temp = new Map();
 let toggled = new Set();
 let counter = 0;
 
-const DEFAULT_POST_COLOR = "rgba(254,255,156)";
-const DEFAULT_TEXTBOX_COLOR = "rgba(254,255,156)";
-const SELECTED_POST_COLOR = "rgba(254,255,156)";
-const SELECTED_TEXTBOX_COLOR = "#fbff1a";
+const DEFAULT_POST_COLOR = "rgba(253,255,214)";
+const DEFAULT_TEXTBOX_COLOR = "rgba(253,255,214)";
+const SELECTED_POST_COLOR = "rgba(253,255,214)";
+const SELECTED_TEXTBOX_COLOR = "rgba(241, 242, 228)";
 
 
 
@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     //Event listener for the create post button
     createButton.addEventListener('click', createPost);
-    console.log("hello");
 
     //Restores posts from SQL database using post request to server
     fetch("/all", {
@@ -33,21 +32,20 @@ document.addEventListener('DOMContentLoaded', async function() {
     })
     .then((response) => response.json())
     .then((json) => {
-        console.log(json);
-        for(let i = 0; i < json.length; i++){
-            createPostFilled(json[i].id, json[i].title, json[i].entry, json[i].date, json[i].msid, 
-                json[i].tags);
+        // Create posts for all rows in the databse
+        for (let i = 0; i < json.length; i++) {
+            createPostFilled(json[i].id, json[i].title, json[i].entry, 
+                             json[i].date, json[i].msid, json[i].tags);
         }
     });
 
-    // Get the tags from localStorage
-	// let tags = getTagsFromStorage();
+    // Get the tags to put in the top tag selector
     let tags = await getTagsFromDatabase();
-	// Add each recipe to the <main> element
 	addTagsToDocument(tags);
 
     /*
-    Checks if the window has been resized. If so, remake the tags!
+    Checks if the window has been resized. If so, remake the tag selector!
+    addTagsToDocument updates the tag selectors on top
     */
     window.addEventListener('resize', () => {
         getTagsFromDatabase().then(tags => {
@@ -61,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async function() {
  * Logic for clicking the right button of the two buttons on the bottom right of each post. 
  * @param {*} event Event that triggered this function
  */
-function rightButtonClicked(event){
+function rightButtonClicked(event) {
     let value = event.currentTarget.getAttribute("value");
     let post =  event.currentTarget.parentNode.parentNode;
     let header = post.querySelector('.header');
@@ -71,7 +69,7 @@ function rightButtonClicked(event){
     let dropdownMenu = post.querySelector('.dropdownMenu');
 
     //Delete button pressed
-    if(value == 0){ 
+    if (value == 0) { 
         let sqlidval = sqlid.getAttribute("value");
 
         //Deletes post from sql database with post request to server
@@ -92,7 +90,7 @@ function rightButtonClicked(event){
         });
     }
     //Reject button pressed, while in edit mode (edit button pressed beforehand)
-    else if(value == 1){
+    else if (value == 1) {
 
         //Switches icons to reflect leaving edit mode
         event.currentTarget.setAttribute('value', 0);
@@ -109,7 +107,7 @@ function rightButtonClicked(event){
         header.style.background = DEFAULT_POST_COLOR;
         content.style.background = DEFAULT_TEXTBOX_COLOR;
         dropdownMenu.style.display = "none";
-        event.currentTarget.parentNode.querySelector('.leftButton').style.backgroundColor = 'lightgoldenrodyellow';
+        event.currentTarget.parentNode.querySelector('.leftButton').style.backgroundColor = 'rgb(244, 244, 18)';
 
         //Restores previous value of header and content, stored in temp
         content.innerText = temp.get(event.currentTarget.parentNode.parentNode.id)[1]
@@ -124,10 +122,9 @@ function rightButtonClicked(event){
 
 /** 
  * Shows posts containing a specified tag
- * @param {*} tag The tag to filter by
+ * @param {*} tagList An array of tags of type string
  */
 function showPostsByTag(tagList) {
-
     counter = 0;
 
     //Restores posts from SQL database using post request to server
@@ -142,33 +139,25 @@ function showPostsByTag(tagList) {
     })
     .then((response) => response.json())
     .then((json) => {
-        // console.log(json, "show posts by tag");
+        // Iterating through all the posts in database
         for(let i = 0; i < json.length; i++){
+            // Only show posts that contains ALL the tags in tagList
             let contains = true;
-            console.log(tagList.size, 'tagList length');
-            // console.log(typeof(tagList.size), 'tagList length');
-
             for (let tag of tagList) {
-                console.log(JSON.parse(json[i].tags), tag, 'i');
                 if (!JSON.parse(json[i].tags).includes(tag)) {
                     contains = false;
                 }
             }
-            if(contains){
-                console.log("tag found");
-                createPostFilled(json[i].id, json[i].title, json[i].entry, json[i].date, json[i].msid, json[i].tags);
+            if (contains) {
+                createPostFilled(json[i].id, json[i].title, json[i].entry, 
+                                 json[i].date, json[i].msid, json[i].tags);
             }
         }
     });
-
-    // let tags = await getTagsFromDatabase();
-	// addTagsToDocument(tags);
-    
 }
 
 /**
  * Removes all the posts from the screen
- * 
  */
 function destroyAllPosts() {
     let posts = document.querySelectorAll('.post');
@@ -176,11 +165,12 @@ function destroyAllPosts() {
         post.remove();
     });
 }
+
 /**
  * Logic for clicking the left button of the two buttons on the bottom right of each post. 
  * @param {*} event Event that triggered this function
  */
-function leftButtonClicked(event){
+function leftButtonClicked(event) {
     let value = event.currentTarget.getAttribute("value");
     let post =  event.currentTarget.parentNode.parentNode;
     let header = post.querySelector('.header');
@@ -191,39 +181,37 @@ function leftButtonClicked(event){
     let tags = post.querySelector('.postTag');
 
     //Edit button pressed, enters edit mode
-    if(value == 0){
+    if (value == 0) {
 
         //Changes icons to relect switch to edit mode
-        
         event.currentTarget.setAttribute('value', 1);
         event.currentTarget.querySelector('img').setAttribute('src', "icons/accept.png");
         event.currentTarget.parentNode.querySelector('.rightButton').setAttribute('value', 1);
         event.currentTarget.parentNode.querySelector('.rightButton').querySelector('img').setAttribute('src', "icons/reject.png");
-
         event.currentTarget.parentNode.querySelector('.leftButton').style.backgroundColor = 'green';
+
         //Changes post styling and allows editing
         post.style.background = SELECTED_POST_COLOR;
         header.setAttribute('contenteditable', 'true');
         content.setAttribute('contenteditable', 'true');
         header.style.background = SELECTED_TEXTBOX_COLOR;
         content.style.background = SELECTED_TEXTBOX_COLOR;
-        dropdownMenu.style.display = "block"; // show the dropdown menu
+        dropdownMenu.style.display = "block"; // shows the dropdown menu
 
         //Adds original value of content and header to temp, so it can be accessed later if user does not save
         temp.set(event.currentTarget.parentNode.parentNode.id.toString(), [header.innerText, content.innerText, time.innerText, tags.innerText, sqlid.getAttribute("value")]);
 
     }
     //Accept button pressed while in edit mode
-    else if(value == 1){
+    else if (value == 1) {
 
         //Changes icons to reflect switch out of edit mode
-
         event.currentTarget.setAttribute('value', 0);
         event.currentTarget.querySelector('img').setAttribute('src', "icons/edit.png");
         event.currentTarget.parentNode.querySelector('.rightButton').setAttribute('value', 0);
         event.currentTarget.parentNode.querySelector('.rightButton').querySelector('img').setAttribute('src', "icons/delete.png");
         
-        event.currentTarget.parentNode.querySelector('.leftButton').style.backgroundColor = 'lightgoldenrodyellow';
+        event.currentTarget.parentNode.querySelector('.leftButton').style.backgroundColor = 'rgb(244, 244, 18)';
         //changes colour
 
         //Reverts post styling to normal and disables editing
@@ -262,33 +250,23 @@ function leftButtonClicked(event){
                 headers: {
                     "Content-type": "application/json"
                 }
-            })
-            .then((response) => response.json())
-            .then((json) => {
-                //do nothing
             });
         });       
     }
 }
 
 /**
- * 
- * param {*} event When a window is resized
- * 
- */
-
-
-/**
  * Creates a new post, on button click
  */
 function createPost() {
 
-    //5 millisecond cooldown for button
+    // 5 millisecond cooldown for button
     const createButton = document.getElementById('create-post');
     createButton.disabled = true;
     setTimeout(function() {
         createButton.disabled = false;
     }, 5);
+
     //Create post element and add it to DOM
     const postDiv = document.createElement('div');
     postDiv.className = 'post';
@@ -301,7 +279,6 @@ function createPost() {
         <p class="shownTag">Tags:</p> 
         <p class="postTag">[]</p>
         <input type="hidden" class="sqlid" value="placeholder">
-        /*s*/
         <select style =
         "
                 overflow: clip;
@@ -322,7 +299,7 @@ function createPost() {
                 color: white;
 
                 font-family: 'Poppins';
-                font-size: 150%;
+                font-size: 75%;
                 /*70 for tags, 200 for buttons*/
                 position: relative;
                 text-align: center;
@@ -343,23 +320,24 @@ function createPost() {
             </button>
         </div>
     `;
+    // Time 
     let date = new Date();
     let monthArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     dateString = monthArray[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
     postDiv.querySelector(".time").innerText = dateString;
     postDiv.id = Date.now().toString();
+
+    // Determines which column the post goes into
     main.querySelector(`#col${counter%3+1}`).appendChild(postDiv);
     counter++;
 
-    //Adds event handlers to post buttons
+    // Adds event handlers to post buttons
     const leftbutton = postDiv.querySelector('.leftButton');
     leftbutton.addEventListener('click', leftButtonClicked);
     const rightbutton = postDiv.querySelector('.rightButton');
     rightbutton.addEventListener('click', rightButtonClicked);
 
-  
-
-    //Creates the post in sql database with post request
+    // Creates the post in sql database with post request
     let header = postDiv.querySelector('.header');
     let content = postDiv.querySelector('.content');
     let time = postDiv.querySelector('.time');
@@ -381,7 +359,7 @@ function createPost() {
         .then((json) => {
             postDiv.querySelector(".sqlid").setAttribute("value", json.sqlid);
         })
-    updatePostTags(); // Add the localstorage tags into the dropdown menu
+    updatePostTags(); // Fill tags dropdown menu
     modifyPostTag(postDiv); // Add event listener to the dropdown menu
 }
 
@@ -412,8 +390,7 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
                 overflow: clip;
                 filter: drop-shadow(4px 4px black);
                 background-color: darkolivegreen;
-                padding: 15px;
-                padding-right: 15px;
+                padding: 7px;
                 cursor: pointer;
                 display: none;
                 /*
@@ -427,14 +404,13 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
                 color: white;
 
                 font-family: 'Poppins';
-                font-size: 150%;
+                font-size: 75%;
                 /*70 for tags, 200 for buttons*/
                 position: relative;
                 text-align: center;
                 text-transform: none;
                 width: auto;
                 height: auto;
-                padding-top: 15px;
                 text-align: center;    
                 border-radius: 25px;
         "
@@ -448,6 +424,8 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
             </button>
         </div>
     `;
+
+    // Applying post values
     postDiv.querySelector(".time").innerText = time;
     postDiv.querySelector(".header").innerText = header;
     postDiv.querySelector(".content").innerText = content;
@@ -455,6 +433,7 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
     postDiv.querySelector('.postTag').innerText = tags;
     postDiv.querySelector('.shownTag').innerText = "Tags: " + JSON.parse(tags).join(", ");
 
+    // Determines which column the post goes into
     main.querySelector(`#col${counter%3+1}`).appendChild(postDiv);
     counter++;
 
@@ -469,18 +448,18 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
 }
 
 
-/**
- * Reads 'tags' from localStorage and returns an array of
- * all of the tags found (parsed, not in string form). If
- * nothing is found in localStorage for 'tags', an empty array
- * is returned.
- * @returns {Array<Object>} An array of tags found in localStorage
- */
-function getTagsFromStorage() {
-    const tags = localStorage.getItem('tags');
-    return tags ? JSON.parse(tags) : [];
-    // return tags && tags.length > 0 ? JSON.parse(tags) : [];
-}
+// /**
+//  * Reads 'tags' from localStorage and returns an array of
+//  * all of the tags found (parsed, not in string form). If
+//  * nothing is found in localStorage for 'tags', an empty array
+//  * is returned.
+//  * @returns {Array<Object>} An array of tags found in localStorage
+//  */
+// function getTagsFromStorage() {
+//     const tags = localStorage.getItem('tags');
+//     return tags ? JSON.parse(tags) : [];
+//     // return tags && tags.length > 0 ? JSON.parse(tags) : [];
+// }
 
 /**
  * Reads 'tags' from the row in the database with msid = 1 only 
@@ -490,7 +469,6 @@ function getTagsFromStorage() {
  */
 function getTagsFromDatabase() {
     // Get the tags from the database using /tags
-    console.log("in database")
     return fetch("/tags", {
         method: "POST",
         headers: {
@@ -502,10 +480,6 @@ function getTagsFromDatabase() {
     })
     .then((response) => response.json())
     .then((json) => {
-        console.log(json, "json");
-        console.log(json[0], "json1");
-        console.log(json[0].tags, "json2");
-        console.log(JSON.parse(json[0].tags), "json3");
         return JSON.parse(json[0].tags);
     });
 }
@@ -666,7 +640,7 @@ function initButtonHandler() {
                 <button id="clear-tags">Clear Tags</button>
                 
                 `;
-                // Initialize buttons again
+        // Initialize buttons again
         initButtonHandler();
         // Update the tags in the posts
         updatePostTags();
@@ -677,14 +651,7 @@ function initButtonHandler() {
  * Updates the dropdown menu in each post with the tags from local storage
  */
 function updatePostTags() {
-    // console.log("in updatePostTags")
-    // Get the tags from local storage
-
     getTagsFromDatabase().then(tagsLocal => {
-        // let tagsLocal = await getTagsFromDatabase();
-        console.log(tagsLocal, "tagsLocal")
-        // let tagsLocal = getTagsFromStorage();
-        
         const selects = document.querySelectorAll('.dropdownMenu');
         
         // For each select element
@@ -694,7 +661,7 @@ function updatePostTags() {
                 select.removeChild(select.firstChild);
             }
 
-            // Add an option for each tag
+            // Add an option for each tag (tagsLocal type = set)
             for (const tag of tagsLocal) {
                 const option = document.createElement('option');
                 option.value = tag;
@@ -719,13 +686,12 @@ function updatePostTags() {
  * @param {*} postDiv The post where we want to update the tag
  */
 function modifyPostTag(postDiv) {
-    // Add event listener to the dropdown menu
     const dropdownMenu = postDiv.querySelector('.dropdownMenu');
     // Overwrite that option of the dropdown menu into the postTag
     dropdownMenu.addEventListener('change', function() {
-        // get the value of the selected option
+        // Get the value of the selected option
         let selection = this.options[this.selectedIndex].value; 
-        // get the current tags
+        // Get the current tags
         let tagsList = JSON.parse(postDiv.querySelector('.postTag').innerText); 
         // If the value from dropdown menu is not in the tags array, add it
         if (!tagsList.includes(selection)) {
@@ -734,10 +700,8 @@ function modifyPostTag(postDiv) {
         else {
             tagsList = tagsList.filter(tag => tag !== selection);
         }
-        // update the postTag section
+        // update the postTag and shownTag sections
         postDiv.querySelector('.postTag').innerText = JSON.stringify(tagsList);
-
-        
         postDiv.querySelector('.shownTag').innerText = "Tags: " + tagsList.join(", ");
         this.selectedIndex = 0; // reset dropdown menu
     });
@@ -795,15 +759,3 @@ async function resetTagsToDatabase() {
         }
     });
 }
-// await addTagsToDatabase('chilly');
-/**
- * Remove a tag from the database row with msid = 1'
- * 
- */
-
-
-/**
- * Clear the tags from the databse row with msid = 1
- * 
- */
-

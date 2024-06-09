@@ -41,11 +41,11 @@ class TagDropdown extends HTMLElement {
                 outline: none;
                 font-family: 'Poppins',"Gill Sans", sans-serif;
                 border-radius: 15px;
-                background-color: darkolivegreen;
-                padding: 15px;
+                background-color: transparent;
+                padding: 10px;
             }
             .dropdown-button {
-                background-color: darkolivegreen;
+                background-color: rgb(66, 133, 244);
                 padding: 10px;
                 padding-left: 15px;
                 cursor: pointer;
@@ -57,7 +57,6 @@ class TagDropdown extends HTMLElement {
                 at a glance
                 */
                 border: none;
-                background-color: darkgreen;
                 filter: drop-shadow(7px 7px black);
                 color: white;
                 font-family: 'Poppins',"Gill Sans", sans-serif;
@@ -89,7 +88,7 @@ class TagDropdown extends HTMLElement {
                 top: 100%;
                 left: 0;
                 border-radius: 10px;
-                background-color: green;
+                background-color: rgb(66, 133, 244);
                 color: white;
                 border: 1px solid #ccc;
                 padding: 0;
@@ -108,7 +107,8 @@ class TagDropdown extends HTMLElement {
                 font-family:sans-serif;
             }
             .dropdown-list li:hover {
-                background-color: darkgreen !important;
+                text-decoration: underline;
+                color: black;
             }
         `;
         this.shadowRoot.append(style);
@@ -147,12 +147,12 @@ class TagDropdown extends HTMLElement {
             if(toggled.has(tagElement.data)){
                 toggled.delete(tagElement.data);
                  // listItem.style.backgroundColor = 'rgba(128, 128, 128, 0.5)';
-                 listItem.style.backgroundColor = 'green';
+                 listItem.style.backgroundColor = 'rgb(66, 133, 244)';
             }
             else{
                 toggled.add(tagElement.data);
                  // listItem.style.backgroundColor = 'rgba(128, 128, 128, 0.5)';
-                 listItem.style.backgroundColor = 'brown';
+                 listItem.style.backgroundColor = 'green';
                  
 
             }
