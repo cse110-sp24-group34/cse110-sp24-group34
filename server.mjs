@@ -54,7 +54,7 @@ app.post("/all", async(req, res) => {
     res.json(rows);
 });
 
-//POST request to get tags special row
+//POST request to get all tags
 app.post("/tags", async(req, res) => {
     let rows = await getTags();
     // console.log('got tags', rows)

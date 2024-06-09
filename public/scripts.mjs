@@ -47,10 +47,25 @@ document.addEventListener('DOMContentLoaded', async function() {
     Checks if the window has been resized. If so, remake the tag selector!
     addTagsToDocument updates the tag selectors on top
     */
+   // Make only show logo at top
+//    var devJournal = document.getElementById('devJournal');
+//    if (window.innerWidth <= 1000) {
+//        devJournal.innerText = '';
+//    } else {
+//        devJournal.innerText = 'Dev Journal';
+//    }
+
     window.addEventListener('resize', () => {
         getTagsFromDatabase().then(tags => {
             addTagsToDocument(tags);
         });
+        // Make only show logo at top
+        // var devJournal = document.getElementById('devJournal');
+        // if (window.innerWidth <= 1000) {
+        //     devJournal.innerText = '';
+        // } else {
+        //     devJournal.innerText = 'Dev Journal';
+        // }
     });    
 
 });
@@ -284,8 +299,7 @@ function createPost() {
                 overflow: clip;
                 filter: drop-shadow(4px 4px black);
                 background-color: darkolivegreen;
-                padding: 15px;
-                padding-right: 15px;
+                padding: 7px;
                 cursor: pointer;
                 display: none;
                 /*
@@ -306,7 +320,6 @@ function createPost() {
                 text-transform: none;
                 width: auto;
                 height: auto;
-                padding-top: 15px;
                 text-align: center;    
                 border-radius: 25px;
         "
@@ -512,7 +525,7 @@ function addTagsToDocument(tags) {
    /*
    Switch statements do not work for some reason???
    */    
-    windowNum = Math.ceil((window.innerWidth - 1500) / 420) + Math.floor((window.innerWidth/2400));
+    windowNum = Math.ceil((window.innerWidth - 1100) / 200) + Math.floor((window.innerWidth/2400));
        
      
     
@@ -526,7 +539,7 @@ function addTagsToDocument(tags) {
     // create a <tag-element> element for each one, and populate
     // each <tag-element> with that tag data using element.data
     // Append each element to <main>
-    tags.forEach((tag,index) => {
+    tags.forEach((tag, index) => {
         // Create <tag-element> element
         const tagEl = document.createElement('tag-element');
         
@@ -671,7 +684,7 @@ function updatePostTags() {
 
             // Add a default option
             const defaultOption = document.createElement('option');
-            defaultOption.text = 'Tag';
+            defaultOption.text = 'Select a tag';
             defaultOption.selected = true;
             select.prepend(defaultOption); 
         });
@@ -759,3 +772,10 @@ async function resetTagsToDatabase() {
         }
     });
 }
+
+/*document.addEventListener('keydown', event => {
+    if (event.key === 'Enter') {
+      document.execCommand('insertLineBreak');
+      event.preventDefault();
+    }
+});*/

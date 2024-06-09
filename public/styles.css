@@ -13,6 +13,17 @@
     gap: 0px; /* Consistent spacing between buttons */
 }
 
+/* Make "dev journal" text disappear when window narrow */
+#devJournal {
+    display: inline;
+    font-family: "impact";
+    padding-left: 10px;
+}
+@media (max-width: 13000px) {
+    #devJournal {
+        display: none;
+    }
+}
 
 #clear-tags {
   border: none;
@@ -23,7 +34,7 @@
   color: white;
   cursor: pointer;
   font-family: 'Poppins',"Gill Sans", sans-serif;
-  font-size: 200%;
+  font-size: 3vmin;
   outline: none;
   padding: 10px;
   position: relative;
@@ -55,10 +66,10 @@ a[href=""] {
     font-size: 200%;   
     filter: drop-shadow(7px 7px black);
     background-color: yellow;
- 
-    padding: 25px;
-    padding-top: 100px;
-    padding-bottom: 25px;
+  
+    padding: 3vmin;
+    padding-top: 20vmin;
+    padding-bottom: 2vmin;  
   }
 
 a[href=""]:hover {
@@ -76,7 +87,7 @@ a[href=""]:hover {
    
     cursor: pointer;
     font-family: 'Poppins',"Gill Sans", sans-serif;
-    font-size: 200%;    
+    font-size: 3vmin;    
  
     border-width: 0;
     box-sizing: border-box;
@@ -101,6 +112,12 @@ a[href=""]:hover {
 body, html {
     width: 100%;
     height: 100%;
+}
+
+body {
+    /* min-width: 2000px; */
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 }
 
 header {
@@ -197,7 +214,7 @@ tag-element {
     box-sizing: border-box;
     cursor: pointer;
     font-family: 'Poppins',"Gill Sans", sans-serif;
-    font-size: 200%;
+    font-size: 3vmin;
 }
 #create-post:hover {
     text-decoration: underline;
@@ -281,8 +298,10 @@ main {
 
 .leftButton{
     flex-shrink: 0;
-    width:4em;
-    height:4em;
+    width:4vmin;
+    min-width: 30px;
+    height:4vmin;
+    min-height: 30px;
     border-radius: 10px;
     flex: none;
     background-color: rgb(244, 244, 18);
@@ -301,8 +320,10 @@ main {
 
 .rightButton{
     /* filter: drop-shadow(7px 7px black); */
-    width: 4em;
-    height: 4em;
+    width:4vmin;
+    min-width: 30px;
+    height:4vmin;
+    min-height: 30px;
     border-radius: 10px;
     flex: none;
 
@@ -387,8 +408,6 @@ main {
 
 .content div {
     color: darkslategray;
-    font-size: 80%;
-    font-weight: lighter;
     font-family: 'Roboto';
     word-wrap: break-word;
 }
@@ -435,4 +454,14 @@ main {
     display:flex;
     flex-direction: column;
     width:100%;
+}
+
+footer {
+    min-height: 100px;
+    background: #C7C7C7;
+    padding: 20px;
+}
+
+span {
+    display:inline-block;
 }
