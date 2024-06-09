@@ -159,7 +159,7 @@ nav ul li a {
     text-align: center;
     text-transform: none;
     width: auto;
-    align-content: center;
+    align-content: center; 
 }
 
 
@@ -180,7 +180,7 @@ tag-element {
 
     display: block;
     padding: 0px;
-    /* height: 100px; */
+    height: 100px;
     padding-bottom: 0px;
     font-family: 'Poppins',"Gill Sans", sans-serif;
     font-size: 70%;    
@@ -247,6 +247,8 @@ main {
     font-weight: bold;
     font-size: 150%;
     font-family: 'Neucha','Poppins',"Gill Sans", sans-serif;
+    width:100%;
+    margin-bottom:20px;
 }
 
 .post h2 {
@@ -366,10 +368,6 @@ main {
     display: grid;
     }
 
-
-
-
-
 /* .content{
     
     
@@ -425,7 +423,14 @@ main {
     grid-row-end: 5;
 }
 
+/* This acts like a variable, not seen in html */
 .postTag{
+    
+    display: none;
+}
+
+/* This is the visual representation of tags */
+.shownTag{
     text-align: left;
     /*justify maysbe*/
     font-weight: bold;
@@ -435,7 +440,6 @@ main {
     grid-row-end: 4;
     word-wrap: break-word;
     /* visibility: hidden; */
-    /* display: none; */
 }
 
 .header{
@@ -450,4 +454,10 @@ main {
     border-radius: 9px !important;
     padding-left: 5px;
     /* background: rgb(232, 232, 232) ; */
+}
+
+.col{
+    display:flex;
+    flex-direction: column;
+    width:100%;
 }

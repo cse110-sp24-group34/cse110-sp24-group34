@@ -1,6 +1,7 @@
 const main = document.querySelector('main');
 let temp = new Map();
 let toggled = new Set();
+let counter = 0;
 
 const DEFAULT_POST_COLOR = "rgba(254,255,156)";
 const DEFAULT_TEXTBOX_COLOR = "rgba(254,255,156)";
@@ -126,6 +127,8 @@ function rightButtonClicked(event){
  * @param {*} tag The tag to filter by
  */
 function showPostsByTag(tagList) {
+
+    counter = 0;
 
     //Restores posts from SQL database using post request to server
     fetch("/all", {
@@ -295,6 +298,7 @@ function createPost() {
         <h2 class="header" contenteditable="false">New Post</h2>
         <p class="content" contenteditable="false">Your text here</p>
         <span class="time">Just now</span>
+        <p class="shownTag">Tags:</p> 
         <p class="postTag">[]</p>
         <input type="hidden" class="sqlid" value="placeholder">
         /*s*/
@@ -344,7 +348,8 @@ function createPost() {
     dateString = monthArray[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
     postDiv.querySelector(".time").innerText = dateString;
     postDiv.id = Date.now().toString();
-    main.appendChild(postDiv);
+    main.querySelector(`#col${counter%3+1}`).appendChild(postDiv);
+    counter++;
 
     //Adds event handlers to post buttons
     const leftbutton = postDiv.querySelector('.leftButton');
@@ -399,6 +404,7 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
         <h2 class="header" contenteditable="false">New Post</h2>
         <p class="content" contenteditable="false">Your text here</p>
         <span class="time">Just now</span>
+        <p class="shownTag">Tags:</p> 
         <p class="postTag">[]</p>
         <input type="hidden" class="sqlid" value="placeholder">
         <select style =
@@ -447,8 +453,10 @@ function createPostFilled(sqlid, header, content, time, msid, tags) {
     postDiv.querySelector(".content").innerText = content;
     postDiv.querySelector(".sqlid").setAttribute("value", sqlid);
     postDiv.querySelector('.postTag').innerText = tags;
+    postDiv.querySelector('.shownTag').innerText = "Tags: " + JSON.parse(tags).join(", ");
 
-    main.appendChild(postDiv);
+    main.querySelector(`#col${counter%3+1}`).appendChild(postDiv);
+    counter++;
 
     //Adds event handlers to post buttons
     const leftbutton = postDiv.querySelector('.leftButton');
@@ -615,7 +623,9 @@ function initButtonHandler() {
         return;
         }
         if (tagData.length > 8) {
-            tagData = tagData.substring(0, 8);
+            alert('Please enter a valid tag name less than 8 characters!');
+
+            return;            // tagData = tagData.substring(0, 8);
         }
         /* This doesn't actually cut it down, but it just limits it */
 
@@ -635,8 +645,8 @@ function initButtonHandler() {
             // Update the tags in the posts
             updatePostTags();
         });
-    })
-;
+    });
+
 	// Get a reference to the "Clear Local Storage" button
 	const clearTagsButton = document.getElementById('clear-tags');
 
@@ -726,6 +736,9 @@ function modifyPostTag(postDiv) {
         }
         // update the postTag section
         postDiv.querySelector('.postTag').innerText = JSON.stringify(tagsList);
+
+        
+        postDiv.querySelector('.shownTag').innerText = "Tags: " + tagsList.join(", ");
         this.selectedIndex = 0; // reset dropdown menu
     });
 }
