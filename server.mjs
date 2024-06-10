@@ -57,14 +57,12 @@ app.post("/all", async(req, res) => {
 //POST request to get all tags
 app.post("/tags", async(req, res) => {
     let rows = await getTags();
-    // console.log('got tags', rows)
     res.json(rows);
 });
 
 //POST request to delete element
 app.post('/delete', (req,res) =>{
     const id = req.body.id;
-    //console.log(req.body);
     deletePost(id);
     res.json({"complete":"yes"});
 })
@@ -77,8 +75,7 @@ app.post('/update', (req,res) =>{
     const msid = req.body.msid;
     const sqlid = req.body.sqlid;
     const tags = req.body.tags;
-    //console.log(req.body);
-    updatePost(header, time, content, msid, tags, sqlid); // Make sure this is right order
+    updatePost(header, time, content, msid, tags, sqlid);
     res.json({"complete":"yes"});
 })
 
@@ -89,9 +86,7 @@ app.post('/create', async (req,res) =>{
     const content = req.body.content;
     const msid = req.body.msid;
     const tags = req.body.tags;
-    //console.log(req.body);
     let sqlid = await dbCreatePost(header, time, content, msid, tags);
-    console.log(sqlid);
     res.json({sqlid:sqlid});
 })
 
@@ -155,7 +150,6 @@ function getData(id) {
  */
 function getRows() {
     let sql = "SELECT * FROM entries WHERE msid != 1";
-    //console.log("entered getRows");
     return new Promise((resolve,reject) => {
         db.all(sql, [], (err, rows) => {
             if (err) { 
@@ -173,7 +167,6 @@ function getRows() {
  */
 function getTags() {
     let sql = "SELECT * FROM entries WHERE msid == 1";
-    //console.log("entered getRows");
     return new Promise((resolve,reject) => {
         db.all(sql, [], (err, rows) => {
             if (err) { 
