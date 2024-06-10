@@ -1,0 +1,3 @@
+# Link to Miro Board
+
+https://miro.com/welcomeonboard/eTlTUFREYVJ2RjBaeFJnSXhxVlhEbkVpeHNyNHgxZks0cXhrTzhyVzY3WmcxZjYwZWZ5dElMS1RSMFhNZmJhOXwzNDU4NzY0NTg2NjE1MjQ3NzQ1fDI=?share_link_id=59521524533

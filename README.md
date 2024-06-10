@@ -1,19 +1,20 @@
-# cse110-sp24-group34
+# Simple Developer Diary
 
-# Dev Jounal
+This is a web application developed by Team 34 (TG) for CSE 110 at UC San Diego. It is a simple developer diary which allows users to create, edit, and delete posts, assign tags, and search through posts. All posts are saved to a local Sqlite3 database and are persistent through reloads. We are working on adding markdown support.
 
-**[short description of project]**
+## How to Run
 
-## Setup
-Your machine will need _. To get any of these libraries, you can just `pip install [insert library here]` in a terminal window. To run the code, first pull the github to your computer and then navigate to the folder where [index.html] is. Then open terminal and run the command `______`. This will direct you to a localhost website where you can interact with the product
+To run this webapp, please follow the following steps:
+1. Download and install [Node.js](https://nodejs.org/en/download/prebuilt-installer).
+2. Clone this repository and cd into it in your terminal.
+3. Run `npm install`.
+4. Run `node server.mjs`.
+5. Navigate to localhost:3000 in any browser to access the webapp.
 
-## Technologies Used
+## Tech Stack
 
-- HTML
-- CSS
-- JavaScript
+This application is designed with HTML, CSS, and Javascript. Node.js and Express.js are used for the backend.
 
-## Credits
+## Testing
 
-This project has been a collaborative effort between all members of group 34.
-
+Automated testing for this app was done using Jest and Jest-Puppeteer, which were integrated into Github Actions. 
