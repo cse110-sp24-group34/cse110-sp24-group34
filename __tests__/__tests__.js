@@ -25,14 +25,17 @@ describe('Basic dev use', () => {
     });
 
     it('Delete All Posts', async () => {
+      
       let postCt = await page.$$eval(".post", (posts) => {
         return posts.length;
       });
 
       //cycle thru all posts and clicks each delete button
       for (i=0; i < postCt; i++) {
-        let postDel = await page.$eval(".rightButton", (btnDel) => {
-          btnDel.click();
+        let postDel = await page.$eval(".rightButton", async (btnDel) => {
+          const delay = ms => new Promise(res => setTimeout(res, ms));
+          await btnDel.click();
+          await delay(500);
           return btnDel.innerHTML;
         });
         console.log(`Delete ${i}`);
@@ -45,6 +48,8 @@ describe('Basic dev use', () => {
 
     it('Reload and ensure empty, add 1 and then ensure there', async () => {
       await page.reload();
+      const delay = ms => new Promise(res => setTimeout(res, ms));
+      await delay(500);
 
       let postCt = await page.$$eval(".post", (posts) => {
         return posts.length;
