@@ -1,13 +1,23 @@
-//Main Test Suite
+/**
+ * Main Test Suite
+ * E2E tests for creating post, deleting posts, editing posts,
+ *  and database persistence
+ * 
+ **/
 describe('Basic dev use', () => {
-    //Vist Site
+    //Vist Site initalizatoin
     beforeAll(async () => {
       await page.goto('http://localhost:3000');
     });
 
-    //First Test, create a post by clicking the create button
+    /** First Test, create a post by clicking the create button
+     * 
+     *  @return void
+     **/
     it('Create Post', async () => {
+      //refresh page to ensure database is ready
       await page.reload();
+
       let postCt = await page.$$eval(".post", (posts) => {
         return posts.length;
       });
@@ -17,15 +27,21 @@ describe('Basic dev use', () => {
       await page.$eval('#create-post', (btn) => {
         btn.click();
       });
+
+      //checking if posts incremented by 1
       let postCtPost = await page.$$eval(".post", (posts) => {
         return posts.length;
       });
-
+      console.log(`Now current # of post is ${postCtPost}`);
       expect(postCt + 1).toBe(postCtPost);
     });
 
+    /** Second test, deletes all the posts
+     * 
+     *  @return void
+     **/
     it('Delete All Posts', async () => {
-      
+      //get current # of posts
       let postCt = await page.$$eval(".post", (posts) => {
         return posts.length;
       });
@@ -33,6 +49,7 @@ describe('Basic dev use', () => {
       //cycle thru all posts and clicks each delete button
       for (i=0; i < postCt; i++) {
         let postDel = await page.$eval(".rightButton", async (btnDel) => {
+          //wait between each deletion to ensure database can keep up
           const delay = ms => new Promise(res => setTimeout(res, ms));
           await btnDel.click();
           await delay(500);
@@ -40,17 +57,27 @@ describe('Basic dev use', () => {
         });
         console.log(`Delete ${i}`);
       }
+
+      //checking if all posts gone
       let postCtPost = await page.$$eval(".post", (posts) => {
         return posts.length;
       });
       expect(postCtPost).toBe(0);
     });
 
+    /** Third test, starts w/ reload and checking if no posts left
+     * then creates new posts and reloads to test database persistency
+     * 
+     *  @return void
+     **/
     it('Reload and ensure empty, add 1 and then ensure there', async () => {
       await page.reload();
+
+      //again wait for database to be ready
       const delay = ms => new Promise(res => setTimeout(res, ms));
       await delay(500);
 
+      //check inital post count, should be zero after test 2
       let postCt = await page.$$eval(".post", (posts) => {
         return posts.length;
       });
@@ -67,6 +94,10 @@ describe('Basic dev use', () => {
 
     });
 
+    /** Fourth test, tests post editing functionality
+     * 
+     *  @return void
+     **/
     it('Add title and body to post', async () => {
       let post = await page.$(".post");
       await post.$eval('.leftButton', (btn) => {
@@ -104,7 +135,11 @@ describe('Basic dev use', () => {
       
     });
 
-
+    /** Fifth tests, tests to make sure can't edit posts w/o clicking
+     * on edit first
+     * 
+     *  @return void
+     **/
     it('Attempt to edit Title and Text without clicking edit', async () => {
       let post = await page.$(".post");
 

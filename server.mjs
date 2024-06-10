@@ -9,18 +9,30 @@ const PORT = process.env.PORT || 3000;
 //DATABASE SETUP ---------------------------
  import sqlite3 from 'sqlite3';
 let sql;
-
-//connect to DB
-let db = new sqlite3.Database(__dirname + '/public/test.db', sqlite3.OPEN_READWRITE, (err) => {
+//connect to DB, if it doesn't exist, create it
+let db = new sqlite3.Database(__dirname + '/public/test.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
     if (err) return console.error(err.message);
     console.log('Connected to the devjournal database.');
 });
 
-//possible additions include: tags
-//create table BLANK
-db.serialize(() =>{
-    sql = "CREATE TABLE IF NOT EXISTS entries(id INTEGER PRIMARY KEY, title, date, entry, msid)"
+//create table if it doesn't exist
+db.serialize(() => {
+    sql = "CREATE TABLE IF NOT EXISTS entries(id INTEGER PRIMARY KEY, title, date, entry, msid, tags)";
     db.run(sql);
+
+    // Check if the table is empty
+    sql = "SELECT COUNT(*) as count FROM entries";
+    db.get(sql, [], (err, row) => {
+        if (err) return console.error(err.message);
+        if (row.count === 0) {
+            // Insert a row with msid of 1 and tags of []
+            sql = `INSERT INTO entries(title, date, entry, msid, tags) VALUES (?, ?, ?, ?, ?)`;
+            db.run(sql, ['', '', '', 1, '[]'], (err) => {
+                if (err) return console.error(err.message);
+                console.log('Initialized table with a row.');
+            });
+        }
+    });
 });
 
 //------------------------------------------
@@ -42,6 +54,13 @@ app.post("/all", async(req, res) => {
     res.json(rows);
 });
 
+//POST request to get all tags
+app.post("/tags", async(req, res) => {
+    let rows = await getTags();
+    // console.log('got tags', rows)
+    res.json(rows);
+});
+
 //POST request to delete element
 app.post('/delete', (req,res) =>{
     const id = req.body.id;
@@ -57,8 +76,9 @@ app.post('/update', (req,res) =>{
     const content = req.body.content;
     const msid = req.body.msid;
     const sqlid = req.body.sqlid;
+    const tags = req.body.tags;
     //console.log(req.body);
-    updatePost(header, time, content, msid, sqlid);
+    updatePost(header, time, content, msid, tags, sqlid); // Make sure this is right order
     res.json({"complete":"yes"});
 })
 
@@ -68,8 +88,9 @@ app.post('/create', async (req,res) =>{
     const time = req.body.time;
     const content = req.body.content;
     const msid = req.body.msid;
+    const tags = req.body.tags;
     //console.log(req.body);
-    let sqlid = await dbCreatePost(header, time, content, msid);
+    let sqlid = await dbCreatePost(header, time, content, msid, tags);
     console.log(sqlid);
     res.json({sqlid:sqlid});
 })
@@ -88,22 +109,23 @@ app.listen(PORT, () => {
  * @param {*} date 
  * @param {*} entry 
  * @param {*} msid 
+ * @param {*} tags 
  * @returns integer primary key id of new entry.
  */
-async function dbCreatePost(title, date, entry, msid) {
-    let postId = await getPostId(title, date, entry, msid);
+async function dbCreatePost(title, date, entry, msid, tags) {
+    let postId = await getPostId(title, date, entry, msid, tags);
 
     //if post already exists
     if (postId != null) {
         return console.error("duplicate");
     }
 
-    sql = `INSERT INTO entries(title, date, entry, msid) VALUES (?,?,?,?)`;
-    db.run(sql, [title, date, entry, msid], (err) => {
+    sql = `INSERT INTO entries(title, date, entry, msid, tags) VALUES (?,?,?,?,?)`;
+    db.run(sql, [title, date, entry, msid, tags], (err) => {
         if (err) return console.error("error");
     });
 
-    return (await getPostId(title, date, entry, msid));
+    return (await getPostId(title, date, entry, msid, tags));
 }
 
 
@@ -113,7 +135,7 @@ async function dbCreatePost(title, date, entry, msid) {
  * @returns entry
  */
 function getData(id) {
-    let sql = "SELECT title, date, entry, msid FROM entries WHERE id = ?" 
+    let sql = "SELECT title, date, entry, msid, tags FROM entries WHERE id = ?" 
     return new Promise((resolve,reject) => {
         db.get(sql,[id], (err,row) => {
             if (err) { 
@@ -121,7 +143,7 @@ function getData(id) {
                 reject(err);
                 return;
             }
-            resolve(row ? { title: row.title, date: row.date, entry: row.entry, msid: row.msid } : null);
+            resolve(row ? { title: row.title, date: row.date, entry: row.entry, msid: row.msid, tags: row.tags } : null);
         });
     });
 }
@@ -132,7 +154,7 @@ function getData(id) {
  * @returns all entries in the database, as an array of JSON objects.
  */
 function getRows() {
-    let sql = "SELECT * FROM entries";
+    let sql = "SELECT * FROM entries WHERE msid != 1";
     //console.log("entered getRows");
     return new Promise((resolve,reject) => {
         db.all(sql, [], (err, rows) => {
@@ -145,6 +167,23 @@ function getRows() {
     });
 }
 
+/**
+ * Gets tags from special row msid = 1.
+ * @returns the tags row
+ */
+function getTags() {
+    let sql = "SELECT * FROM entries WHERE msid == 1";
+    //console.log("entered getRows");
+    return new Promise((resolve,reject) => {
+        db.all(sql, [], (err, rows) => {
+            if (err) { 
+                console.error(err.message);
+                reject(err);
+            }
+            resolve(rows)
+        });
+    });
+}
 
 /**
  * Deletes entry with provided id.
@@ -165,11 +204,12 @@ function deletePost(id) {
  * @param {*} date 
  * @param {*} entry 
  * @param {*} msid 
+ * @param {*} tags
  * @param {*} id 
  */
-function updatePost(title, date, entry, msid, id) {
-    sql = "UPDATE entries SET title = ?, date = ?, entry = ?, msid = ? WHERE id = ?";
-    db.run(sql,[title, date, entry, msid, id], (err) => {
+function updatePost(title, date, entry, msid, tags, id) {
+    sql = "UPDATE entries SET title = ?, date = ?, entry = ?, msid = ?, tags = ? WHERE id = ?";
+    db.run(sql,[title, date, entry, msid, tags, id], (err) => {
         if (err) return 1;
         else return 0;
     });
@@ -182,12 +222,13 @@ function updatePost(title, date, entry, msid, id) {
  * @param {*} date 
  * @param {*} entry 
  * @param {*} msid 
+ * @param {*} tags
  * @returns id
  */
-function getPostId(title, date, entry, msid) {
-    let sql = "SELECT id FROM entries WHERE title = ? AND date = ? AND entry = ? AND msid = ?";
+function getPostId(title, date, entry, msid, tags) {
+    let sql = "SELECT id FROM entries WHERE title = ? AND date = ? AND entry = ? AND msid = ? AND tags = ?";
     return new Promise((resolve, reject) => {
-        db.get(sql, [title, date, entry, msid], (err, row) => {
+        db.get(sql, [title, date, entry, msid, tags], (err, row) => {
             if (err) {
                 console.error(err.message);
                 reject(err);

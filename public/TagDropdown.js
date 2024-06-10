@@ -2,28 +2,30 @@ class TagDropdown extends HTMLElement {
     constructor() {
         super();
 
-        // Create elements
-        let shadowEl =this.attachShadow({ mode: 'open' });
+        //Create elements
+        let shadowEl = this.attachShadow({ mode: 'open' });
 
-        // Dropdown container
+        //Dropdown container
         const container = document.createElement('div');
         container.classList.add('dropdown-container');
 
-        // Dropdown button
+        //Dropdown button
         const button = document.createElement('button');
         button.classList.add('dropdown-button');
         button.textContent = 'More Tags';
 
-        // Dropdown list
+        //Dropdown list
         const list = document.createElement('ul');
         list.classList.add('dropdown-list');
-        list.style.display = 'none'; // Hidden by default
 
-        // Append elements
+        //Hidden by default
+        list.style.display = 'none'; 
+
+        //Append elements
         this.shadowRoot.append(container);
         container.append(button, list);
 
-        // Styles
+        //Styles
         const style = document.createElement('style');
         style.textContent = `
             .dropdown-container {
@@ -41,11 +43,11 @@ class TagDropdown extends HTMLElement {
                 outline: none;
                 font-family: 'Poppins',"Gill Sans", sans-serif;
                 border-radius: 15px;
-                background-color: darkolivegreen;
-                padding: 15px;
+                background-color: transparent;
+                padding: 10px;
             }
             .dropdown-button {
-                background-color: darkolivegreen;
+                background-color: rgb(66, 133, 244);
                 padding: 10px;
                 padding-left: 15px;
                 cursor: pointer;
@@ -57,7 +59,6 @@ class TagDropdown extends HTMLElement {
                 at a glance
                 */
                 border: none;
-                background-color: darkgreen;
                 filter: drop-shadow(7px 7px black);
                 color: white;
                 font-family: 'Poppins',"Gill Sans", sans-serif;
@@ -69,10 +70,7 @@ class TagDropdown extends HTMLElement {
                 width: auto;
                 height: auto;
                 padding-top: 15px;
-                text-align: center;
-                
-
-                  
+                text-align: center;      
                 border-radius: 5px;
               
 
@@ -81,18 +79,18 @@ class TagDropdown extends HTMLElement {
             .dropdown-button:hover {
                 color: black;
                 text-decoration: underline;
+                scale: 1.15;
 
             }
 
             .dropdown-list {
-                    width: auto !important;
-                    white-space: nowrap;
-                
+                width: auto !important;
+                white-space: nowrap;
                 position: absolute;
                 top: 100%;
                 left: 0;
                 border-radius: 10px;
-                background-color: green;
+                background-color: rgb(66, 133, 244);
                 color: white;
                 border: 1px solid #ccc;
                 padding: 0;
@@ -103,6 +101,7 @@ class TagDropdown extends HTMLElement {
                 overflow-x: auto;
                 z-index: 1;
                 font-size: 125%;
+                
             }
             .dropdown-list li {
                 padding: 10px;
@@ -110,17 +109,19 @@ class TagDropdown extends HTMLElement {
                 font-family:sans-serif;
             }
             .dropdown-list li:hover {
-                background-color: darkgreen;
+                text-decoration: underline;
+                color: black;
             }
         `;
+        
         this.shadowRoot.append(style);
 
-        // Toggle list visibility
+        //Toggle list visibility
         button.addEventListener('click', () => {
             list.style.display = list.style.display === 'none' ? 'block' : 'none';
         });
-
-        // Close the dropdown if clicked outside
+        
+        //Close the dropdown if clicked outside
         document.addEventListener('click', (event) => {
             if (!this.contains(event.target)) {
                 list.style.display = 'none';
@@ -138,14 +139,28 @@ class TagDropdown extends HTMLElement {
         listItem.textContent = tagElement.data;
         list.appendChild(listItem);
 
-        // Add click event listener to update the button text
+        //Add click event listener to update the button text
         listItem.addEventListener('click', () => {
-            this.shadowRoot.querySelector('.dropdown-button').textContent = tagElement.data;
             list.style.display = 'none';
-        });
 
+            //Toggling shows or hides the posts with matching tag
+            if(toggled.has(tagElement.data)){
+                toggled.delete(tagElement.data);
+                 listItem.style.backgroundColor = 'rgb(66, 133, 244)';
+            }
+            else{
+                toggled.add(tagElement.data);
+                 listItem.style.backgroundColor = 'green';
+            }
+
+            //Destroy all posts
+            destroyAllPosts();
+            //Add posts with matching tags
+            showPostsByTag(toggled);
+        });
         list.appendChild(listItem);
     }
 }
+
 
 customElements.define('tag-dropdown', TagDropdown);
