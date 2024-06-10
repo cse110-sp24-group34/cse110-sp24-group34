@@ -1,58 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Neucha&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-    </style>       
-    <meta charset="UTF-8">
-    <!-- name = "viewport" is to control layout on mobile so we can scale, "content="width=device-width" scales to device screen--> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="icons/powell.ico" type="image/x-icon">
-    <title>Dev Journal</title>
-  
-    <!-- Favicon-->
-    <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
 
-    <link rel="stylesheet" href="styles.css">
-    <script src="TagElement.js" defer></script>
-    <script src="TagDropdown.js" defer></script>
-    <script src="scripts.mjs" defer></script>
+<head>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Neucha&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="icons/powell.ico" type="image/x-icon">
+  <title>Dev Journal</title>
+  <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet'>
+  <link rel="stylesheet" href="styles.css">
+  <script src="TagElement.js" defer></script>
+  <script src="TagDropdown.js" defer></script>
+  <script src="scripts.mjs" defer></script>
 </head>
+
 <body>
-    <header>
-        <!-- Navigation menu -->
-        <nav>
-            <ul id="AllPosts">
-                <li><a href=""><img src=icons/tgIcon.png width="40vmin"><span id="devJournal">Dev Journal</span></a></li>
-                <li> <button id="create-post">Create</button> </li>
-            </ul>
-        </nav>
-        <ul id="tag-list">
-            <li> <button id="add-tag">Add Tag</button> </li>
-            <li> <button id="clear-tags">Clear Tags</button> </li>
+  <header>
+    <nav>
+      <ul id="AllPosts">
+        <li><a href=""><img src="icons/tgIcon.png" width="40" alt="Dev Journal Icon"><span id="devJournal">Dev Journal</span></a></li>
+        <li><button id="create-post">Create</button></li>
+      </ul>
+    </nav>
+    <ul id="tag-list">
+      <li><button id="add-tag">Add Tag</button></li>
+      <li><button id="clear-tags">Clear Tags</button></li>
     </ul>
-    </header>    
-    <main>
-        <div class="col" id="col1"></div>
-        <div class="col" id="col2"></div>
-        <div class="col" id="col3"></div>
-        <!-- Placeholder for dynamically added posts -->
-    </main>
+  </header>
+  <main>
+    <div class="col" id="col1"></div>
+    <div class="col" id="col2"></div>
+    <div class="col" id="col3"></div>
+  </main>
 </body>
 
 <footer>
-    <span>
-        <img src=icons/tgIcon.png width="55px" style = "padding-right: 10px; padding-bottom: 20px;"></img>
-    </span>
-    <span>
-        <p><b>Team: </b> Project Touch Grass - 34</p>
-        <p><b>Authors: </b> Mauricio Serrano, Ryan Livegood, Sumukh Murthy, Neo Torres</p>
-        <p> Derrick Lin, Can Yavuz, Abhinav Sanisetty, Austin Yeung, Jeffery Tung, Alex Atienza</p>
-        <p><b>Class: </b> CSE 110</p>
-        <p><b>Website Repo: </b> <a href="https://github.com/cse110-sp24-group34/cse110-sp24-group34">Dev Journal</a></p>
-    </span>
+  <span>
+    <img src="icons/tgIcon.png" width="55" alt="Project Touch Grass Icon" style="padding-right: 10px; padding-bottom: 20px;">
+  </span>
+  <div>
+    <p><b>Team: </b> Project Touch Grass - 34</p>
+    <p><b>Authors: </b> Mauricio Serrano, Ryan Livegood, Sumukh Murthy, Neo Torres</p>
+    <p>Derrick Lin, Can Yavuz, Abhinav Sanisetty, Austin Yeung, Jeffery Tung, Alex Atienza</p>
+    <p><b>Class: </b> CSE 110</p>
+    <p><b>Website Repo: </b> <a href="https://github.com/cse110-sp24-group34/cse110-sp24-group34">Dev Journal</a></p>
+  </div>
 </footer>
+
 </html>
