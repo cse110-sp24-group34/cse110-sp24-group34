@@ -1,24 +1,38 @@
-describe('Unit Tests', () => {
+beforeAll(async () => {
+    await page.goto('http://localhost:3000');
+});
 
-    beforeAll(async () => {
-        await page.goto('http://localhost:3000');
+it('Create Post', async () => {
+    await page.reload();
+    let initialPostCount = await page.$$eval(".post", posts => posts.length);
+
+    await page.evaluate(() => {
+        createPost();
     });
 
-    it('Create Post', async () => {
-        await page.reload();
-        let postCt = await page.$$eval(".post", (posts) => {
-            return posts.length;
-        });
-        console.log(`current # of post is ${postCt}`);
+    await page.waitForSelector('.post');
 
-        await page.evaluate(() => {
+    let finalPostCount = await page.$$eval(".post", posts => posts.length);
 
-            createPost();
-        });
+    expect(finalPostCount).toBe(initialPostCount + 1);
+});
 
-        postCt = await page.$$eval(".post", (posts) => {
-            return posts.length;
-        });
-        expect(postCt).toBe(2);
+it('Edit Post', async () => {
+    await page.click('#create-post');
+    await page.waitForSelector('.post');
+    await page.click('.post .leftButton');
+    await page.waitForFunction(() => {
+        const post = document.querySelector('.post');
+        return post && post.style.background === 'rgb(232, 232, 232)';
     });
+    const postEditMode = await page.$eval('.post', post => post.style.background === 'rgb(232, 232, 232)');
+    expect(postEditMode).toBe(true);
+});
+
+it('Delete Post', async () => {
+    await page.click('#create-post');
+    await page.waitForSelector('.post');
+    await page.click('.post .rightButton');
+
+    await page.waitForSelector('.post', { hidden: true, timeout: 5000 }); 
 });
