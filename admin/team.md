@@ -25,7 +25,7 @@ Some important values of our team is going outside to get fresh air every now an
   - My website: https://honorius.us
 - Ryan Livengood
   - Hello, I’m a 3rd year CS Major in Marshall. I’m originally from the Bay Area and outside of programming I also enjoy climbing, playing music, and exercising. I’m new to web dev and SE so I'm excitied to learn a lot this quarter. github: https://github.com/Waterblokey
-- Neo Torres
+- Neo  Torres
   - Heyo, I'm a 4th year Biology Specialization in Bioinformatics at Warren. I'm from San Diego. I've been dabbling with 3d modeling in Blender, playing around with my ESP32 and RP4 microcontrollers, and going to the arcade whenever I get the chance! I'm looking forward to experience working with this large team in this class!
   - My Github: https://github.com/Nickpizzablock
 - Austin Yeung
