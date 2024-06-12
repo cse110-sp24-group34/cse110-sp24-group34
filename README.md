@@ -21,5 +21,6 @@ Automated testing for this app was done using Jest and Jest-Puppeteer, which wer
 
 
 ## Videos
-[Final Project Video - Public](insert link here)
+[Final Project Video - Public](https://www.youtube.com/watch?v=tayXzgBV8lg&ab_channel=joonjoon)
+
 [Final Project Video - Private](insert link here)
